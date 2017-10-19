@@ -1,11 +1,10 @@
 - name: mnist-softmax
   description: Softmax regression classifier for MNIST
-  tags: mnist softmax regression images
 
   operations:
     train:
       description: Train the softmax regression
-      cmd: cnn
+      cmd: softmax
 
   flags:
     batch-size:
