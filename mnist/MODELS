@@ -8,10 +8,10 @@
 
   flags:
     batch-size:
-      help: "Number of images to include in a training batch."
+      description: Number of images to include in a training batch
       value: 100
     epochs:
-      help: "Number of epochs to train."
+      description: Number of epochs to train
       value: 10
 
 - name: mnist-cnn
@@ -24,8 +24,8 @@
 
   flags:
     batch-size:
-      help: "Number of images to include in a training batch."
+      description: Number of images to include in a training batch
       value: 100
     epochs:
-      help: "Number of epochs to train."
+      description: Number of epochs to train
       value: 10
