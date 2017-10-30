@@ -1,5 +1,5 @@
 name: hello
-version: 0.1.0.dev3
+version: 0.1.0.dev4
 description: Example "hello world" model
 url: https://github.com/guildai/index/tree/master/hello
 modelfile: https://github.com/guildai/index/tree/master/hello/MODEL
