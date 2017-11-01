@@ -1,0 +1,10 @@
+name: keras.mnist
+version: 0.1.0.dev1
+description: MNIST related models from Keras examples
+url: https://github.com/guildai/index/tree/master/keras/mnist
+modelfile: https://github.com/guildai/index/tree/master/keras/mnist/MODELS
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+requires: [Keras]
+license: Apache 2.0
+tags: [mnist, keras, images]
