@@ -1,5 +1,5 @@
 - name: mnist-mlp
-  description: Multilayer perceptron (MLP) classifier for MNIST
+  description: Multilayer perceptron (MLP) classifier for MNIST in Keras
   operations:
     train:
       description: Trains the MLP
