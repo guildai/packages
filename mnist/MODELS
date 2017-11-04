@@ -4,7 +4,8 @@
   operations:
     train:
       description: Train the softmax regression
-      cmd: softmax
+      cmd: softmax --datadir data
+      requires: mnist-dataset/idx
 
   flags:
     batch-size:
@@ -20,7 +21,8 @@
   operations:
     train:
       description: Train the CNN
-      cmd: cnn
+      cmd: cnn --datadir data
+      requires: mnist-dataset/idx
 
   flags:
     batch-size:
