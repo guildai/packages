@@ -1,5 +1,5 @@
 name: keras.datasets
-version: 0.1.0.dev1
+version: 0.1.0.dev2
 description: Keras datasets
 url: https://github.com/guildai/index/tree/master/keras/datasets
 maintainer: Guild AI
@@ -7,8 +7,9 @@ maintainer-email: packages@guild.ai
 license: Apache 2.0
 tags: [keras, mnist, dataset, npz]
 resources:
-  mnist:
+  mnist-npz:
     description: MNIST dataset in npz format
+    path: mnist-npz-data
     sources:
       - url: https://s3.amazonaws.com/img-datasets/mnist.npz
         sha256: 731c5ac602752760c8e48fbffcf8c3b850d9dc2a2aedcf2cc48468fc17b673d1

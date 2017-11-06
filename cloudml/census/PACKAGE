@@ -1,0 +1,10 @@
+name: cloudml.census
+version: 0.1.0.dev1
+description: Census models for Cloud ML
+url: https://github.com/guildai/index/tree/master/cloudml/census
+modelfile: https://github.com/guildai/index/tree/master/keras//MODELS
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+requires: []
+license: Apache 2.0
+tags: [cloudml, census, estimators]

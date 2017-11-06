@@ -1,0 +1,20 @@
+name: cloudml.datasets
+version: 0.1.0.dev3
+description: Cloud ML datasets
+url: https://github.com/guildai/index/tree/master/cloudml/datasets
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+license: Apache 2.0
+tags: [cloudml, census, dataset]
+resources:
+  census:
+    description: Census income dataset hosted on Google Cloud Storage
+    path: census-data
+    sources:
+      - url: https://storage.googleapis.com/cloudml-public/census/data/adult.data.csv
+        sha256: df25a4e32ed6f1bd4b3910d21a7bd661a09061eced7cb45555a519d9667cc87b
+      - url: https://storage.googleapis.com/cloudml-public/census/data/adult.test.csv
+        sha256: 8d333150b660cd37ced023c2041b326c4ac66287a6c0336e4dd4b5ad7d39b8b9
+    references:
+      - https://cloud.google.com/ml-engine/docs/getting-started-training-prediction#about-data
+      - https://archive.ics.uci.edu/ml/datasets/Census+Income

@@ -1,0 +1,74 @@
+- name: census-estimator
+  description: Wide and deep classifier for census income data using TensorFlow estimators
+  operations:
+    train:
+      description: Trains the model
+      cmd: >
+        trainer/task
+          --train-files census-data/adult.data.csv
+          --eval-files census-data/adult.test.csv
+          --job-dir .
+      flags:
+        num-epochs:
+          description: >
+            Number of training data epochs
+
+            If both train-steps and epochs are specified, the training
+            job will run for train-steps or epochs, whichever occurs
+            first. If unspecified will run for train-steps.
+          value: 10
+        train-batch-size:
+          description: Batch size for training steps
+          value: 40
+        eval-batch-size:
+          description: Batch size for evaluation steps
+          value: 40
+        embedding-size:
+          description: Number of embedding dimensions for categorical columns
+          value: 8
+        first-layer-size:
+          description: Number of nodes in the first layer of the DNN
+          value: 100
+        num-layers:
+          description: Number of layers in the DNN
+          value: 4
+        scale-factor:
+          description: How quickly should the size of the layers in the DNN decay
+          value: 0.7
+        verbosity:
+          description: >
+            Log level (use DEBUG for more information)
+
+            Values may be DEBUG, INFO, WARN, ERROR, or FATAL.
+          value: INFO
+        eval-delay-secs:
+          description: How long to wait before running first evaluation
+          value: 10
+        min-eval-frequency:
+          description: Minimum number of training steps between evaluations
+        train-steps:
+          description: >
+            Steps to run the training job for
+
+            If num-epochs is not specified, this must be otherwise the
+            training job will run indefinitely.
+        eval-steps:
+          description: Number of steps to run evalution for at each checkpoint
+          value: 100
+        export-format:
+          description: >
+            The input format of the exported SavedModel binary
+
+            Values may be JSON, CSV, or EXAMPLE.
+          value: JSON
+      requires:
+        - script
+        - cloudml.datasets/census
+  resources:
+    script:
+      private: yes
+      sources:
+        - url: https://github.com/GoogleCloudPlatform/cloudml-samples/archive/master.zip
+          sha256: 956a02e9f50562d7581b4c9590e72610d7f96d80b97b8963ea2626087b60a809
+          archive-path: cloudml-samples-master/census/estimator/trainer
+          archive-type: zip

@@ -3,7 +3,7 @@
   operations:
     train:
       description: Trains the MLP
-      cmd: '@keras:train mnist_mlp.py --datasets=.'
+      cmd: '@keras:train mnist_mlp.py --datasets=mnist-npz-data'
       flags:
         epochs:
           description: Number of epochs to train
@@ -13,9 +13,10 @@
           value: 128
       requires:
         - script
-        - keras.datasets/mnist
+        - keras.datasets/mnist-npz
   resources:
     script:
+      private: yes
       sources:
         - url: https://raw.githubusercontent.com/fchollet/keras/40fd9ca3c877d2e29a2cf077902d61f38aa161f2/examples/mnist_mlp.py
           sha256: 07ab8d85e6a44efd4c5bce137f82f3f95c60fe45a7d0df7d6d7ff91ed410fb63

@@ -1,12 +1,10 @@
 - name: mnist-softmax
   description: Softmax regression classifier for MNIST
-
   operations:
     train:
       description: Train the softmax regression
-      cmd: softmax --datadir data
+      cmd: softmax --datadir mnist-idx-data --rundir .
       requires: mnist-dataset/idx
-
   flags:
     batch-size:
       description: Number of images to include in a training batch
@@ -17,13 +15,11 @@
 
 - name: mnist-cnn
   description: CNN classifier for MNIST
-
   operations:
     train:
       description: Train the CNN
-      cmd: cnn --datadir data
+      cmd: cnn --datadir mnist-idx-data --rundir .
       requires: mnist-dataset/idx
-
   flags:
     batch-size:
       description: Number of images to include in a training batch
