@@ -16,8 +16,7 @@
         @cloudml:train
           --runtime-version 1.2
           --module-name trainer.task
-          --package-path trainer/
-          --data-dir census-data
+          --package-path trainer
           --train-files ${job-dir}/census-data/adult.data.csv
           --eval-files ${job-dir}/census-data/adult.test.csv
       description: Train the model on Cloud ML Engine

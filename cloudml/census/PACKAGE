@@ -1,5 +1,5 @@
 name: cloudml.census
-version: 0.1.0.dev1
+version: 0.1.0.dev2
 description: Census models for Cloud ML
 url: https://github.com/guildai/index/tree/master/cloudml/census
 modelfile: https://github.com/guildai/index/tree/master/keras//MODELS
