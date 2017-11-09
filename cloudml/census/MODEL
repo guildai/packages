@@ -11,7 +11,7 @@
       requires:
         - script
         - cloudml.datasets/census
-    cloud-train:
+    cloudml-train:
       cmd: >
         @cloudml:train
           --runtime-version 1.2
@@ -33,6 +33,18 @@
 
             If not specified, Guild will generate a name based on the
             run ID.
+        scale-tier:
+          description: >
+            Cloud ML resources allocated to a training job
+
+            Use STANDARD_1 for many workers and a few parameter servers.
+
+            Use PREMIUM_1 for a large number of workers with many
+            parameter servers.
+
+            Use BASIC_GPU for a single worker instance with a GPU.
+        config:
+          description: Path to the Cloud ML job configuration file
       requires:
         - script
         - cloudml.datasets/census
