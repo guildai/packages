@@ -1,5 +1,5 @@
 name: cloudml.datasets
-version: 0.1.0.dev4
+version: 0.1.0.dev5
 description: Cloud ML datasets
 url: https://github.com/guildai/index/tree/master/cloudml/datasets
 maintainer: Guild AI
