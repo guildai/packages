@@ -1,5 +1,5 @@
 name: keras.datasets
-version: 0.1.0.dev2
+version: 0.1.0.dev3
 description: Keras datasets
 url: https://github.com/guildai/index/tree/master/keras/datasets
 maintainer: Guild AI

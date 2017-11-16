@@ -1,5 +1,5 @@
 name: mnist-dataset
-version: 0.1.1.dev1
+version: 0.1.1.dev2
 description: >
   MNIST datasets
 
@@ -10,7 +10,7 @@ url: https://github.com/guildai/index/tree/master/mnist-dataset
 maintainer: Guild AI
 maintainer-email: packages@guild.ai
 license: Apache 2.0
-tags: [mnist, images, idx]
+tags: [mnist, images, idx, dataset]
 resources:
   idx:
     description: Yann Lecun's MNIST dataset in compressed IDX format

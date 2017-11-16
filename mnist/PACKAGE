@@ -1,5 +1,5 @@
 name: mnist
-version: 0.1.2.dev1
+version: 0.1.2.dev2
 description: CNN and softmax regression classifiers for MNIST digits
 url: https://github.com/guildai/index/tree/master/mnist
 modelfile: https://github.com/guildai/index/tree/master/mnist/MODELS
@@ -7,4 +7,4 @@ maintainer: Guild AI
 maintainer-email: packages@guild.ai
 requires: [mnist-dataset]
 license: Apache 2.0
-tags: [mnist, cnn, softmax, images]
+tags: [mnist, cnn, softmax, images, model]
