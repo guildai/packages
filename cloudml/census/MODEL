@@ -12,13 +12,14 @@
         - script
         - cloudml.datasets/census
       flags:
-        num-epochs:
+        epochs:
           description: >
             Number of training data epochs
 
             If both train-steps and epochs are specified, the training
             job will run for train-steps or epochs, whichever occurs
             first. If unspecified will run for train-steps.
+          arg-name: num-epochs
         train-batch-size:
           description: Batch size for training steps
           value: 40
@@ -31,9 +32,10 @@
         first-layer-size:
           description: Number of nodes in the first layer of the DNN
           value: 100
-        num-layers:
+        layers:
           description: Number of layers in the DNN
           value: 4
+          arg-name: num-layers
         scale-factor:
           description: How quickly should the size of the layers in the DNN decay
           value: 0.7
