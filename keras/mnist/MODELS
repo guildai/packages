@@ -2,7 +2,7 @@
   description: Multilayer perceptron (MLP) classifier for MNIST in Keras
   operations:
     train:
-      description: Trains the MLP
+      description: Train the MLP
       cmd: '@keras:train mnist_mlp.py --datasets=mnist-npz-data'
       flags:
         epochs:
