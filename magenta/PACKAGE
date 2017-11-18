@@ -1,5 +1,5 @@
 name: magenta
-version: 0.1.0.dev2
+version: 0.1.0.dev3
 description: Models and datasets from the Magenta project from Google Brain
 url: https://github.com/guildai/index/tree/master/magenta
 modelfile: https://github.com/guildai/index/tree/master/magenta/MODELS
@@ -7,4 +7,13 @@ maintainer: Guild AI
 maintainer-email: packages@guild.ai
 requires: [pypi.magenta]
 license: Apache 2.0
-tags: [magenta, google, brain, art, music, midi, images, model, dataset]
+tags:
+  - magenta
+  - google
+  - brain
+  - art
+  - music
+  - midi
+  - images
+  - model
+  - dataset

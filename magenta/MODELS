@@ -1,8 +1,8 @@
 - name: magenta-stylize
   description: Implementation of the paper "A Learned Representation for Artistic Style"
   operations:
-    transform:
-      description: Stylize an image using a 'Monet' style
+    stylize:
+      description: Stylize an image using one of two pretrained models
       cmd: >
         magenta.models.image_stylization.image_stylization_transform
           --output_dir=.
@@ -43,8 +43,8 @@
 - name: magenta-melody
   description: Applies language modeling to melody generation using an LSTM
   operations:
-    generate:
-      description: General a melody
+    compose:
+      description: Compose melodies using one of three available pretrained models
       cmd: magenta.models.melody_rnn.melody_rnn_generate --output_dir=.
       flags:
         config:
@@ -95,3 +95,36 @@
       sources:
         - url: http://download.magenta.tensorflow.org/models/attention_rnn.mag
           sha256: ef91c0bcd1c146fdd5cae09f82c8ea3fe2e9164bf782714ff84736ab86514d71
+
+- name: magenta-arbitrary-stylize
+  operations:
+    stylize:
+      description: Stylize using model pretrained on PNB and DRD images
+      cmd: >
+        magenta.models.arbitrary_image_stylization.arbitrary_image_stylization_with_weights \
+          --checkpoint=arbitrary_style_transfer/model.ckpt
+          --output_dir=. \
+          --content_square_crop=False \
+          --style_square_crop=False \
+          --logtostderr
+      flags:
+        content-images:
+          description: Path to content images (include glob pattern matching images)
+          required: yes
+          arg-name: content_images_paths
+        style-images:
+          description: Path to style images (include glob pattern matching images)
+          required: yes
+          arg-name: style_images_paths
+        image-size:
+          description: Size of images
+          value: 256
+          arg-name: image_size
+      requires:
+        - pretrained-model
+  resources:
+    pretrained-model:
+      sources:
+        - url: https://storage.googleapis.com/download.magenta.tensorflow.org/models/arbitrary_style_transfer.tar.gz
+          sha256: 523b600b508e9e1e31d77860d7ff650125b2f41e15dc9d612e15e3600fa65a60
+          unpack: yes
