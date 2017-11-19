@@ -1,0 +1,40 @@
+- name: resnet-cifar10
+  description: ResNet classifier for CIFAR-10
+  operations:
+    train:
+      description: Train the ResNet model
+      cmd: cifar10_main --data_dir . --model_dir .
+      flags:
+        resnet-size:
+          description: Size of the ResNet model to use
+          value: 32
+        epochs:
+          description: Number of epochs to train
+          value: 10
+          arg-name: train_epochs
+        epochs-per-eval:
+          description: Number of epochs to run in between evaluations
+          value: 1
+        batch-size:
+          description: Number of images per batch
+          value: 128
+        data-format:
+          description: Data format used by the model (channels_first or channels_last)
+          options:
+            - value: channels_first
+              description: Provides a performance boost on GPU
+            - value: channels_last
+              description: Use if channels_first not supported on CPU
+
+      requires: [scripts, dataset]
+  resources:
+    scripts:
+      sources:
+        - url: https://raw.githubusercontent.com/tensorflow/models/01aa7a4a6190bf021f448dee26fc649f4b47753e/official/resnet/cifar10_main.py
+          sha256: e0c4a03113a7015c71e1a7c4f5b2880d8045b6d659aa6f7fab178925c29cbf02
+        - url: https://raw.githubusercontent.com/tensorflow/models/01aa7a4a6190bf021f448dee26fc649f4b47753e/official/resnet/resnet_model.py
+          sha256: aad8bd5b2e86f5c90b41e8d1820bcfc336db428c9cc0b242ae777280c0bdb1d6
+    dataset:
+      sources:
+        - url: https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz
+          sha256: c4a38c50a1bc5f3a1c5537f2155ab9d68f9f25eb1ed8d9ddda3db29a59bca1dd
