@@ -1,0 +1,38 @@
+name: estimator-wide-deep
+description: Wide and deep classifier of Census Income Data Set
+operations:
+  prepare:
+    description: Download and prepare the Census Income data
+    requires: [scripts]
+    cmd: data_download --data_dir data
+  train:
+    description: Train the wide and deep model on Census Income data
+    requires: [scripts, dataset]
+    cmd: wide_deep_patched --model_dir . --train_data data/adult.data --test_data data/adult.test
+    flags:
+      model-type:
+        description: Model type (wide, deep, wide_deep)
+        options:
+          - value: wide
+          - value: deep
+          - value: wide_deep
+      epochs:
+        description: Number of training epochs
+        value: 40
+        arg-name: train_epochs
+      epochs-per-eval:
+        description: Number of training epochs to run between evaluations
+        value: 2
+      batch-size:
+        description: Number of examples per batch
+        value: 40
+resources:
+  scripts:
+    sources:
+      - url: https://raw.githubusercontent.com/tensorflow/models/db0de3bb43e61144be9ab1e9d3b32210f5cca2dc/official/wide_deep/data_download.py
+      - url: https://raw.githubusercontent.com/tensorflow/models/db0de3bb43e61144be9ab1e9d3b32210f5cca2dc/official/wide_deep/wide_deep.py
+    post-resolve: >
+      sed '/shutil.rmtree(FLAGS.model_dir/d' wide_deep.py > wide_deep_patched.py
+  dataset:
+    sources:
+      - operation: prepare//data
