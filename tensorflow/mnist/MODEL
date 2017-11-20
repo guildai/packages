@@ -1,0 +1,33 @@
+name: estimator-mnist
+description: CNN estimator for MNIST using tf.estimator.Estimator
+operations:
+  prepare:
+    description: Prepare the MNIST dataset
+    cmd: convert_to_records --directory data
+    requires: [scripts]
+    flags:
+      validation-size:
+        description: Number of images to use for validation
+        value: 0
+  train:
+    description: Train the CNN on MNIST data
+    cmd: mnist -data_dir data --model_dir .
+    requires: [scripts, dataset]
+    flags:
+      batch-size:
+        description: Number of images to process in a batch
+        value: 100
+      epochs:
+        description: Number of epochs to train
+        value: 40
+        arg-name: train_epochs
+resources:
+  scripts:
+    sources:
+      - url: https://raw.githubusercontent.com/tensorflow/models/01aa7a4a6190bf021f448dee26fc649f4b47753e/official/mnist/convert_to_records.py
+        sha256: 3360033202bd597f6b61ac8e2a6d4a2fc5044f933fc896b424c95934c231f8d4
+      - url: https://raw.githubusercontent.com/tensorflow/models/01aa7a4a6190bf021f448dee26fc649f4b47753e/official/mnist/mnist.py
+        sha256: 1d10c942380e687eb95fe4715fd4c24fb8c9b5ecf612cab0fc5df08ced983962
+  dataset:
+    sources:
+      - operation: prepare//data
