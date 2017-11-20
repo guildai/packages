@@ -1,5 +1,5 @@
 name: tensorflow.reset
-version: 0.1.0.dev1
+version: 0.1.0.dev2
 description: ResNet classifiers for CIFAR-10 and ImageNet
 url: https://github.com/guildai/index/tree/master/tensorflow/resnet
 modelfile: https://github.com/guildai/index/tree/master/tensorflow/resnet/MODELS
