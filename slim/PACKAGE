@@ -1,0 +1,15 @@
+name: slim
+version: 0.1.0.dev1
+description: TF-Slim models library
+url: https://github.com/guildai/index/tree/master/slim
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+license: Apache 2.0
+tags: [slim]
+resources:
+  lib:
+    description: TF-Slim models lib
+    sources:
+    - url: https://github.com/tensorflow/models/archive/01aa7a4a6190bf021f448dee26fc649f4b47753e.zip
+      sha256: d4afb49736e360f04c181de0d311960c4b06d664d2790980f5ed61dcdc356b26
+      prefix: models-01aa7a4a6190bf021f448dee26fc649f4b47753e/research/slim

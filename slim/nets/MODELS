@@ -1,0 +1,84 @@
+- name: slim-inception-v1
+  description: Inception v1 classifier in TF-Slim
+  operations:
+    train:
+      description: train Inception v1
+      cmd: train --model_name inception_v1
+      requires:
+        - slim/lib
+        - shared:${dataset}
+      flags:
+        $include: shared
+
+- name: slim-inception-v2
+  description: Inception v2 classifier in TF-Slim
+  operations:
+    train:
+      description: train Inception v2
+      cmd: train --model_name inception_v2
+      requires:
+        - slim/lib
+        - shared:${dataset}
+      flags:
+        $include: shared
+
+- name: slim-inception-v3
+  description: Inception v3 classifier in TF-Slim
+  operations:
+    train:
+      description: train Inception v3
+      cmd: train --model_name inception_v3
+      requires:
+        - slim/lib
+        - shared:${dataset}
+      flags:
+        $include: shared
+
+- name: shared
+  private: yes
+  flags:
+    dataset:
+      description: Dataset to train with
+      required: yes
+      options:
+        - value: cifar10
+          description: CIFAR-10 images
+        - value: minst
+          description: MNIST digits images
+      arg-name: dataset_name
+    log-every-n-steps:
+      description: Steps between status updates
+      value: 10
+      arg-name: log_every_n_steps
+    save-summaries-secs:
+      description: Seconds between summary saves
+      value: 600
+      arg-name: save_summaries_secs
+    weight-decay:
+      description: Weight decay on the model weights
+      value: 0.00004
+      arg-name: weight_decay
+    optimizer:
+      description: Training optimizer (adadelta, adagrad, adam, ftrl, momentum, sgd, or rmsprop)
+      value: rmsprop
+      options:
+        - value: adadelta
+        - value: adagrad
+        - value: adam
+        - value: ftrl
+        - value: momentum
+        - value: sgd
+        - value: rmsprop
+    batch-size:
+      description: Number of samples in each batch
+      arg-name: batch_size
+    steps:
+      description: Maximum number of training steps
+      arg-name: max_number_of_steps
+  resources:
+    cifar10:
+      sources:
+        - operation: slim.datasets/slim-cifar10:prepare//data
+    mnist:
+      sources:
+        - operation: slim.datasets/slim-mnist:prepare//data

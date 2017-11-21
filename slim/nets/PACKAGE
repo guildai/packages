@@ -1,0 +1,10 @@
+name: slim.nets
+version: 0.1.0.dev1
+description: TF-Slim networks
+url: https://github.com/guildai/index/tree/master/slim/nets
+modelfile: https://github.com/guildai/index/tree/master/slim/nets/MODELS
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+requires: [slim.datasets]
+license: Apache 2.0
+tags: [inception, images, model]
