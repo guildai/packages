@@ -97,6 +97,7 @@
           sha256: ef91c0bcd1c146fdd5cae09f82c8ea3fe2e9164bf782714ff84736ab86514d71
 
 - name: magenta-arbitrary-stylize
+  description: Fast artistic style transfer using arbitrary painting styles
   operations:
     stylize:
       description: Stylize using model pretrained on PNB and DRD images
@@ -128,3 +129,15 @@
         - url: https://storage.googleapis.com/download.magenta.tensorflow.org/models/arbitrary_style_transfer.tar.gz
           sha256: 523b600b508e9e1e31d77860d7ff650125b2f41e15dc9d612e15e3600fa65a60
           unpack: yes
+
+- name: magenta-sketch-rnn
+  description: Generative model for vector drawings
+  references:
+    - https://github.com/tensorflow/magenta/tree/master/magenta/models/sketch_rnn
+    - https://research.googleblog.com/2017/04/teaching-machines-to-draw.html
+    - https://arxiv.org/abs/1704.03477
+  operations:
+    train:
+      cmd: >
+        magenta.models.sketch_rnn.sketch_rnn_train \
+          --log_root .
