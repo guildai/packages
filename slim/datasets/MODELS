@@ -2,11 +2,13 @@
   operations:
     prepare:
       cmd: prepare --dataset_name mnist --dataset_dir data
+      description: Prepare the MNIST dataset
       requires:
         - slim/lib
         - data
   resources:
     data:
+      description: MNIST IDX files
       path: data
       sources:
         - url: http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz
@@ -21,13 +23,31 @@
 - name: slim-cifar10
   operations:
     prepare:
+      description: Prepare the CIFAR-10 dataset
       cmd: prepare --dataset_name cifar10 --dataset_dir data
       requires:
         - slim/lib
         - data
   resources:
     data:
+      description: CIFAR-10 dataset by Alex Krizhevsky
       path: data
       sources:
         - url: https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz
           sha256: 6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce
+
+- name: slim-flowers
+  operations:
+    prepare:
+      description: Prepare the Flowers dataset
+      cmd: prepare --dataset_name flowers --dataset_dir data
+      requires:
+        - slim/lib
+        - data
+  resources:
+    data:
+      description: Sample flower images from Flickr
+      path: data
+      sources:
+        - url: http://download.tensorflow.org/example_images/flower_photos.tgz
+          sha256: 4c54ace7911aaffe13a365c34f650e71dd5bf1be0a58b464e5a7183e3e595d9c

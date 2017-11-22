@@ -1,5 +1,5 @@
 name: slim.datasets
-version: 0.1.0.dev1
+version: 0.1.0.dev2
 description: Support for downloading an converting TF-Slim datasets
 url: https://github.com/guildai/index/tree/master/slim/datasets
 modelfile: https://github.com/guildai/index/tree/master/slim/datasets/MODELS

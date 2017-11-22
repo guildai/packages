@@ -1,5 +1,5 @@
 name: slim.nets
-version: 0.1.0.dev1
+version: 0.1.0.dev2
 description: TF-Slim networks
 url: https://github.com/guildai/index/tree/master/slim/nets
 modelfile: https://github.com/guildai/index/tree/master/slim/nets/MODELS

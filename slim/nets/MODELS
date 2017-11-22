@@ -2,64 +2,65 @@
   description: Inception v1 classifier in TF-Slim
   operations:
     train:
-      description: train Inception v1
+      description: Train Inception v1
       cmd: train --model_name inception_v1
       requires:
         - slim/lib
-        - shared:${dataset}
+        - resources:${dataset}
       flags:
-        $include: shared
+        $include: train-flags
+    fine-tune:
+      description: Fine-tune Inception v1
+      cmd: train --model_name inception_v1
+      requires:
+        - slim/lib
+        - resources:${dataset}
+        - resources:${checkpoint}
+      flags:
+        $include: fine-tune-flags
 
 - name: slim-inception-v2
   description: Inception v2 classifier in TF-Slim
   operations:
     train:
-      description: train Inception v2
+      description: Train Inception v2
       cmd: train --model_name inception_v2
       requires:
         - slim/lib
-        - shared:${dataset}
+        - resources:${dataset}
       flags:
-        $include: shared
+        $include: train-flags
 
 - name: slim-inception-v3
   description: Inception v3 classifier in TF-Slim
   operations:
     train:
-      description: train Inception v3
+      description: Train Inception v3
       cmd: train --model_name inception_v3
       requires:
         - slim/lib
-        - shared:${dataset}
+        - resources:${dataset}
       flags:
-        $include: shared
+        $include: train-flags
 
-- name: shared
+- name: train-flags
   private: yes
   flags:
-    dataset:
-      description: Dataset to train with
-      required: yes
-      options:
-        - value: cifar10
-          description: CIFAR-10 images
-        - value: minst
-          description: MNIST digits images
-      arg-name: dataset_name
+    $include: dataset-flags
     log-every-n-steps:
       description: Steps between status updates
       value: 10
       arg-name: log_every_n_steps
     save-summaries-secs:
       description: Seconds between summary saves
-      value: 600
+      value: 60
       arg-name: save_summaries_secs
     weight-decay:
       description: Weight decay on the model weights
       value: 0.00004
       arg-name: weight_decay
     optimizer:
-      description: Training optimizer (adadelta, adagrad, adam, ftrl, momentum, sgd, or rmsprop)
+      description: Training optimizer (adadelta, adagrad, adam, ftrl, momentum, sgd, rmsprop)
       value: rmsprop
       options:
         - value: adadelta
@@ -75,6 +76,38 @@
     steps:
       description: Maximum number of training steps
       arg-name: max_number_of_steps
+
+- name: fine-tune-flags
+  private: yes
+  flags:
+    $include: train-flags
+    checkpoint:
+      description: Model checkpoint to fine-tune (inception_v1)
+      required: yes
+      options:
+        - value: inception_v1
+          args:
+            checkpoint_path: inception_v1.ckpt
+            checkpoint_exclude_scopes: InceptionV1/Logits,InceptionV3/AuxLogits
+            trainable_scopes: InceptionV1/Logits,InceptionV1/AuxLogits
+
+- name: dataset-flags
+  private: yes
+  flags:
+    dataset:
+      description: Dataset to train with (cifar10, mnist, flowers)
+      required: yes
+      options:
+        - value: cifar10
+          description: CIFAR-10 images
+        - value: minst
+          description: MNIST digits images
+        - value: flowers
+          description: Flickr sample flower images
+      arg-name: dataset_name
+
+- name: resources
+  private: yes
   resources:
     cifar10:
       sources:
@@ -82,3 +115,10 @@
     mnist:
       sources:
         - operation: slim.datasets/slim-mnist:prepare//data
+    flowers:
+      sources:
+        - operation: slim.datasets/slim-flowers:prepare//data
+    inception_v1:
+      sources:
+        - url: http://download.tensorflow.org/models/inception_v1_2016_08_28.tar.gz
+          sha256: 7a620c430fcaba8f8f716241f5148c4c47c035cce4e49ef02cfbe6cd1adf96a6
