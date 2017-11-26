@@ -1,0 +1,54 @@
+# -*-yaml-*-
+
+name: train-flags
+private: yes
+flags:
+  $include: dataset-flags
+  max-steps:
+    description: Maximum number of training steps
+    value: 1000
+    arg-name: max_number_of_steps
+  batch-size:
+    description: Number of samples in each batch
+    value: 32
+    arg-name: batch_size
+  learning-rate:
+    description: Initial learning rate
+    value: 0.01
+    arg-name: learning_rate
+  learning-rate-decay-type:
+    value: exponential
+    description: How the learning rate is decayed
+    value: exponential
+    options:
+      - value: fixed
+      - value: exponential
+      - value: polynomial
+    arg-name: learning_rate_decay_type
+  weight-decay:
+    description: Weight decay on the model weights
+    value: 0.00004
+    arg-name: weight_decay
+  optimizer:
+    description: Training optimizer (adadelta, adagrad, adam, ftrl, momentum, sgd, rmsprop)
+    value: rmsprop
+    options:
+      - value: adadelta
+      - value: adagrad
+      - value: adam
+      - value: ftrl
+      - value: momentum
+      - value: sgd
+      - value: rmsprop
+  log-every-n-steps:
+    description: Steps between status updates
+    value: 10
+    arg-name: log_every_n_steps
+  save-summaries-secs:
+    description: Seconds between summary saves
+    value: 60
+    arg-name: save_summaries_secs
+  save-model-secs:
+    description: Seconds between model saves
+    value: 60
+    arg-name: save_interval_secs

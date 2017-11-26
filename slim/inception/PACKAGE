@@ -1,0 +1,16 @@
+name: slim.inception
+version: 0.1.0.dev3
+description: TF-Slim Inception models (v1, v2, v3, v4, and Inception ResNet v2)
+url: https://github.com/guildai/index/tree/master/slim/inception
+modelfile: https://github.com/guildai/index/tree/master/slim/inception/MODELS
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+requires: [slim, slim.datasets]
+license: Apache 2.0
+tags: [inception, resnet, images, model]
+data-files:
+  - dataset-flags
+  - train-flags
+  - fine-tune-flags
+  - checkpoint-resources
+  - dataset-resources

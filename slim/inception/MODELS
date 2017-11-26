@@ -1,0 +1,114 @@
+- name: slim-inception-v1
+  description: Inception v1 classifier in TF-Slim
+  operations:
+    train:
+      description: Train Inception v1
+      cmd: train --model_name inception_v1
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+      flags:
+        $include: train-flags
+    fine-tune:
+      description: Fine-tune Inception v1
+      cmd: train --model_name inception_v1
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+        - checkpoints:${checkpoint}
+
+- name: slim-inception-v2
+  description: Inception v2 classifier in TF-Slim
+  operations:
+    train:
+      description: Train Inception v2
+      cmd: train --model_name inception_v2
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+      flags:
+        $include: train-flags
+    fine-tune:
+      description: Fine-tune Inception v2
+      cmd: train --model_name inception_v2
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+        - checkpoints:${checkpoint}
+
+- name: slim-inception-v3
+  description: Inception v3 classifier in TF-Slim
+  operations:
+    train:
+      description: Train Inception v3
+      cmd: train --model_name inception_v3
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+      flags:
+        $include: train-flags
+    fine-tune:
+      description: Fine-tune Inception v3
+      cmd: train --model_name inception_v3
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+        - checkpoints:${checkpoint}
+
+- name: slim-inception-v4
+  description: Inception v4 classifier in TF-Slim
+  operations:
+    train:
+      description: Train Inception v4
+      cmd: train --model_name inception_v4
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+      flags:
+        $include: train-flags
+    fine-tune:
+      description: Fine-tune Inception v4
+      cmd: train --model_name inception_v4
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+        - checkpoints:${checkpoint}
+
+- name: slim-inception-resnet-v2
+  description: Inception ResNet v2 classifier in TF-Slim
+  operations:
+    train:
+      description: Train Inception ResNet v2
+      cmd: >
+        slim/train_image_classifier \
+          --model_name inception_resnet_v2 \
+          --train_dir . \
+          --dataset_split_name train \
+          --dataset_dir data
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+      flags:
+        $include: train-flags
+    fine-tune:
+      description: Fine-tune Inception ResNet v2
+      cmd: >
+        slim/train_image_classifier \
+          --model_name inception_resnet_v2 \
+          --train_dir . \
+          --dataset_split_name train \
+          --dataset_dir data \
+          --checkpoint_path inception_resnet_v2_2016_08_30.ckpt \
+          --checkpoint_exclude_scopes InceptionResnetV2/Logits,InceptionResnetV2/AuxLogits \
+          --trainable_scopes InceptionResnetV2/Logits,InceptionResnetV2/AuxLogits
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+        - checkpoints:inception_resnet_v2
+      flags:
+       $include: train-flags
+
+- !load dataset-flags
+- !load train-flags
+- !load dataset-resources
+- !load checkpoint-resources
