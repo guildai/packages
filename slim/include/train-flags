@@ -3,7 +3,17 @@
 name: train-flags
 private: yes
 flags:
-  $include: dataset-flags
+  dataset:
+    description: Dataset to train with (cifar10, mnist, flowers)
+    required: yes
+    options:
+      - value: cifar10
+        description: CIFAR-10 images
+      - value: minst
+        description: MNIST digits images
+      - value: flowers
+        description: Flickr sample flower images
+    arg-name: dataset_name
   max-steps:
     description: Maximum number of training steps
     value: 1000

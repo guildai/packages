@@ -193,6 +193,5 @@
         - url: http://download.tensorflow.org/models/inception_resnet_v2_2016_08_30.tar.gz
           sha256: 3471bf35c5322271081346a0bdfae0aee706561b8243ec3ba2249aea2dcb8506
 
-- !load dataset-flags
 - !load train-flags
 - !load dataset-resources
