@@ -1,0 +1,17 @@
+name: slim.resnet
+version: 0.1.0.dev1
+description: TF-Slim ResNet models (50, 101, 152, and 200 layer models for ResNet v1 and v2)
+url: https://github.com/guildai/index/tree/master/slim/resnet
+modelfile: https://github.com/guildai/index/tree/master/slim/resnet/MODELS
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+requires: [slim.datasets]
+license: Apache 2.0
+tags: [resnet, images, model]
+data-files:
+  - dataset-flags
+  - train-flags
+  - fine-tune-flags
+  - checkpoint-resources
+  - dataset-resources
+  - train.py
