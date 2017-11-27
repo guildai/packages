@@ -25,6 +25,8 @@
           --checkpoint_path inception_v1.ckpt \
           --checkpoint_exclude_scopes InceptionV1/Logits,InceptionV1/AuxLogits \
           --trainable_scopes InceptionV1/Logits,InceptionV1/AuxLogits
+      flags:
+        $include: train-flags
       requires:
         - slim/lib
         - datasets:${dataset}
@@ -62,6 +64,8 @@
           --checkpoint_path inception_v2.ckpt \
           --checkpoint_exclude_scopes InceptionV2/Logits,InceptionV2/AuxLogits \
           --trainable_scopes InceptionV2/Logits,InceptionV2/AuxLogits
+      flags:
+        $include: train-flags
       requires:
         - slim/lib
         - datasets:${dataset}
@@ -99,6 +103,8 @@
           --checkpoint_path inception_v3.ckpt \
           --checkpoint_exclude_scopes InceptionV3/Logits,InceptionV3/AuxLogits \
           --trainable_scopes InceptionV3/Logits,InceptionV3/AuxLogits
+      flags:
+        $include: train-flags
       requires:
         - slim/lib
         - datasets:${dataset}
@@ -136,6 +142,8 @@
           --checkpoint_path inception_v4.ckpt \
           --checkpoint_exclude_scopes InceptionV4/Logits,InceptionV4/AuxLogits \
           --trainable_scopes InceptionV4/Logits,InceptionV4/AuxLogits
+      flags:
+        $include: train-flags
       requires:
         - slim/lib
         - datasets:${dataset}
@@ -178,7 +186,8 @@
         - datasets:${dataset}
         - checkpoint
       flags:
-       $include: train-flags
+        $include: train-flags
+  resources:
     checkpoint:
       sources:
         - url: http://download.tensorflow.org/models/inception_resnet_v2_2016_08_30.tar.gz
