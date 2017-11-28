@@ -1,4 +1,5 @@
 - name: slim-mnist
+  description: Support for preparing the MNIST TF-Slim dataset
   operations:
     prepare:
       cmd: prepare --dataset_name mnist --dataset_dir data
@@ -21,6 +22,7 @@
           sha256: f7ae60f92e00ec6debd23a6088c31dbd2371eca3ffa0defaefb259924204aec6
 
 - name: slim-cifar10
+  description: Support for preparing the CIFAR-10 TF-Slim dataset
   operations:
     prepare:
       description: Prepare the CIFAR-10 dataset
@@ -37,9 +39,10 @@
           sha256: 6d958be074577803d12ecdefd02955f39262c83c16fe9348329d7fe0b5c001ce
 
 - name: slim-flowers
+  description: Support for preparing the Flickr flowers TF-Slim dataset
   operations:
     prepare:
-      description: Prepare the Flowers dataset
+      description: Prepare the Flickr flowers dataset
       cmd: prepare --dataset_name flowers --dataset_dir data
       requires:
         - slim/lib
@@ -51,3 +54,19 @@
       sources:
         - url: http://download.tensorflow.org/example_images/flower_photos.tgz
           sha256: 4c54ace7911aaffe13a365c34f650e71dd5bf1be0a58b464e5a7183e3e595d9c
+
+- name: slim-custom-images
+  description: Support for preparing a custom images TF-Slim dataset
+  operations:
+    prepare:
+      description: Prepare a custom images dataset
+      cmd: prepare_images --output-dir data
+      flags:
+        images:
+          description: Directory containing images
+          required: yes
+        shards:
+          description: Number of shards to create
+          value: 5
+      requires:
+        - slim/lib
