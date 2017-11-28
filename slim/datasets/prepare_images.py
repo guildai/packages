@@ -80,6 +80,7 @@ def main():
     _convert_images(state.training, "train", state)
     _convert_images(state.validation, "validation", state)
     _write_label_file(state)
+    _write_splits(state)
 
 def _parse_args():
     p = argparse.ArgumentParser()
@@ -134,6 +135,12 @@ def _record_filename(split_name, shard_id, shard_info, state):
 def _write_label_file(state):
     class_label_map = dict((id, cls) for cls, id in state.class_id_map.items())
     dataset_utils.write_label_file(class_label_map, state.output_dir)
+
+def _write_splits(state):
+    path = os.path.join(state.output_dir, "splits.txt")
+    with open(path, "w") as f:
+        f.write("train:%i\n" % len(state.training))
+        f.write("validation:%i\n" % len(state.validation))
 
 def _status(msg="\n"):
     sys.stdout.write(msg)

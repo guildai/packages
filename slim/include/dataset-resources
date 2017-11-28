@@ -12,3 +12,6 @@ resources:
   flowers:
     sources:
       - operation: slim.datasets/slim-flowers:prepare//data
+  custom:
+    sources:
+      - operation: slim.datasets/slim-custom-images:prepare//data

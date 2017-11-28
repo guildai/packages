@@ -1,5 +1,5 @@
 name: slim.inception
-version: 0.1.0.dev5
+version: 0.1.0.dev6
 description: TF-Slim Inception models (v1, v2, v3, v4, and Inception ResNet v2)
 url: https://github.com/guildai/index/tree/master/slim/inception
 modelfile: https://github.com/guildai/index/tree/master/slim/inception/MODELS
@@ -11,3 +11,4 @@ tags: [inception, resnet, images, model]
 data-files:
   - train-flags
   - dataset-resources
+  - train.py
