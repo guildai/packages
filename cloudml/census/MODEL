@@ -133,5 +133,4 @@
       sources:
         - url: https://github.com/GoogleCloudPlatform/cloudml-samples/archive/master.zip
           sha256: 956a02e9f50562d7581b4c9590e72610d7f96d80b97b8963ea2626087b60a809
-          prefix: cloudml-samples-master/census/estimator/trainer
-          type: zip
+          select: cloudml-samples-master/census/estimator/trainer

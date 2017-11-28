@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 from __future__ import division
 
+import importlib
 import os
 import sys
 
@@ -12,8 +13,6 @@ sys.path.insert(0, "slim")
 
 from datasets import dataset_factory
 from datasets import dataset_utils
-
-import train_image_classifier
 
 class CustomDataset(object):
 
@@ -53,8 +52,11 @@ class CustomDataset(object):
         return counts
 
 def main():
+    op = sys.argv[1]
+    sys.argv = sys.argv[:1] + sys.argv[2:]
+    mod = importlib.import_module(op)
     dataset_factory.datasets_map["custom"] = CustomDataset()
-    train_image_classifier.main([])
+    mod.main([])
 
 if __name__ == "__main__":
     main()
