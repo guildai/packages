@@ -4,7 +4,7 @@ name: train-flags
 private: yes
 flags:
   dataset:
-    description: Dataset to train with (cifar10, mnist, flowers)
+    description: Dataset to train with (cifar10, mnist, flowers, custom)
     required: yes
     options:
       - value: cifar10
