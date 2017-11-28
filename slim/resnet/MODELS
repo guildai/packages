@@ -31,11 +31,33 @@
         - slim/lib
         - datasets:${dataset}
         - checkpoint
+    evaluate:
+      description: Evaluate a trained ResNet-50 model
+      cmd: >
+        slim/eval_image_classifier \
+          --model_name resnet_v1_50 \
+          --eval_dir . \
+          --dataset_split_name validation \
+          --dataset_dir data \
+          --checkpoint_path model.ckpt
+      flags:
+        $include: eval-flags
+      requires:
+        - slim/lib
+        - datasets:${dataset}
+        - model
   resources:
     checkpoint:
       sources:
         - url: http://download.tensorflow.org/models/resnet_v1_50_2016_08_28.tar.gz
           sha256: 91a0dc25289e7ef648df304b15f06c43ce6f4446d08eb0168479dd2295101c73
+    model:
+      description: The latest trained ResNet-50 model
+      path: model
+      sources:
+        - operation:
+            - train//model.ckpt*
+            - fine-tune//model.ckpt*
 
 - name: slim-resnet-101
   description: ResNet-101 classifier in TF-Slim
@@ -267,4 +289,5 @@
         $include: train-flags
 
 - !load train-flags
+- !load eval-flags
 - !load dataset-resources
