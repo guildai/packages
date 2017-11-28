@@ -30,4 +30,5 @@ resources:
         sha256: 1d10c942380e687eb95fe4715fd4c24fb8c9b5ecf612cab0fc5df08ced983962
   dataset:
     sources:
-      - operation: prepare//data
+      - operation: prepare
+        select: data

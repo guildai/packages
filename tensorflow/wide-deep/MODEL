@@ -35,4 +35,5 @@ resources:
       sed '/shutil.rmtree(FLAGS.model_dir/d' wide_deep.py > wide_deep_patched.py
   dataset:
     sources:
-      - operation: prepare//data
+      - operation: prepare
+        select: data
