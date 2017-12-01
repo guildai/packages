@@ -54,7 +54,7 @@ flags:
       - value: rmsprop
   log-every-n-steps:
     description: Steps between status updates
-    value: 10
+    value: 100
     arg-name: log_every_n_steps
   save-summaries-secs:
     description: Seconds between summary saves
