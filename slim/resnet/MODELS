@@ -48,6 +48,7 @@
         - model
   resources:
     checkpoint:
+      description: Pretrained ResNet-50 model
       sources:
         - url: http://download.tensorflow.org/models/resnet_v1_50_2016_08_28.tar.gz
           sha256: 91a0dc25289e7ef648df304b15f06c43ce6f4446d08eb0168479dd2295101c73
@@ -56,7 +57,7 @@
       path: model
       sources:
         - operation: train,fine-tune
-          select: model\.ckpt.*
+          select: checkpoint|model\.ckpt.*
 
 - name: slim-resnet-101
   description: ResNet-101 classifier in TF-Slim
