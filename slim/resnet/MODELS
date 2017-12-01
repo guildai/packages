@@ -46,6 +46,16 @@
         - slim/lib
         - datasets:${dataset}
         - model
+    export:
+      description: Export a ResNet-50 GraphDef
+      cmd: >
+        slim_op export_inference_graph \
+          --model_name resnet_v1_50 \
+          --output_file graph.pb
+      requires:
+        - slim/lib
+      flags:
+        $include: export-flags
   resources:
     checkpoint:
       description: Pretrained ResNet-50 model
@@ -290,4 +300,5 @@
 
 - !load train-flags
 - !load eval-flags
+- !load export-flags
 - !load dataset-resources

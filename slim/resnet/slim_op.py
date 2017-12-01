@@ -51,12 +51,21 @@ class CustomDataset(object):
             counts[name] = int(count_str)
         return counts
 
+def export():
+    print("TODO: export graph yo")
+
+def freeze():
+    print("TODO: freeze graph yo")
+
 def main():
     op = sys.argv[1]
     sys.argv = sys.argv[:1] + sys.argv[2:]
-    mod = importlib.import_module(op)
     dataset_factory.datasets_map["custom"] = CustomDataset()
-    mod.main([])
+    if op[0] == ":":
+        globals()[op[1:]]()
+    else:
+        mod = importlib.import_module(op)
+        mod.main([])
 
 if __name__ == "__main__":
     main()
