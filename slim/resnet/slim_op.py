@@ -1,8 +1,10 @@
 from __future__ import absolute_import
 from __future__ import division
 
-import importlib
+import argparse
+import imp
 import os
+import re
 import sys
 
 import tensorflow as tf
@@ -51,21 +53,44 @@ class CustomDataset(object):
             counts[name] = int(count_str)
         return counts
 
-def export():
-    print("TODO: export graph yo")
-
-def freeze():
-    print("TODO: freeze graph yo")
-
 def main():
-    op = sys.argv[1]
-    sys.argv = sys.argv[:1] + sys.argv[2:]
+    main_mod = sys.argv[1]
+    sys.argv = _init_argv(main_mod, sys.argv[:1] + sys.argv[2:])
     dataset_factory.datasets_map["custom"] = CustomDataset()
-    if op[0] == ":":
-        globals()[op[1:]]()
+    mod_info = imp.find_module(main_mod)
+    imp.load_module("__main__", *mod_info)
+
+def _init_argv(main_mod, args):
+    if main_mod == "tensorflow/python/tools/freeze_graph":
+        return _resolve_input_checkpoint_arg(args)
     else:
-        mod = importlib.import_module(op)
-        mod.main([])
+        return args
+
+def _resolve_input_checkpoint_arg(args):
+    p = argparse.ArgumentParser()
+    p.add_argument("--input_checkpoint")
+    parsed, rest = p.parse_known_args(args)
+    if parsed.input_checkpoint:
+        resolved = _resolve_checkpoint_path(parsed.input_checkpoint)
+        return rest + ["--input_checkpoint", resolved]
+    else:
+        return args
+
+def _resolve_checkpoint_path(path):
+    if os.path.exists(path):
+        return path
+    return _model_checkpoint_path(os.path.dirname(path))
+
+def _model_checkpoint_path(dir):
+    index = os.path.join(dir, "checkpoint")
+    if not os.path.exists(index):
+        sys.stderr.write(
+            "ERROR: cannot resolve model checkpoint: {} does not "
+            "exist\n".format(index))
+        sys.exit(1)
+    line1 = open(index, "r").readlines()[0]
+    path_val = re.search("\"(.+?)\"", line1).group(1)
+    return os.path.join(dir, path_val)
 
 if __name__ == "__main__":
     main()

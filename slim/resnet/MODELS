@@ -47,7 +47,7 @@
         - datasets:${dataset}
         - model
     export:
-      description: Export a ResNet-50 GraphDef
+      description: Generate a ResNet-50 graph def
       cmd: >
         slim_op export_inference_graph \
           --model_name resnet_v1_50 \
@@ -56,18 +56,37 @@
         - slim/lib
       flags:
         $include: export-flags
+    freeze:
+      description: Generate a ResNet-50 graph def with checkpoint weights
+      cmd: >
+        slim_op tensorflow/python/tools/freeze_graph \
+          --input_graph export/graph.pb \
+          --input_checkpoint model/model.ckpt \
+          --input_binary true \
+          --output_graph graph.pb \
+          --output_node_names resnet_v1_50/predictions/Reshape_1
+      requires:
+        - slim/lib
+        - trained-model
+        - export
   resources:
     checkpoint:
       description: Pretrained ResNet-50 model
       sources:
         - url: http://download.tensorflow.org/models/resnet_v1_50_2016_08_28.tar.gz
           sha256: 91a0dc25289e7ef648df304b15f06c43ce6f4446d08eb0168479dd2295101c73
-    model:
-      description: The latest trained ResNet-50 model
+    trained-model:
+      description: Latest trained ResNet-50 model
       path: model
       sources:
         - operation: train,fine-tune
           select: checkpoint|model\.ckpt.*
+    export:
+      description: Latest ResNet-50 export
+      path: export
+      sources:
+        - operation: export
+          select: graph.pb
 
 - name: slim-resnet-101
   description: ResNet-101 classifier in TF-Slim
