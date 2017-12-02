@@ -1,0 +1,10 @@
+# -*-yaml-*-
+
+name: checkpoints
+private: yes
+resources:
+  resnet-50:
+    description: Pretrained ResNet-50 model
+    sources:
+      - url: http://download.tensorflow.org/models/resnet_v1_50_2016_08_28.tar.gz
+        sha256: 91a0dc25289e7ef648df304b15f06c43ce6f4446d08eb0168479dd2295101c73
