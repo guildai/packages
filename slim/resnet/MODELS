@@ -9,20 +9,11 @@
           --train_dir . \
           --dataset_split_name train \
           --dataset_dir data
+      flags:
+        $include: [resnet-flags, train-flags]
       requires:
         - slim/lib
         - datasets:${dataset}
-      flags:
-        layers:
-          description: Number of ResNet layers (50, 101, 152, 200)
-          value: 50
-          options:
-            - value: 50
-            - value: 101
-            - value: 152
-            - value: 200
-          arg-name:
-        $include: train-flags
     fine-tune:
       description: Fine-tune ResNet
       cmd: >
@@ -35,7 +26,7 @@
           --checkpoint_exclude_scopes resnet_v1_${layers}/logits \
           --trainable_scopes resnet_v1_${layers}/logits
       flags:
-        $include: train-flags
+        $include: [resnet-flags, train-flags]
       requires:
         - slim/lib
         - datasets:${dataset}
@@ -50,7 +41,7 @@
           --dataset_dir data \
           --checkpoint_path model
       flags:
-        $include: eval-flags
+        $include: [resnet-flags, eval-flags]
       requires:
         - slim/lib
         - datasets:${dataset}
@@ -61,10 +52,10 @@
         slim_op export_inference_graph \
           --model_name resnet_v1_${layers} \
           --output_file graph.pb
+      flags:
+        $include: [resnet-flags, export-flags]
       requires:
         - slim/lib
-      flags:
-        $include: export-flags
     freeze:
       description: Generate a ResNet graph def with checkpoint weights
       cmd: >
@@ -74,6 +65,8 @@
           --input_binary true \
           --output_graph graph.pb \
           --output_node_names resnet_v1_${layers}/predictions/Reshape_1
+      flags:
+        $include: resnet-flags
       requires:
         - slim/lib
         - trained-model
@@ -92,234 +85,22 @@
         - operation: export
           select: graph.pb
 
-- name: slim-resnet-101
-  description: ResNet-101 classifier in TF-Slim
-  operations:
-    train:
-      description: Train ResNet-101
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v1_101 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-      flags:
-        $include: train-flags
-    fine-tune:
-      description: Fine-tune ResNet-101
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v1_101 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data \
-          --checkpoint_path resnet_v1_101.ckpt \
-          --checkpoint_exclude_scopes resnet_v1_101/logits \
-          --trainable_scopes resnet_v1_101/logits
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-        - checkpoint
-      flags:
-        $include: train-flags
-  resources:
-    checkpoint:
-      sources:
-        - url: http://download.tensorflow.org/models/resnet_v1_101_2016_08_28.tar.gz
-          sha256: 5d813fcf5e56e7c9c2483d73b46644394cdbb31f9f4bf7140fb2809f7aa11a19
-
-- name: slim-resnet-152
-  description: ResNet-152 classifier in TF-Slim
-  operations:
-    train:
-      description: Train ResNet-152
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v1_152 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-      flags:
-        $include: train-flags
-    fine-tune:
-      description: Fine-tune ResNet-152
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v1_152 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data \
-          --checkpoint_path resnet_v1_152.ckpt \
-          --checkpoint_exclude_scopes resnet_v1_152/logits \
-          --trainable_scopes resnet_v1_152/logits
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-        - checkpoint
-      flags:
-        $include: train-flags
-  resources:
-    checkpoint:
-      sources:
-        - url: http://download.tensorflow.org/models/resnet_v1_152_2016_08_28.tar.gz
-          sha256: c89b549ada486d9c0db6d90e874a1a652d899f9b541ae9c430fee8251572181d
-
-- name: slim-resnet-200
-  description: ResNet-200 classifier in TF-Slim
-  operations:
-    train:
-      description: Train ResNet-200
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v1_200 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-      flags:
-        $include: train-flags
-
-- name: slim-resnet-50-v2
-  description: ResNet-50-v2 classifier in TF-Slim
-  operations:
-    train:
-      description: Train ResNet-50-v2
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v2_50 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-      flags:
-        $include: train-flags
-    fine-tune:
-      description: Fine-tune ResNet-50-v2
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v2_50 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data \
-          --checkpoint_path resnet_v2_50.ckpt \
-          --checkpoint_exclude_scopes resnet_v2_50/logits \
-          --trainable_scopes resnet_v2_50/logits
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-        - checkpoint
-      flags:
-        $include: train-flags
-  resources:
-    checkpoint:
-      sources:
-        - url: http://download.tensorflow.org/models/resnet_v2_50_2017_04_14.tar.gz
-          sha256: 2c5c3a852526d0d6e8a35829d4e50533468baaed834a0046ba430e80982ed57c
-
-- name: slim-resnet-101-v2
-  description: ResNet-101-v2 classifier in TF-Slim
-  operations:
-    train:
-      description: Train ResNet-101-v2
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v2_101 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-      flags:
-        $include: train-flags
-    fine-tune:
-      description: Fine-tune ResNet-101-v2
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v2_101 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data \
-          --checkpoint_path resnet_v2_101.ckpt \
-          --checkpoint_exclude_scopes resnet_v2_101/logits \
-          --trainable_scopes resnet_v2_101/logits
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-        - checkpoint
-      flags:
-        $include: train-flags
-  resources:
-    checkpoint:
-      sources:
-        - url: http://download.tensorflow.org/models/resnet_v2_101_2017_04_14.tar.gz
-          sha256: b324d02f28839d11f382785bdf4444ec3bdccb28e1b691a4f45b8f04370e4191
-
-- name: slim-resnet-152-v2
-  description: ResNet-152-v2 classifier in TF-Slim
-  operations:
-    train:
-      description: Train ResNet-152-v2
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v2_152 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-      flags:
-        $include: train-flags
-    fine-tune:
-      description: Fine-tune ResNet-152-v2
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v2_152 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data \
-          --checkpoint_path resnet_v2_152.ckpt \
-          --checkpoint_exclude_scopes resnet_v2_152/logits \
-          --trainable_scopes resnet_v2_152/logits
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-        - checkpoint
-      flags:
-        $include: train-flags
-  resources:
-    checkpoint:
-      sources:
-        - url: http://download.tensorflow.org/models/resnet_v2_152_2017_04_14.tar.gz
-          sha256: c3ec824f19b4919fc7d069dc3a2a9d0f045f35e843c563c4eeeefbedf4852867
-
-- name: slim-resnet-200-v2
-  description: ResNet-200-v2 classifier in TF-Slim
-  operations:
-    train:
-      description: Train ResNet-200-v2
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v2_200 \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-      flags:
-        $include: train-flags
+- name: resnet-flags
+  private: yes
+  flags:
+    layers:
+      description: Number of ResNet layers (50, 101, 152, 200)
+      value: 50
+      arg-skip: yes
+      options:
+        - value: 50
+          description: ResNet-50
+        - value: 101
+          description: ResNet-101
+        - value: 152
+          description: ResNet-152
+        - value: 200
+          description: ResNet-200
 
 - !load train-flags
 - !load eval-flags
