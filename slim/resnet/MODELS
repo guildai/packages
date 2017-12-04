@@ -45,7 +45,7 @@
       requires:
         - slim/lib
         - datasets:${dataset}
-        - model
+        - trained-model
     export:
       description: Generate a ResNet graph def
       cmd: >
@@ -71,6 +71,28 @@
         - slim/lib
         - trained-model
         - export
+    predict:
+      description: Use TensorFlow label_image program to generate a prediction for an image
+      cmd: >
+        label_image \
+          --graph graph.pb \
+          --labels data/labels.txt \
+          --output-layer resnet_v1_${layers}/predictions/Reshape_1
+      flags:
+        $include: resnet-flags
+        label-image-bin:
+          description: Path to the TensorFlow label_image program
+          value: label_image
+        image:
+          description: Path to the input image
+          required: yes
+        dataset:
+          description: Dataset name to use
+          required: yes
+          arg-skip: yes
+      requires:
+        - frozen-model
+        - datasets:${dataset}
   resources:
     trained-model:
       description: Trained ResNet model from train or fine-tune operation
@@ -83,6 +105,11 @@
       path: export
       sources:
         - operation: export
+          select: graph.pb
+    frozen-model:
+      description: Frozen ResNet graph with weights
+      sources:
+        - operation: freeze
           select: graph.pb
 
 - name: resnet-flags
