@@ -1,5 +1,8 @@
 import argparse
+import json
+import re
 import subprocess
+import sys
 
 def main():
     args = _parse_args()
@@ -13,7 +16,21 @@ def main():
         args.output_layer,
         args.image
     )
-    subprocess.check_call(cmd, shell=True)
+    try:
+        out = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        sys.stderr.write(e.output)
+        sys.exit(e.returncode)
+    else:
+        _write_prediction(_parse_prediction(out))
+        sys.stderr.write(out)
+
+def _parse_prediction(out):
+    m = re.findall(r"(\d+):([^ ]+?) \(\d+\): ([\.0-9]+)", out)
+    return [[label, id, float(val)] for id, label, val in m]
+
+def _write_prediction(vals):
+    json.dump(vals, open("prediction.json", "w"))
 
 def _parse_args():
     p = argparse.ArgumentParser()
