@@ -1,136 +1,37 @@
-- name: slim-resnet
-  description: ResNet classifier in TF-Slim
-  operations:
-    train:
-      description: Train ResNet
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v1_${layers} \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data
-      flags:
-        $include: [resnet-flags, train-flags]
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-    fine-tune:
-      description: Fine-tune ResNet
-      cmd: >
-        slim_op train_image_classifier \
-          --model_name resnet_v1_${layers} \
-          --train_dir . \
-          --dataset_split_name train \
-          --dataset_dir data \
-          --checkpoint_path resnet_v1_${layers}.ckpt \
-          --checkpoint_exclude_scopes resnet_v1_${layers}/logits \
-          --trainable_scopes resnet_v1_${layers}/logits
-      flags:
-        $include: [resnet-flags, train-flags]
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-        - checkpoints:resnet-${layers}
-    evaluate:
-      description: Evaluate a trained ResNet model
-      cmd: >
-        slim_op eval_image_classifier \
-          --model_name resnet_v1_${layers} \
-          --eval_dir . \
-          --dataset_split_name validation \
-          --dataset_dir data \
-          --checkpoint_path model
-      flags:
-        $include: [resnet-flags, eval-flags]
-      requires:
-        - slim/lib
-        - datasets:${dataset}
-        - trained-model
-    export:
-      description: Generate a ResNet graph def
-      cmd: >
-        slim_op export_inference_graph \
-          --model_name resnet_v1_${layers} \
-          --output_file graph.pb
-      flags:
-        $include: [resnet-flags, export-flags]
-      requires:
-        - slim/lib
-    freeze:
-      description: Generate a ResNet graph def with checkpoint weights
-      cmd: >
-        slim_op tensorflow/python/tools/freeze_graph \
-          --input_graph export/graph.pb \
-          --input_checkpoint model/model.ckpt \
-          --input_binary true \
-          --output_graph graph.pb \
-          --output_node_names resnet_v1_${layers}/predictions/Reshape_1
-      flags:
-        $include: resnet-flags
-      requires:
-        - slim/lib
-        - trained-model
-        - export
-    predict:
-      description: Use TensorFlow label_image program to generate a prediction for an image
-      cmd: >
-        label_image \
-          --graph graph.pb \
-          --labels data/labels.txt \
-          --output-layer resnet_v1_${layers}/predictions/Reshape_1
-      flags:
-        $include: resnet-flags
-        label-image-bin:
-          description: Path to the TensorFlow label_image program
-          value: label_image
-        image:
-          description: Path to the input image
-          required: yes
-        dataset:
-          description: Dataset name to use
-          required: yes
-          arg-skip: yes
-      requires:
-        - frozen-model
-        - datasets:${dataset}
+- !load slim-base
+
+- name: slim-resnet-50
+  extends: slim-base
+  params:
+    model_name: resnet_v1_50
+    model_label: ResNet-50
   resources:
-    trained-model:
-      description: Trained ResNet model from train or fine-tune operation
-      path: model
+    checkpoint:
+      description: Pretrained ResNet-50 model
       sources:
-        - operation: train,fine-tune
-          select: checkpoint|model\.ckpt.*
-    export:
-      description: Exported ResNet graph def from export operation
-      path: export
-      sources:
-        - operation: export
-          select: graph.pb
-    frozen-model:
-      description: Frozen ResNet graph with weights
-      sources:
-        - operation: freeze
-          select: graph.pb
+        - url: http://download.tensorflow.org/models/resnet_v1_50_2016_08_28.tar.gz
+          sha256: 91a0dc25289e7ef648df304b15f06c43ce6f4446d08eb0168479dd2295101c73
 
-- name: resnet-flags
-  private: yes
-  flags:
-    layers:
-      description: Number of ResNet layers (50, 101, 152, 200)
-      value: 50
-      arg-skip: yes
-      options:
-        - value: 50
-          description: ResNet-50
-        - value: 101
-          description: ResNet-101
-        - value: 152
-          description: ResNet-152
-        - value: 200
-          description: ResNet-200
+- name: slim-resnet-v2-50
+  extends: slim-base
+  params:
+    model_name: resnet_v2_50
+    model_label: ResNet-v2-50
+  resources:
+    checkpoint:
+      description: Pretrained ResNet-v2-50 model
+      sources:
+        - url: http://download.tensorflow.org/models/resnet_v2_50_2017_04_14.tar.gz
+          sha256: 2c5c3a852526d0d6e8a35829d4e50533468baaed834a0046ba430e80982ed57c
 
-- !load train-flags
-- !load eval-flags
-- !load export-flags
-- !load dataset-resources
-- !load checkpoint-resources
+- name: slim-resnet-101
+  extends: slim-base
+  params:
+    model_name: resnet_v1_101
+    model_label: ResNet-101
+  resources:
+    checkpoint:
+      description: Pretrained ResNet-101 model
+      sources:
+        - url: http://download.tensorflow.org/models/resnet_v1_101_2016_08_28.tar.gz
+          sha256: xxx

@@ -1,29 +1,28 @@
-- name: mnist-softmax
-  description: Softmax regression classifier for MNIST
+- name: mnist-common
+  private: yes
   operations:
     train:
-      description: Train the softmax regression
-      cmd: softmax --datadir mnist-idx-data --rundir .
+      description: 'Train the {{model_desc}}'
+      cmd: '{{train_cmd}} --datadir mnist-idx-data --rundir .'
       requires: mnist/dataset
-  flags:
-    batch-size:
-      description: Number of images to include in a training batch
-      value: 100
-    epochs:
-      description: Number of epochs to train
-      value: 10
+      flags:
+        batch-size:
+          description: Number of images to include in a training batch
+          default: 100
+        epochs:
+          description: Number of epochs to train
+          default: 10
+
+- name: mnist-softmax
+  description: Softmax regression classifier for MNIST
+  extends: mnist-common
+  params:
+    model_desc: softmax regression
+    train_cmd: softmax
 
 - name: mnist-cnn
   description: CNN classifier for MNIST
-  operations:
-    train:
-      description: Train the CNN
-      cmd: cnn --datadir mnist-idx-data --rundir .
-      requires: mnist/dataset
-  flags:
-    batch-size:
-      description: Number of images to include in a training batch
-      value: 100
-    epochs:
-      description: Number of epochs to train
-      value: 10
+  extends: mnist-common
+  params:
+    model_desc: CNN
+    train_cmd: cnn
