@@ -16,24 +16,7 @@ operations:
     flags: !load train-flags
     requires:
       - slim/lib
-      - ${dataset}-dataset
-
-  fine-tune:
-    description: Fine-tune {{model_label}}
-    cmd: >
-      slim_op train_image_classifier \
-        --model_name {{model_name}} \
-        --train_dir . \
-        --dataset_split_name train \
-        --dataset_dir data \
-        --checkpoint_path {{model_name}}.ckpt \
-        --checkpoint_exclude_scopes {{model_name}}/logits \
-        --trainable_scopes {{model_name}}/logits
-    flags: !load train-flags
-    requires:
-      - slim/lib
-      - ${dataset}-dataset
-      - checkpoint
+      - slim-datasets:${dataset}
 
   evaluate:
     description: Evaluate a trained {{model_label}} model
@@ -52,7 +35,7 @@ operations:
 
     requires:
       - slim/lib
-      - ${dataset}-dataset
+      - slim-datasets:${dataset}
       - trained-model
 
   export:
@@ -81,7 +64,7 @@ operations:
       - export
 
   predict:
-    description: Use TensorFlow label_image and {{label_image}} to classify an image
+    description: Use TensorFlow label_image and {{model_label}} to classify an image
     cmd: >
       label_image \
         --graph graph.pb \
@@ -94,10 +77,10 @@ operations:
       image:
         description: Path to the input image
         required: yes
-      image-mean:
+      input-mean:
         description: Image mean to apply to the image
         default: 0.0
-      image-std:
+      input-std:
         description: Image std deviation to apply to the image
         default: 1.0
       dataset:
@@ -110,34 +93,14 @@ operations:
           - value: flowers
           - value: imagenet
             args:
-              image-mean: 0.0
-              image-std: 255
+              input-mean: 0.0
+              input-std: 255
           - value: custom
     requires:
-      - ${dataset}-dataset
+      - slim-datasets:${dataset}
       - frozen-model
 
 resources:
-  cifar10-dataset:
-    sources:
-      - operation: slim-cifar10:prepare
-        select: data
-
-  mnist-dataset:
-    sources:
-      - operation: slim-mnist:prepare
-        select: data
-
-  flowers-dataset:
-    sources:
-      - operation: slim-flowers:prepare
-        select: data
-
-  custom-dataset:
-    sources:
-      - operation: slim-custom-images:prepare
-        select: data
-
   trained-model:
     description: Trained {{model_label}} model (train or fine-tune operation)
     path: model
