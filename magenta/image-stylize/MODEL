@@ -1,0 +1,43 @@
+name: magenta-image-stylize
+description: Implementation of the paper A Learned Representation for Artistic Style
+
+operations:
+  stylize:
+    description: Stylize an image using one of two pretrained models
+    cmd: >
+      magenta.models.image_stylization.image_stylization_transform
+        --output_dir=.
+        --output_basename=stylized
+    flags:
+      style:
+        description: Style to apply (monet or varied)
+        required: yes
+        options:
+          - value: monet
+            description: Use Monet style
+            args:
+              checkpoint: multistyle-pastiche-generator-monet.ckpt
+              num_styles: 10
+          - value: varied
+            description: Use varied style
+            args:
+              checkpoint: multistyle-pastiche-generator-varied.ckpt
+              num_styles: 32
+      image:
+        description: Image to stylize
+        required: yes
+        arg-name: input_image
+    requires:
+      - ${style}
+
+resources:
+  monet:
+    description: Pretrained model using Monet images
+    sources:
+      - url: http://download.magenta.tensorflow.org/models/multistyle-pastiche-generator-monet.ckpt
+        sha256: 7044c0a6cad9a2865a0aded7567be31437fd6dcc289a40df1efb5096d9a29d88
+  varied:
+    description: Pretrained model using varied images
+    sources:
+      - url: http://download.magenta.tensorflow.org/models/multistyle-pastiche-generator-varied.ckpt
+        sha256: f0de79e9b91e28e260873cf26cb68589179fe0519c6d1a86a4eb2d4aa5023083

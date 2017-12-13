@@ -1,0 +1,57 @@
+name: magenta-melody
+description: Applies language modeling to melody generation using an LSTM
+
+operations:
+  compose:
+    description: Compose melodies using one of three available pretrained models
+    cmd: magenta.models.melody_rnn.melody_rnn_generate --output_dir=.
+    flags:
+      config:
+        description: Model configuration (basic, lookback, or attention)
+        default: basic
+        options:
+          - value: basic
+            description: Use basic LSTM
+            args:
+              config: basic
+              bundle_file: basic_rnn.mag
+          - value: lookback
+            description: Use RNN with lookback
+            args:
+              config: lookback
+              bundle_file: lookback_rnn.mag
+          - value: attention
+            description: Use RNN with attention
+            args:
+              config: attention
+              bundle_file: attention_rnn.mag
+      outputs:
+        description: Number of melodies to generate
+        default: 10
+        arg-name: num_outputs
+      steps:
+        description: Melody length (16 steps = 1 bar)
+        default: 128
+      primer-melody:
+        description: Melody to prime the generator
+      primary-midi:
+        description: MIDI file used to prime the generator
+    requires:
+      - ${config}
+
+resources:
+  basic:
+    description: Pretrained melody LSTM
+    sources:
+      - url: http://download.magenta.tensorflow.org/models/basic_rnn.mag
+        sha256: 8726e7427cec1b1a507a8217242e0ffa117c53a4c8d7734fa904e33ee58436ff
+  lookback:
+    description: Pretrained melody RNN with lookback
+    sources:
+      - url: http://download.magenta.tensorflow.org/models/lookback_rnn.mag
+        sha256: d99de2ae9af9c9e229b0a6ba820b2fe9eef9a735343ecd2a0e41696fbe718736
+  attention:
+    description: Pretrained melody RNN with attention
+    sources:
+      - url: http://download.magenta.tensorflow.org/models/attention_rnn.mag
+        sha256: ef91c0bcd1c146fdd5cae09f82c8ea3fe2e9164bf782714ff84736ab86514d71

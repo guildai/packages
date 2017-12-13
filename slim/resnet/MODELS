@@ -79,7 +79,7 @@
       description: Pretrained ResNet-v2-152 model
       sources:
         - url: http://download.tensorflow.org/models/resnet_v2_152_2017_04_14.tar.gz
-          sha256: xxx
+          sha256: c3ec824f19b4919fc7d069dc3a2a9d0f045f35e843c563c4eeeefbedf4852867
 
 - name: slim-resnet-v2-200
   extends: slim-base

@@ -1,0 +1,22 @@
+name: magenta-sketch-rnn
+description: Generative model for vector drawings
+references:
+  - https://github.com/tensorflow/magenta/tree/master/magenta/models/sketch_rnn
+  - https://research.googleblog.com/2017/04/teaching-machines-to-draw.html
+  - https://arxiv.org/abs/1704.03477
+
+operations:
+  draw:
+    description: Generate a drawing from a trained model
+    cmd: draw
+
+resources:
+  xxx-some-models:
+    sources:
+      - url: http://download.magenta.tensorflow.org/models/sketch_rnn.zip
+        sha256: 57533272aaa3bc917251529c71c159c800c1c1030fe35af4ea6f36fce64b418c
+
+  xxx-some-data:
+    sources:
+      - url: http://github.com/hardmaru/sketch-rnn-datasets/raw/master/aaron_sheep/aaron_sheep.npz
+        sha256: xxx

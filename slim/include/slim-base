@@ -43,11 +43,13 @@ operations:
     cmd: >
       slim_op export_inference_graph \
         --model_name {{model_name}} \
+        --dataset_dir data \
         --output_file graph.pb
     flags:
       dataset: !load dataset-flag
     requires:
       - slim/lib
+      - slim-datasets:${dataset}
 
   freeze:
     description: Generate a {{model_label}} graph def with checkpoint weights

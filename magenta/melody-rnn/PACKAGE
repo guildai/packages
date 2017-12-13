@@ -1,0 +1,15 @@
+name: magenta.melody-rnn
+version: 0.1.0.dev1
+description: Melody generation using an LSTM from the Magenta project
+url: https://github.com/guildai/index/tree/master/magenta/image-stylize
+modelfile: https://github.com/guildai/index/tree/master/magenta/image-stylize/MODEL
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+requires: [pypi.magenta]
+license: Apache 2.0
+tags:
+  - magenta
+  - google
+  - brain
+  - music
+  - midi

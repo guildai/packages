@@ -7,10 +7,10 @@
       flags:
         epochs:
           description: Number of epochs to train
-          value: 20
+          default: 20
         batch-size:
           description: Training batch size
-          value: 128
+          default: 128
       requires:
         - script
         - keras.datasets/mnist-npz

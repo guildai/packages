@@ -1,4 +1,4 @@
-- name: mnist-common
+- name: mnist-base
   private: yes
   operations:
     train:
@@ -15,14 +15,14 @@
 
 - name: mnist-softmax
   description: Softmax regression classifier for MNIST
-  extends: mnist-common
+  extends: mnist-base
   params:
     model_desc: softmax regression
     train_cmd: softmax
 
 - name: mnist-cnn
   description: CNN classifier for MNIST
-  extends: mnist-common
+  extends: mnist-base
   params:
     model_desc: CNN
     train_cmd: cnn

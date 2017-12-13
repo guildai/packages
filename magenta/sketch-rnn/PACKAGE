@@ -1,0 +1,17 @@
+name: magenta.sketch-rnn
+version: 0.1.0.dev1
+description: A generative model for vector drawings from the Magenta project
+url: https://github.com/guildai/index/tree/master/magenta/sketch-rnn
+modelfile: https://github.com/guildai/index/tree/master/magenta/sketch-rnn/MODEL
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+requires: [pypi.magenta]
+license: Apache 2.0
+tags:
+  - magenta
+  - google
+  - brain
+  - art
+  - images
+  - model
+  - dataset
