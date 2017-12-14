@@ -1,5 +1,5 @@
 name: mnist
-version: 0.1.2.dev8
+version: 0.1.3.dev1
 description: CNN and softmax regression classifiers for MNIST digits
 url: https://github.com/guildai/index/tree/master/mnist
 modelfile: https://github.com/guildai/index/tree/master/mnist/MODELS
