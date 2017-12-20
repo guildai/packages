@@ -5,7 +5,7 @@ url: https://github.com/guildai/index/tree/master/magenta/sketch-rnn
 modelfile: https://github.com/guildai/index/tree/master/magenta/sketch-rnn/MODEL
 maintainer: Guild AI
 maintainer-email: packages@guild.ai
-requires: [pypi.magenta]
+requires: [pypi.magenta-gpu]
 license: Apache 2.0
 tags:
   - magenta
