@@ -104,10 +104,10 @@ operations:
 
 resources:
   trained-model:
-    description: Trained {{model_label}} model (train or fine-tune operation)
+    description: Trained {{model_label}} model (train operation)
     path: model
     sources:
-      - operation: train,fine-tune
+      - operation: train
         select: checkpoint|model\.ckpt.*
 
   export:

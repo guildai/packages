@@ -4,6 +4,11 @@ name: slim-resnet-v2
 extends: slim-fine-tunable
 private: yes
 
+references:
+  - https://github.com/tensorflow/models/blob/master/research/slim/nets/resnet_v2.py
+  - https://arxiv.org/abs/1512.03385
+  - https://arxiv.org/abs/1603.05027
+
 operations:
   evaluate:
     cmd: >

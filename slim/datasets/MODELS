@@ -5,7 +5,7 @@
       cmd: prepare --dataset_name mnist --dataset_dir data
       description: Prepare the MNIST dataset
       requires:
-        - slim/lib
+        - slim/models-lib
         - data
   resources:
     data:
@@ -28,7 +28,7 @@
       description: Prepare the CIFAR-10 dataset
       cmd: prepare --dataset_name cifar10 --dataset_dir data
       requires:
-        - slim/lib
+        - slim/models-lib
         - data
   resources:
     data:

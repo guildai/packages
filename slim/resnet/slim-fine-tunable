@@ -21,3 +21,11 @@ operations:
         - slim/lib
         - slim-datasets:${dataset}
         - checkpoint
+
+resources:
+  trained-model:
+    description: Trained {{model_label}} model (train or fine-tune operation)
+    path: model
+    sources:
+      - operation: train,fine-tune
+        select: checkpoint|model\.ckpt.*
