@@ -45,7 +45,7 @@
       description: Prepare the Flickr flowers dataset
       cmd: prepare --dataset_name flowers --dataset_dir data
       requires:
-        - slim/lib
+        - slim/models-lib
         - data
   resources:
     data:
@@ -69,4 +69,4 @@
           description: Number of shards to create
           value: 5
       requires:
-        - slim/lib
+        - slim/models-lib
