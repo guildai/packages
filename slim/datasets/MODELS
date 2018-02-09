@@ -60,7 +60,7 @@
   operations:
     prepare:
       description: Prepare a custom images dataset
-      cmd: prepare_images --output-dir data
+      cmd: prepare_custom --output-dir data
       flags:
         images:
           description: Directory containing images

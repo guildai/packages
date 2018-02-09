@@ -108,7 +108,11 @@ def _create_tfrecord(split_name, shard_id, filenames, shard_info,
             _status(
                 "\r>> Converting image %d/%d shard %d"
                 % (i + 1, len(filenames), shard_id))
-            _write_shard_file(filenames[i], reader, writer, sess, state)
+            try:
+                _write_shard_file(filenames[i], reader, writer, sess, state)
+            except:
+                sys.stderr.write("\nError converting %s\n" % filenames[i])
+                raise
         _status()
 
 def _shard_files_range(shard_id, shard_info, filenames):
