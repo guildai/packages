@@ -11,5 +11,5 @@ resources:
     description: TF-Slim models lib
     sources:
     - url: https://github.com/tensorflow/models/archive/b7edd6e3a4f4a3eb0dd2c028fcf9edcaf3274425.zip
-      sha256: xxx
+      sha256: ded86e859620bc4648ec6bb9475daf1c854765b15bf1bcf64aa783511574e5c8
       select: models-b7edd6e3a4f4a3eb0dd2c028fcf9edcaf3274425/research/slim
