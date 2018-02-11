@@ -1,0 +1,20 @@
+- name: quickdraw
+  description: >
+    RNN-based classifier for the Quick, Draw! data
+  operations:
+    train:
+      description: Train the RNN classifier
+      cmd: >
+        train_model
+          --training_data data/training.tfrecord-?????-of-?????
+          --eval_data data/eval.tfrecord-?????-of-?????
+          --classes_file data/training.tfrecord.classes
+          --model_dir .
+      requires: data
+  resources:
+    data:
+      description: Quick, Draw! dataset as TFRecord files
+      path: data
+      sources:
+        - url: http://download.tensorflow.org/data/quickdraw_tutorial_dataset_v1.tar.gz
+          sha256: c8f636ffbfeefa0ff3077f404e74f59f0f6ceca7203c0f3d47923fd5bf0fe2f2
