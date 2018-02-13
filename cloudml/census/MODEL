@@ -1,16 +1,13 @@
-- name: census-estimator
+- name: census-dnn
   description: Wide and deep classifier for census income data using TensorFlow estimators
   operations:
     train:
-      description: Train the model locally
+      description: Train the classifier locally
       cmd: >
         trainer/task
           --train-files census-data/adult.data.csv
           --eval-files census-data/adult.test.csv
           --job-dir .
-      requires:
-        - script
-        - cloudml.datasets/census
       flags:
         epochs:
           description: >
@@ -22,34 +19,29 @@
           arg-name: num-epochs
         train-batch-size:
           description: Batch size for training steps
-          value: 40
+          default: 40
         eval-batch-size:
           description: Batch size for evaluation steps
-          value: 40
+          default: 40
         embedding-size:
           description: Number of embedding dimensions for categorical columns
-          value: 8
+          default: 8
         first-layer-size:
           description: Number of nodes in the first layer of the DNN
-          value: 100
+          default: 100
         layers:
           description: Number of layers in the DNN
-          value: 4
+          default: 4
           arg-name: num-layers
         scale-factor:
           description: How quickly should the size of the layers in the DNN decay
-          value: 0.7
+          default: 0.7
         verbosity:
           description: >
             Log level (use DEBUG for more information)
 
             Values may be DEBUG, INFO, WARN, ERROR, or FATAL.
-          value: INFO
-        eval-delay-secs:
-          description: How long to wait before running first evaluation
-          value: 10
-        min-eval-frequency:
-          description: Minimum number of training steps between evaluations
+          default: INFO
         train-steps:
           description: >
             Steps to run the training job for
@@ -58,79 +50,43 @@
             training job will run indefinitely.
         eval-steps:
           description: Number of steps to run evalution for at each checkpoint
-          value: 100
+          default: 100
         export-format:
           description: >
             The input format of the exported SavedModel binary
 
             Values may be JSON, CSV, or EXAMPLE.
-          value: JSON
-    cloudml-train:
-      description: Train the model on Cloud ML Engine
-      cmd: >
-        @cloudml:train
-          --module-name trainer.task
-          --package-path trainer
-          --train-files ${job-dir}/census-data/adult.data.csv
-          --eval-files ${job-dir}/census-data/adult.test.csv
-      flags:
-        $include: census-estimator:train
-        bucket-name:
-          description: Name of bucket to use for run data storage
-          required: yes
-        region:
-          description: Region of the training job to submit
-          value: us-central1
-        job-name:
-          description: >
-            Name of training job
-
-            If not specified, Guild will generate a name based on the
-            run ID.
-        scale-tier:
-          description: >
-            Cloud ML resources allocated to a training job
-
-            Use STANDARD_1 for many workers and a few parameter servers.
-
-            Use PREMIUM_1 for a large number of workers with many
-            parameter servers.
-
-            Use BASIC_GPU for a single worker instance with a GPU.
-        config:
-          description: Path to the Cloud ML job configuration file
+          default: JSON
       requires:
-        - script
+        - trainer
         - cloudml.datasets/census
-    cloudml-deploy:
-      description: Deploy a trained model on Cloud ML Engine
-      cmd: '@cloudml:deploy'
+    cloudml-train:
+      description: Train the classifier in Cloud ML
+      plugin-op: cloudml-train
+    cloudml-hptune:
+      description: Tune model hyperparameters in Cloud ML
+      plugin-op: cloudml-hptune
       flags:
-        run:
-          description: Run ID to deploy (use 'guild runs list census estimator' for a list)
-          required: yes
-        bucket-name:
-          description: Name of bucket to use for uploaded model binaries (locally trained models only)
-        model-binaries:
-          description: Path to upload model binaries (locally trained models only)
-    cloudml-predict:
-      description: Send a prediction request to Cloud ML Engine
-      cmd: '@cloudml:predict'
-      flags:
-        run:
-          description: Deployment run ID to use for prediction
-          required: yes
-        instances:
-          description: File containing the instances to make predictions on
-          required: yes
-        instance-type:
-          description: Instance type ('json' or 'text') (if cannot be inferred from instances file name)
-        format:
-          description: Format of the prediction output
+        config:
+          description: Hyperparameter tuning configuration
+          default: hptuning_config.yaml
+      requires:
+        - hptuning-config
+  index:
+    scalar-map:
+      eval_census-eval/accuracy: val_acc
   resources:
-    script:
+    trainer:
+      description: Census trainer
       private: yes
       sources:
-        - url: https://github.com/GoogleCloudPlatform/cloudml-samples/archive/master.zip
-          sha256: 956a02e9f50562d7581b4c9590e72610d7f96d80b97b8963ea2626087b60a809
-          select: cloudml-samples-master/census/estimator/trainer
+        - url: https://github.com/GoogleCloudPlatform/cloudml-samples/archive/c272e9f3bf670404fb1570698d8808ab62f0fc9a.zip
+          sha256: 25b18e94e2ecbf6e74360f032267cbc733831823c6aa84f97d29258f73a72842
+          select: cloudml-samples-c272e9f3bf670404fb1570698d8808ab62f0fc9a/census/estimator/trainer
+    hptuning-config:
+      description: Default hyperparameter tuning configuration
+      private: yes
+      sources:
+        - url: https://github.com/GoogleCloudPlatform/cloudml-samples/archive/c272e9f3bf670404fb1570698d8808ab62f0fc9a.zip
+          sha256: 25b18e94e2ecbf6e74360f032267cbc733831823c6aa84f97d29258f73a72842
+          select: cloudml-samples-c272e9f3bf670404fb1570698d8808ab62f0fc9a/census/hptuning_config.yaml
