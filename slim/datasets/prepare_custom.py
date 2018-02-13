@@ -57,19 +57,19 @@ class ShardInfo(object):
 class ImageReader(object):
 
     def __init__(self):
-        self._decode_jpeg_data = tf.placeholder(dtype=tf.string)
-        self._decode_jpeg = tf.image.decode_jpeg(
-            self._decode_jpeg_data, channels=3)
+        self._data = tf.placeholder(dtype=tf.string)
+        self._decode = tf.image.decode_image(self._data, channels=3)
 
     def read_image_dims(self, sess, image_data):
-        image = self.decode_jpeg(sess, image_data)
+        image = self._decode_image(sess, image_data)
         return image.shape[0], image.shape[1]
 
-    def decode_jpeg(self, sess, image_data):
-        image = sess.run(
-            self._decode_jpeg,
-            feed_dict={self._decode_jpeg_data: image_data})
-        assert len(image.shape) == 3
+    def _decode_image(self, sess, image_data):
+        image = sess.run(self._decode, {self._data: image_data})
+        if len(image.shape) != 3:
+            raise AssertionError(
+                "expected image.shape length of 3, got %i"
+                % len(image.shape))
         assert image.shape[2] == 3
         return image
 
@@ -110,9 +110,8 @@ def _create_tfrecord(split_name, shard_id, filenames, shard_info,
                 % (i + 1, len(filenames), shard_id))
             try:
                 _write_shard_file(filenames[i], reader, writer, sess, state)
-            except:
-                sys.stderr.write("\nError converting %s\n" % filenames[i])
-                raise
+            except (tf.OpError, AssertionError) as e:
+                _error("Unable to convert %s" % filenames[i], e)
         _status()
 
 def _shard_files_range(shard_id, shard_info, filenames):
@@ -127,7 +126,7 @@ def _write_shard_file(filename, reader, writer, sess, state):
     class_id = state.class_id_map[class_name]
     _, ext = os.path.splitext(filename)
     example = dataset_utils.image_to_tfexample(
-        image_data, ext[1:], height, width, class_id)
+        image_data, ext[1:].encode("UTF-8"), height, width, class_id)
     writer.write(example.SerializeToString())
 
 def _record_filename(split_name, shard_id, shard_info, state):
@@ -149,6 +148,13 @@ def _write_splits(state):
 def _status(msg="\n"):
     sys.stdout.write(msg)
     sys.stdout.flush()
+
+def _error(msg, e):
+    sys.stdout.write("\n%s (see errors.log for details)\n" % msg)
+    with open("errors.log", "a") as f:
+        f.write(msg)
+        f.write("\n")
+        f.write(str(e))
 
 if __name__ == "__main__":
     main()
