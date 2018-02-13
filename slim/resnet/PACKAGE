@@ -1,5 +1,5 @@
 name: slim.resnet
-version: 0.1.0.dev5
+version: 0.2.0.dev1
 description: TF-Slim ResNet models (50, 101, 152, and 200 layer models for ResNet v1 and v2)
 url: https://github.com/guildai/index/tree/master/slim/resnet
 modelfile: https://github.com/guildai/index/tree/master/slim/resnet/MODELS
@@ -15,5 +15,6 @@ data-files:
   - slim-datasets
   - slim-fine-tunable
   - slim_op.py
+  - slim-resnet-v1
   - slim-resnet-v2
   - train-flags

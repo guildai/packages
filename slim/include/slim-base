@@ -15,7 +15,7 @@ operations:
         --dataset_dir data
     flags: !load train-flags
     requires:
-      - slim/lib
+      - slim/models-lib
       - slim-datasets:${dataset}
 
   evaluate:
@@ -34,7 +34,7 @@ operations:
         arg-name: max_num_batches
 
     requires:
-      - slim/lib
+      - slim/models-lib
       - slim-datasets:${dataset}
       - trained-model
 
@@ -48,7 +48,7 @@ operations:
     flags:
       dataset: !load dataset-flag
     requires:
-      - slim/lib
+      - slim/models-lib
       - slim-datasets:${dataset}
 
   freeze:
@@ -61,7 +61,7 @@ operations:
         --output_graph graph.pb \
         --output_node_names {{model_name}}/predictions/Reshape_1
     requires:
-      - slim/lib
+      - slim/models-lib
       - trained-model
       - export
 

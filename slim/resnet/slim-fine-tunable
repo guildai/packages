@@ -18,7 +18,7 @@ operations:
           --trainable_scopes {{model_name}}/logits
       flags: !load train-flags
       requires:
-        - slim/lib
+        - slim/models-lib
         - slim-datasets:${dataset}
         - checkpoint
 
