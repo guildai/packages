@@ -34,7 +34,7 @@
           default: 4
           arg-name: num-layers
         scale-factor:
-          description: How quickly should the size of the layers in the DNN decay
+          description: How quickly the size of the layers in the DNN decay
           default: 0.7
         verbosity:
           description: >
@@ -43,11 +43,8 @@
             Values may be DEBUG, INFO, WARN, ERROR, or FATAL.
           default: INFO
         train-steps:
-          description: >
-            Steps to run the training job for
-
-            If num-epochs is not specified, this must be otherwise the
-            training job will run indefinitely.
+          description: Steps to run the training job for
+          default: 1000
         eval-steps:
           description: Number of steps to run evalution for at each checkpoint
           default: 100
@@ -87,6 +84,4 @@
       description: Default hyperparameter tuning configuration
       private: yes
       sources:
-        - url: https://github.com/GoogleCloudPlatform/cloudml-samples/archive/c272e9f3bf670404fb1570698d8808ab62f0fc9a.zip
-          sha256: 25b18e94e2ecbf6e74360f032267cbc733831823c6aa84f97d29258f73a72842
-          select: cloudml-samples-c272e9f3bf670404fb1570698d8808ab62f0fc9a/census/hptuning_config.yaml
+        - hptuning_config.yaml
