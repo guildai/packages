@@ -69,9 +69,6 @@
           default: hptuning_config.yaml
       requires:
         - hptuning-config
-  index:
-    scalar-map:
-      eval_census-eval/accuracy: val_acc
   resources:
     trainer:
       description: Census trainer
@@ -85,3 +82,13 @@
       private: yes
       sources:
         - hptuning_config.yaml
+  extra:
+    scalar_map:
+      eval_census-eval/accuracy: val_acc
+      eval_census-eval/loss: loss
+    compare:
+      flags:
+        - train-steps
+        - layers
+        - first-layer-size
+        - scale-factor
