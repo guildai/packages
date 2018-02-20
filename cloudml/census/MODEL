@@ -69,6 +69,25 @@
           default: hptuning_config.yaml
       requires:
         - hptuning-config
+    cloudml-deploy:
+      description: Deploy a trained classifier in Cloud ML
+      plugin-op: cloudml-deploy
+    cloudml-predict:
+      description: Perform an online prediction using a model deployed in Cloud ML
+      plugin-op: cloudml-predict
+      flags:
+        instances:
+          default: sample-instances.json
+      requires:
+        - sample-instances
+    cloudml-batch-predict:
+      description: Submit a prediction job using a model deployed in Cloud ML
+      plugin-op: cloudml-batch-predict
+      flags:
+        instances:
+          default: sample-instances.json
+      requires:
+        - sample-instances
   resources:
     trainer:
       description: Census trainer
@@ -82,6 +101,11 @@
       private: yes
       sources:
         - hptuning_config.yaml
+    sample-instances:
+      description: Sample instances for prediction
+      private: yes
+      sources:
+        - sample-instances.json
   extra:
     scalar_map:
       eval_census-eval/accuracy: val_acc
