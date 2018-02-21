@@ -10,6 +10,11 @@
           --eval_data data/eval.tfrecord-?????-of-?????
           --classes_file data/training.tfrecord.classes
           --model_dir .
+      flags:
+        layers:
+          description: Numbrer of RNN layers
+          default: 3
+          arg-name: num-layers
       requires: data
   resources:
     data:
