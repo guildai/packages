@@ -77,17 +77,15 @@
       plugin-op: cloudml-predict
       flags:
         instances:
-          default: sample-instances.json
-      requires:
-        - sample-instances
+          description: Instances to use for prediction
+          default: prediction-samples.json
     cloudml-batch-predict:
       description: Submit a prediction job using a model deployed in Cloud ML
       plugin-op: cloudml-batch-predict
       flags:
         instances:
-          default: sample-instances.json
-      requires:
-        - sample-instances
+          description: Instances to use for prediction
+          default: prediction-samples.json
   resources:
     trainer:
       description: Census trainer
@@ -101,11 +99,6 @@
       private: yes
       sources:
         - hptuning_config.yaml
-    sample-instances:
-      description: Sample instances for prediction
-      private: yes
-      sources:
-        - sample-instances.json
   extra:
     scalar_map:
       eval_census-eval/accuracy: val_acc
