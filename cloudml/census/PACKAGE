@@ -8,3 +8,5 @@ maintainer-email: packages@guild.ai
 requires: [cloudml.datasets]
 license: Apache 2.0
 tags: [cloudml, census, estimators, model]
+data-files:
+  - prediction-samples.json
