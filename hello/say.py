@@ -2,7 +2,7 @@ import argparse
 import sys
 
 p = argparse.ArgumentParser()
-p.add_argument("--rundir")
+p.add_argument("--run-dir")
 p.add_argument("--message")
 p.add_argument("--file")
 p.add_argument("--file-output", action="store_true")

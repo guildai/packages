@@ -3,7 +3,7 @@
   operations:
     train:
       description: 'Train the {{model_desc}}'
-      cmd: '{{train_cmd}} --datadir mnist-idx-data --rundir .'
+      cmd: '{{train_cmd}} --data-dir mnist-idx-data --run-dir .'
       requires: mnist/dataset
       flags:
         batch-size:
