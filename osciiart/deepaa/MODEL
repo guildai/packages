@@ -4,51 +4,57 @@ operations:
   train:
     description: Train the CNN
     requires:
-      - deepaa-lib
+      - train-images
     cmd: train
 
   generate:
     description: Generate ASCII art
     requires:
-      - deepaa-lib
+      - deepaa-model
       - sample-images
-      - model-weights
     cmd: >
       generate
-        --model lib/model/model.json
-        --weights weight.hdf5
-        --char-list lib/data/char_list.csv
-        --char-dict lib/data/char_dict.pkl
+        --model model/model.json
+        --weights model/weight.hdf5
+        --char-list model/char_list.csv
+        --char-dict model/char_dict.p2
     flags:
+      slides:
+        description: Number of slides to generate
+        default: 5
       image:
-        description: Image used to generate ASCII art
-        default: 'samples/21 original.png'
+        description: Image to generate ASCII art from
+        default: 'images/samples/21 original.png'
+      image-width:
+        description: Width of image to generate (default is original image width)
 
 resources:
-  deepaa-lib:
+  deepaa-model:
     description: DeepAA software library
-    path: lib
+    path: model
     sources:
       - url: https://github.com/OsciiArt/DeepAA/archive/ce5d17a83b6c1b11b045ca04761bf197ab41645d.zip
         sha256: 834226ee964d99ae4378e56892d3297affc3b5349912ceb47e5974a760372923
-        select: DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/[^/]+
+        select:
+          - DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/train.py
+          - DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/data/char_list.csv
+          - DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/model/model.json
+      - url: https://s3-us-west-2.amazonaws.com/gpkg/osciiart/char_dict.p2
+        sha256: 55a3e8ff22c91fbf874a678934ccb9063793e2642646876b4fef9ca5f52590b1
+      - url: https://s3-us-west-2.amazonaws.com/gpkg/osciiart/weight.hdf5
+        sha256: 88560eaeb6fe42dc8882c67e8bdee4d9481121280132c2458e05287fd12e28dd
 
   sample-images:
     description: DeepAA sample images
-    path: samples
+    path: images/samples
     sources:
       - url: https://github.com/OsciiArt/DeepAA/archive/ce5d17a83b6c1b11b045ca04761bf197ab41645d.zip
         sha256: 834226ee964d99ae4378e56892d3297affc3b5349912ceb47e5974a760372923
-        select: DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/sample\ images/.+\.png
+        select: DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/sample\ images/.+original\.png
 
-  training-images:
+  train-images:
     description: Training images
+    path: images/train
     sources:
       - url: https://s3-us-west-2.amazonaws.com/gpkg/osciiart/image_500.zip
         sha256: xxx
-
-  model-weights:
-    description: Full model weights
-    sources:
-      - url: https://s3-us-west-2.amazonaws.com/gpkg/osciiart/weight.hdf5
-        sha256: 88560eaeb6fe42dc8882c67e8bdee4d9481121280132c2458e05287fd12e28dd
