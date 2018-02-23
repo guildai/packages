@@ -1,5 +1,6 @@
-keras
-pillow
 h5py
-pandas
+keras
 numpy
+pandas
+pillow
+sklearn

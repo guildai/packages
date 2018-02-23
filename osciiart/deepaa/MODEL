@@ -4,8 +4,9 @@ operations:
   train:
     description: Train the CNN
     requires:
-      - train-images
-    cmd: train
+      - train-script
+      - train-data
+    cmd: train_wrapper
 
   generate:
     description: Generate ASCII art
@@ -24,7 +25,7 @@ operations:
         default: 5
       image:
         description: Image to generate ASCII art from
-        default: 'images/samples/21 original.png'
+        default: 'samples/21 original.png'
       image-width:
         description: Width of image to generate (default is original image width)
 
@@ -36,7 +37,6 @@ resources:
       - url: https://github.com/OsciiArt/DeepAA/archive/ce5d17a83b6c1b11b045ca04761bf197ab41645d.zip
         sha256: 834226ee964d99ae4378e56892d3297affc3b5349912ceb47e5974a760372923
         select:
-          - DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/train.py
           - DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/data/char_list.csv
           - DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/model/model.json
       - url: https://s3-us-west-2.amazonaws.com/gpkg/osciiart/char_dict.p2
@@ -46,15 +46,27 @@ resources:
 
   sample-images:
     description: DeepAA sample images
-    path: images/samples
+    path: samples
     sources:
       - url: https://github.com/OsciiArt/DeepAA/archive/ce5d17a83b6c1b11b045ca04761bf197ab41645d.zip
         sha256: 834226ee964d99ae4378e56892d3297affc3b5349912ceb47e5974a760372923
         select: DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/sample\ images/.+original\.png
 
-  train-images:
+  train-script:
+    description: DeepAA training script
+    sources:
+      - url: https://github.com/OsciiArt/DeepAA/archive/ce5d17a83b6c1b11b045ca04761bf197ab41645d.zip
+        sha256: 834226ee964d99ae4378e56892d3297affc3b5349912ceb47e5974a760372923
+        select: DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/train.py
+
+  train-data:
     description: Training images
-    path: images/train
+    path: data
     sources:
       - url: https://s3-us-west-2.amazonaws.com/gpkg/osciiart/image_500.zip
-        sha256: xxx
+        sha256: 6cafb0d58ceb01cf48b562c1766df8c6f0c9de0bd0c73c29ce271d5b558cf930
+      - url: https://github.com/OsciiArt/DeepAA/archive/ce5d17a83b6c1b11b045ca04761bf197ab41645d.zip
+        sha256: 834226ee964d99ae4378e56892d3297affc3b5349912ceb47e5974a760372923
+        select:
+          - DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/data/char_list_500.csv
+          - DeepAA-ce5d17a83b6c1b11b045ca04761bf197ab41645d/data/data_500.csv

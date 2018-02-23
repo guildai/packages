@@ -11,5 +11,6 @@ requires:
   - pypi.numpy
   - pypi.pandas
   - pypi.pillow
+  - pypi.sklearn
 license: Apache 2.0
 tags: [keras, cnn, ascii art]
