@@ -1,0 +1,15 @@
+name: osciiart.deepaa
+version: 0.3.0.dev1
+description: CNN for generating ASCII art
+url: https://github.com/OsciiArt/DeepAA
+modelfile: https://github.com/guildai/packages/tree/master/osciiart/deepaa/MODEL
+maintainer: Guild AI
+maintainer-email: packages@guild.ai
+requires:
+  - pypi.h5py
+  - pypi.keras
+  - pypi.numpy
+  - pypi.pandas
+  - pypi.pillow
+license: Apache 2.0
+tags: [keras, cnn, ascii art]
