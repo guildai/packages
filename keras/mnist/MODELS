@@ -3,7 +3,7 @@
   operations:
     train:
       description: Train the MLP
-      cmd: guild.plugins.keras_op_main train mnist_mlp.py --datasets=mnist-npz-data
+      cmd: guild.plugins.keras_op_main train mnist_mlp.py
       flags:
         epochs:
           description: Number of epochs to train

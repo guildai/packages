@@ -5,6 +5,7 @@ url: https://github.com/guildai/index/tree/master/keras/mnist
 modelfile: https://github.com/guildai/index/tree/master/keras/mnist/MODELS
 maintainer: Guild AI
 maintainer-email: packages@guild.ai
-requires: [pypi.keras, keras.datasets]
+requires:
+  - pypi.keras
 license: Apache 2.0
 tags: [mnist, keras, images, model]
