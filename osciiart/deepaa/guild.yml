@@ -7,6 +7,10 @@ operations:
       - train-script
       - train-data
     cmd: train_wrapper
+    flags:
+      epochs:
+        description: Number of epochs to train
+        default: 256
 
   generate:
     description: Generate ASCII art
