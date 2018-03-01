@@ -1,5 +1,4 @@
-- name: mnist-base
-  private: yes
+- config: mnist-base
   operations:
     train:
       description: 'Train the {{model_desc}}'
@@ -13,14 +12,14 @@
           description: Number of epochs to train
           default: 10
 
-- name: mnist-softmax
+- model: mnist-softmax
   description: Softmax regression classifier for MNIST
   extends: mnist-base
   params:
     model_desc: softmax regression
     train_cmd: softmax
 
-- name: mnist-cnn
+- model: mnist-cnn
   description: CNN classifier for MNIST
   extends: mnist-base
   params:

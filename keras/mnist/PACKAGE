@@ -1,5 +1,5 @@
 name: keras.mnist
-version: 0.3.0.dev4
+version: 0.3.0.dev5
 description: MNIST related models in Keras
 url: https://github.com/guildai/index/tree/master/keras/mnist
 modelfile: https://github.com/guildai/index/tree/master/keras/mnist/MODELS
