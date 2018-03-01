@@ -1,4 +1,4 @@
-name: magenta-image-stylize
+model: magenta-image-stylize
 description: Implementation of the paper A Learned Representation for Artistic Style
 
 operations:

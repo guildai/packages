@@ -1,4 +1,4 @@
-name: deepaa
+model: deepaa
 description: CNN for generating ASCII art
 operations:
   train:

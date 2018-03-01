@@ -1,4 +1,4 @@
-- name: quickdraw
+- model: quickdraw
   description: >
     RNN-based classifier for the Quick, Draw! data
   operations:

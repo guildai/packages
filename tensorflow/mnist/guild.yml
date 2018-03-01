@@ -1,4 +1,4 @@
-name: estimator-mnist
+model: estimator-mnist
 description: CNN estimator for MNIST using tf.estimator.Estimator
 operations:
   prepare:

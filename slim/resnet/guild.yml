@@ -2,9 +2,8 @@
 - !load slim-fine-tunable
 - !load slim-resnet-v1
 - !load slim-resnet-v2
-- !load slim-datasets
 
-- name: slim-resnet-50
+- model: slim-resnet-50
   extends: slim-resnet-v1
   params:
     model_name: resnet_v1_50
@@ -16,7 +15,7 @@
         - url: http://download.tensorflow.org/models/resnet_v1_50_2016_08_28.tar.gz
           sha256: 91a0dc25289e7ef648df304b15f06c43ce6f4446d08eb0168479dd2295101c73
 
-- name: slim-resnet-101
+- model: slim-resnet-101
   extends: slim-resnet-v1
   params:
     model_name: resnet_v1_101
@@ -28,7 +27,7 @@
         - url: http://download.tensorflow.org/models/resnet_v1_101_2016_08_28.tar.gz
           sha256: 5d813fcf5e56e7c9c2483d73b46644394cdbb31f9f4bf7140fb2809f7aa11a19
 
-- name: slim-resnet-152
+- model: slim-resnet-152
   extends: slim-resnet-v1
   params:
     model_name: resnet_v1_152
@@ -40,13 +39,13 @@
         - url: http://download.tensorflow.org/models/resnet_v1_152_2016_08_28.tar.gz
           sha256: c89b549ada486d9c0db6d90e874a1a652d899f9b541ae9c430fee8251572181d
 
-- name: slim-resnet-200
+- model: slim-resnet-200
   extends: slim-resnet-v1
   params:
     model_name: resnet_v1_200
     model_label: ResNet-200
 
-- name: slim-resnet-v2-50
+- model: slim-resnet-v2-50
   extends: slim-resnet-v2
   params:
     model_name: resnet_v2_50
@@ -58,7 +57,7 @@
         - url: http://download.tensorflow.org/models/resnet_v2_50_2017_04_14.tar.gz
           sha256: 2c5c3a852526d0d6e8a35829d4e50533468baaed834a0046ba430e80982ed57c
 
-- name: slim-resnet-v2-101
+- model: slim-resnet-v2-101
   extends: slim-resnet-v2
   params:
     model_name: resnet_v2_101
@@ -70,7 +69,7 @@
         - url: http://download.tensorflow.org/models/resnet_v2_101_2017_04_14.tar.gz
           sha256: xxx
 
-- name: slim-resnet-v2-152
+- model: slim-resnet-v2-152
   extends: slim-resnet-v2
   params:
     model_name: resnet_v2_152
@@ -82,7 +81,7 @@
         - url: http://download.tensorflow.org/models/resnet_v2_152_2017_04_14.tar.gz
           sha256: c3ec824f19b4919fc7d069dc3a2a9d0f045f35e843c563c4eeeefbedf4852867
 
-- name: slim-resnet-v2-200
+- model: slim-resnet-v2-200
   extends: slim-base
   params:
     model_name: resnet_v2_200

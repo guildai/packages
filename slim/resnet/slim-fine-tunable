@@ -1,8 +1,7 @@
 # -*-yaml-*-
 
-name: slim-fine-tunable
+config: slim-fine-tunable
 extends: slim-base
-private: yes
 
 operations:
   fine-tune:

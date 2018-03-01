@@ -1,4 +1,4 @@
-name: magenta-sketch-rnn
+model: magenta-sketch-rnn
 description: Generative model for vector drawings
 references:
   - https://github.com/tensorflow/magenta/tree/master/magenta/models/sketch_rnn

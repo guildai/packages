@@ -1,4 +1,4 @@
-name: magenta-arbitrary-stylize
+model: magenta-arbitrary-stylize
 description: Fast artistic style transfer using arbitrary painting styles
 operations:
   stylize:

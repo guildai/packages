@@ -1,4 +1,4 @@
-name: estimator-wide-deep
+model: estimator-wide-deep
 description: Wide and deep classifier of Census Income Data Set
 operations:
   prepare:

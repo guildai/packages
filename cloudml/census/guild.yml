@@ -1,4 +1,4 @@
-- name: census-dnn
+- model: census-dnn
   description: Wide and deep classifier for census income data using TensorFlow estimators
   operations:
     train:

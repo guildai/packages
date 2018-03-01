@@ -1,8 +1,7 @@
 # -*-yaml-*-
 
-name: slim-base
+config: slim-base
 description: '{{model_label}} classifier for TF-Slim'
-private: yes
 
 operations:
   train:
@@ -16,7 +15,7 @@ operations:
     flags: !load train-flags
     requires:
       - slim/models-lib
-      - slim-datasets:${dataset}
+      - ${dataset}
 
   evaluate:
     description: Evaluate a trained {{model_label}} model
@@ -35,7 +34,7 @@ operations:
 
     requires:
       - slim/models-lib
-      - slim-datasets:${dataset}
+      - ${dataset}
       - trained-model
 
   export:
@@ -49,7 +48,7 @@ operations:
       dataset: !load dataset-flag
     requires:
       - slim/models-lib
-      - slim-datasets:${dataset}
+      - ${dataset}
 
   freeze:
     description: Generate a {{model_label}} graph def with checkpoint weights
@@ -99,7 +98,7 @@ operations:
               input-std: 255
           - value: custom
     requires:
-      - slim-datasets:${dataset}
+      - ${dataset}
       - frozen-model
 
 resources:
@@ -122,3 +121,28 @@ resources:
     sources:
       - operation: freeze
         select: graph.pb
+
+resources:
+  cifar10:
+    description: Prepared CIFAR-10 dataset (slim-cifar10:prepare operation)
+    sources:
+      - operation: slim-cifar10:prepare
+        select: data
+
+  mnist:
+    description: Prepared MNIST dataset (slim-mnist:prepare operation)
+    sources:
+      - operation: slim-mnist:prepare
+        select: data
+
+  flowers:
+    description: Prepared Flowers dataset (slim-flowers:prepare operation)
+    sources:
+      - operation: slim-flowers:prepare
+        select: data
+
+  custom:
+    description: Prepared custom dataset (slim-custom:prepare operation)
+    sources:
+      - operation: slim-custom-images:prepare
+        select: data

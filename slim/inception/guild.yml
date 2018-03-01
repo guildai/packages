@@ -1,4 +1,4 @@
-- name: slim-inception-v1
+- model: slim-inception-v1
   description: Inception v1 classifier in TF-Slim
   operations:
     train:
@@ -37,7 +37,7 @@
         - url: http://download.tensorflow.org/models/inception_v1_2016_08_28.tar.gz
           sha256: 7a620c430fcaba8f8f716241f5148c4c47c035cce4e49ef02cfbe6cd1adf96a6
 
-- name: slim-inception-v2
+- model: slim-inception-v2
   description: Inception v2 classifier in TF-Slim
   operations:
     train:
@@ -76,7 +76,7 @@
         - url: http://download.tensorflow.org/models/inception_v2_2016_08_28.tar.gz
           sha256: 3b9d269984402003d8330affc4e1463c0b4cfd536339ad12446a48d72477480a
 
-- name: slim-inception-v3
+- model: slim-inception-v3
   description: Inception v3 classifier in TF-Slim
   operations:
     train:
@@ -115,7 +115,7 @@
         - url: http://download.tensorflow.org/models/inception_v3_2016_08_28.tar.gz
           sha256: 9430692d3002277fa1e1a94fb82331fe5da68b9afd725c2679c21a0319933228
 
-- name: slim-inception-v4
+- model: slim-inception-v4
   description: Inception v4 classifier in TF-Slim
   operations:
     train:
@@ -154,7 +154,7 @@
         - url: http://download.tensorflow.org/models/inception_v4_2016_09_09.tar.gz
           sha256: 272a2b24f68b2e51f3081479df075dd62b019ccda630e998fb7f6cf314c0f304
 
-- name: slim-inception-resnet-v2
+- model: slim-inception-resnet-v2
   description: Inception ResNet v2 classifier in TF-Slim
   operations:
     train:
