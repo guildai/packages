@@ -1,3 +1,15 @@
+- package: keras.mnist
+  version: 0.3.0.dev6
+  description: MNIST related models in Keras
+  url: https://github.com/guildai/index/tree/master/keras/mnist
+  modelfile: https://github.com/guildai/index/tree/master/keras/mnist/MODELS
+  maintainer: Guild AI
+  maintainer-email: packages@guild.ai
+  requires:
+    - pypi.keras
+  license: Apache 2.0
+  tags: [mnist, keras, images, model]
+
 - model: mnist-mlp
   description: Multilayer perceptron (MLP) classifier for MNIST in Keras
   operations:
