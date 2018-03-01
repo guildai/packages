@@ -13,7 +13,6 @@
           default: 128
       requires:
         - script
-        - keras.datasets/mnist-npz
   resources:
     script:
       private: yes
