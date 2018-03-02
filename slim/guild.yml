@@ -1,5 +1,5 @@
 - package: slim
-  version: 0.3.0.dev2
+  version: 0.3.0.dev3
   description: TF-Slim models library
   url: https://github.com/guildai/index/tree/master/slim
   maintainer: Guild AI

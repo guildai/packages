@@ -1,5 +1,5 @@
 - package: hello
-  version: 0.3.0.dev5
+  version: 0.3.0.dev6
   description: Example "hello world" model
   url: https://github.com/guildai/index/tree/master/hello
   maintainer: Guild AI
@@ -25,7 +25,7 @@
       description: >
         Print a default message
 
-        This operation doesn\'t support a user-defined message. Use the
+        This operation doesn't support a user-defined message. Use the
         from-flag operation with the 'message' flag to print an
         alternative message.
 
