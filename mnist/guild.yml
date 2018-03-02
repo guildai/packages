@@ -1,5 +1,5 @@
 - package: mnist
-  version: 0.3.0.dev5
+  version: 0.3.0.dev6
   description: CNN and softmax regression classifiers for MNIST digits
   url: https://github.com/guildai/index/tree/master/mnist
   modelfile: https://github.com/guildai/index/tree/master/mnist/MODELS

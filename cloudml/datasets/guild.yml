@@ -1,5 +1,5 @@
 package: cloudml.datasets
-version: 0.3.0.dev2
+version: 0.3.0.dev3
 description: Cloud ML datasets
 url: https://github.com/guildai/index/tree/master/cloudml/datasets
 maintainer: Guild AI
