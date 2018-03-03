@@ -209,9 +209,12 @@
           --checkpoint_path {{model_name}}.ckpt
           --checkpoint_exclude_scopes {{model_name}}/logits
           --trainable_scopes {{model_name}}/logits
+      flags:
+        $include: dataset-support
       requires:
         - slim/models-lib
-        - slim-datasets:${dataset}
+        - ${dataset}
+        # 'checkpoint' resource must be defined by model
         - checkpoint
   resources:
     trained-model:
