@@ -1,28 +1,24 @@
+- include: ../shared.yml
+
 - package: slim.resnet
-  version: 0.3.0.dev3
+  version: 0.3.0.dev5
   description: TF-Slim ResNet models (50, 101, 152, and 200 layer models for ResNet v1 and v2)
   url: https://github.com/guildai/index/tree/master/slim/resnet
   modelfile: https://github.com/guildai/index/tree/master/slim/resnet/MODELS
   maintainer: Guild AI
   maintainer-email: packages@guild.ai
-  requires: [slim.datasets]
+  requires:
+    - slim
+    - slim.datasets
   license: Apache 2.0
   tags: [resnet, images, model]
-  data-files:
-    - dataset-flag
-    - label_image.py
-    - slim-base
-    - slim-datasets
-    - slim-fine-tunable
-    - slim_op.py
-    - slim-resnet-v1
-    - slim-resnet-v2
-    - train-flags
 
-- !load slim-base
-- !load slim-fine-tunable
-- !load slim-resnet-v1
-- !load slim-resnet-v2
+- config: slim-resnet-v1
+  extends: slim-finetunable
+  references:
+    - https://github.com/tensorflow/models/blob/master/research/slim/nets/resnet_v1.py
+    - https://arxiv.org/abs/1512.03385
+    - https://arxiv.org/abs/1603.05027
 
 - model: slim-resnet-50
   extends: slim-resnet-v1
@@ -52,7 +48,7 @@
   extends: slim-resnet-v1
   params:
     model_name: resnet_v1_152
-    model_label: ResNet-1152
+    model_label: ResNet-152
   resources:
     checkpoint:
       description: Pretrained ResNet-152 model
@@ -65,6 +61,25 @@
   params:
     model_name: resnet_v1_200
     model_label: ResNet-200
+
+- config: slim-resnet-v2
+  extends: slim-finetunable
+  references:
+    - https://github.com/tensorflow/models/blob/master/research/slim/nets/resnet_v2.py
+    - https://arxiv.org/abs/1512.03385
+    - https://arxiv.org/abs/1603.05027
+  operations:
+    evaluate:
+      description: Evaluate a {{model_label}} model
+      cmd: >
+        slim_op eval_image_classifier \
+          --model_name {{model_name}} \
+          --eval_dir . \
+          --dataset_split_name validation \
+          --dataset_dir data \
+          --checkpoint_path model \
+          --preprocessing_name inception \
+          --eval_image_size 299
 
 - model: slim-resnet-v2-50
   extends: slim-resnet-v2
@@ -103,7 +118,7 @@
           sha256: c3ec824f19b4919fc7d069dc3a2a9d0f045f35e843c563c4eeeefbedf4852867
 
 - model: slim-resnet-v2-200
-  extends: slim-base
+  extends: slim-image-classifier
   params:
     model_name: resnet_v2_200
     model_label: ResNet-v2-200

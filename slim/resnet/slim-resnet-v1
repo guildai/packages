@@ -1,9 +1,0 @@
-# -*-yaml-*-
-
-config: slim-resnet-v1
-extends: slim-fine-tunable
-
-references:
-  - https://github.com/tensorflow/models/blob/master/research/slim/nets/resnet_v1.py
-  - https://arxiv.org/abs/1512.03385
-  - https://arxiv.org/abs/1603.05027

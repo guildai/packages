@@ -1,0 +1,224 @@
+- config: dataset-support
+  flags:
+    dataset:
+      description: Dataset to train with (cifar10, mnist, flowers, custom)
+      required: yes
+      choices:
+        - value: cifar10
+          description: CIFAR-10 images
+        - value: minst
+          description: MNIST digits images
+        - value: flowers
+          description: Flickr sample flower images
+        - value: custom
+          description: Image dataset prepared using slim-custom-images:prepare
+      arg-name: dataset_name
+
+- config: slim-image-classifier
+  description: '{{model_label}} classifier for TF-Slim'
+  operations:
+    train:
+      description: Train a {{model_label}} model
+      cmd: >
+        gpkg/slim/slim_op train_image_classifier
+          --model_name {{model_name}}
+          --train_dir .
+          --dataset_split_name train
+          --dataset_dir data
+      flags:
+        $include: dataset-support
+        max-steps:
+          description: Maximum number of training steps
+          default: 1000
+          arg-name: max_number_of_steps
+        batch-size:
+          description: Number of samples in each batch
+          default: 32
+          arg-name: batch_size
+        learning-rate:
+          description: Initial learning rate
+          default: 0.01
+          arg-name: learning_rate
+        learning-rate-decay-type:
+          default: exponential
+          description: How the learning rate is decayed
+          default: exponential
+          choices:
+            - fixed
+            - exponential
+            - polynomial
+          arg-name: learning_rate_decay_type
+        weight-decay:
+          description: Weight decay on the model weights
+          default: 0.00004
+          arg-name: weight_decay
+        optimizer:
+          description: Training optimizer (adadelta, adagrad, adam, ftrl, momentum, sgd, rmsprop)
+          default: rmsprop
+          choices:
+            - adadelta
+            - adagrad
+            - adam
+            - ftrl
+            - momentum
+            - sgd
+            - rmsprop
+        log-every-n-steps:
+          description: Steps between status updates
+          default: 100
+          arg-name: log_every_n_steps
+        save-summaries-secs:
+          description: Seconds between summary saves
+          default: 60
+          arg-name: save_summaries_secs
+        save-model-secs:
+          description: Seconds between model saves
+          default: 60
+          arg-name: save_interval_secs
+      requires:
+        - slim/models-lib
+        - ${dataset}
+    evaluate:
+      description: Evaluate a trained {{model_label}} model
+      cmd: >
+        slim_op eval_image_classifier
+          --model_name {{model_name}}
+          --eval_dir .
+          --dataset_split_name validation
+          --dataset_dir data
+          --checkpoint_path model
+      flags:
+        $include: dataset-support
+        max-batches:
+          description: Maximum number of batches to evaluate (default is all)
+          arg-name: max_num_batches
+      requires:
+        - slim/models-lib
+        - ${dataset}
+        - trained-model
+    export:
+      description: Generate a {{model_label}} graph def
+      cmd: >
+        slim_op export_inference_graph
+          --model_name {{model_name}}
+          --dataset_dir data
+          --output_file graph.pb
+      flags:
+        $include: dataset-support
+      requires:
+        - slim/models-lib
+        - ${dataset}
+    freeze:
+      description: Generate a {{model_label}} graph def with checkpoint weights
+      cmd: >
+        slim_op tensorflow/python/tools/freeze_graph
+          --input_graph export/graph.pb
+          --input_checkpoint model/model.ckpt
+          --input_binary true
+          --output_graph graph.pb
+          --output_node_names {{model_name}}/predictions/Reshape_1
+      requires:
+        - slim/models-lib
+        - trained-model
+        - export
+    predict:
+      description: Use TensorFlow label_image and {{model_label}} to classify an image
+      cmd: >
+        label_image
+          --graph graph.pb
+          --labels data/labels.txt
+          --output-layer {{model_name}}/predictions/Reshape_1
+      flags:
+        label-image-bin:
+          description: Path to the TensorFlow label_image program
+          default: label_image
+        image:
+          description: Path to the input image
+          required: yes
+        input-mean:
+          description: Image mean to apply to the image
+          default: 0.0
+        input-std:
+          description: Image std deviation to apply to the image
+          default: 1.0
+        dataset:
+          description: Dataset name to use for labels and image transformation
+          required: yes
+          arg-skip: yes
+          choices:
+            - cifar10
+            - minst
+            - flowers
+            - value: imagenet
+              args:
+                input-mean: 0.0
+                input-std: 255
+            - custom
+      requires:
+        - ${dataset}
+        - frozen-model
+
+  resources:
+    trained-model:
+      description: Trained {{model_label}} model (train operation)
+      path: model
+      sources:
+        - operation: train
+          select: checkpoint|model\.ckpt.*
+    export:
+      description: Exported {{model_label}} graph def from export operation
+      path: export
+      sources:
+        - operation: export
+          select: graph.pb
+    frozen-model:
+      description: Frozen {{model_label}} graph with weights
+      sources:
+        - operation: freeze
+          select: graph.pb
+    cifar10:
+      description: Prepared CIFAR-10 dataset (slim-cifar10:prepare operation)
+      sources:
+        - operation: slim-cifar10:prepare
+          select: data
+    mnist:
+      description: Prepared MNIST dataset (slim-mnist:prepare operation)
+      sources:
+        - operation: slim-mnist:prepare
+          select: data
+    flowers:
+      description: Prepared Flowers dataset (slim-flowers:prepare operation)
+      sources:
+        - operation: slim-flowers:prepare
+          select: data
+    custom:
+      description: Prepared custom dataset (slim-custom:prepare operation)
+      sources:
+        - operation: slim-custom-images:prepare
+          select: data
+
+- config: slim-finetunable
+  extends: slim-image-classifier
+  operations:
+    finetune:
+      description: Fine tune a {{model_label}} model
+      cmd: >
+        slim_op train_image_classifier
+          --model_name {{model_name}}
+          --train_dir .
+          --dataset_split_name train
+          --dataset_dir data
+          --checkpoint_path {{model_name}}.ckpt
+          --checkpoint_exclude_scopes {{model_name}}/logits
+          --trainable_scopes {{model_name}}/logits
+      requires:
+        - slim/models-lib
+        - slim-datasets:${dataset}
+        - checkpoint
+  resources:
+    trained-model:
+      description: Trained {{model_label}} model (train or finetune operation)
+      path: model
+      sources:
+        - operation: train,finetune
+          select: checkpoint|model\.ckpt.*
