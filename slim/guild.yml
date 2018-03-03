@@ -1,5 +1,5 @@
 - package: slim
-  version: 0.3.0.dev8
+  version: 0.3.0.dev9
   description: TF-Slim models library
   url: https://github.com/guildai/index/tree/master/slim
   maintainer: Guild AI
@@ -20,6 +20,5 @@
         - url: http://pub.guild.ai/tensorflow/label_image-linux_x86_64.tar.gz
           sha256: d83131dfe3ecf55fb8681736fb09e81e50f4dd2d42c7894763f363b275484fb1
         - file: label_image.py
-
   data-files:
     - shared.yml

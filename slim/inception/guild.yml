@@ -1,7 +1,7 @@
 - include: ../shared.yml
 
 - package: slim.inception
-  version: 0.3.0.dev1
+  version: 0.3.0.dev9
   description: TF-Slim Inception models (v1, v2, v3, v4, and Inception ResNet v2)
   url: https://github.com/guildai/index/tree/master/slim/inception
   maintainer: Guild AI

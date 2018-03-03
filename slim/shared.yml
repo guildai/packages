@@ -14,6 +14,57 @@
           description: Image dataset prepared using slim-custom-images:prepare
       arg-name: dataset_name
 
+- config: train-support
+  flags:
+    max-steps:
+      description: Maximum number of training steps
+      default: 1000
+      arg-name: max_number_of_steps
+    batch-size:
+      description: Number of samples in each batch
+      default: 32
+      arg-name: batch_size
+    learning-rate:
+      description: Initial learning rate
+      default: 0.01
+      arg-name: learning_rate
+    learning-rate-decay-type:
+      default: exponential
+      description: How the learning rate is decayed
+      default: exponential
+      choices:
+        - fixed
+        - exponential
+        - polynomial
+      arg-name: learning_rate_decay_type
+    weight-decay:
+      description: Weight decay on the model weights
+      default: 0.00004
+      arg-name: weight_decay
+    optimizer:
+      description: Training optimizer (adadelta, adagrad, adam, ftrl, momentum, sgd, rmsprop)
+      default: rmsprop
+      choices:
+        - adadelta
+        - adagrad
+        - adam
+        - ftrl
+        - momentum
+        - sgd
+        - rmsprop
+    log-every-n-steps:
+      description: Steps between status updates
+      default: 100
+      arg-name: log_every_n_steps
+    save-summaries-secs:
+      description: Seconds between summary saves
+      default: 60
+      arg-name: save_summaries_secs
+    save-model-secs:
+      description: Seconds between model saves
+      default: 60
+      arg-name: save_interval_secs
+
 - config: slim-image-classifier
   description: '{{model_label}} classifier for TF-Slim'
   operations:
@@ -26,55 +77,9 @@
           --dataset_split_name train
           --dataset_dir data
       flags:
-        $include: dataset-support
-        max-steps:
-          description: Maximum number of training steps
-          default: 1000
-          arg-name: max_number_of_steps
-        batch-size:
-          description: Number of samples in each batch
-          default: 32
-          arg-name: batch_size
-        learning-rate:
-          description: Initial learning rate
-          default: 0.01
-          arg-name: learning_rate
-        learning-rate-decay-type:
-          default: exponential
-          description: How the learning rate is decayed
-          default: exponential
-          choices:
-            - fixed
-            - exponential
-            - polynomial
-          arg-name: learning_rate_decay_type
-        weight-decay:
-          description: Weight decay on the model weights
-          default: 0.00004
-          arg-name: weight_decay
-        optimizer:
-          description: Training optimizer (adadelta, adagrad, adam, ftrl, momentum, sgd, rmsprop)
-          default: rmsprop
-          choices:
-            - adadelta
-            - adagrad
-            - adam
-            - ftrl
-            - momentum
-            - sgd
-            - rmsprop
-        log-every-n-steps:
-          description: Steps between status updates
-          default: 100
-          arg-name: log_every_n_steps
-        save-summaries-secs:
-          description: Seconds between summary saves
-          default: 60
-          arg-name: save_summaries_secs
-        save-model-secs:
-          description: Seconds between model saves
-          default: 60
-          arg-name: save_interval_secs
+        $include:
+          - dataset-support
+          - train-support
       requires:
         - slim/models-lib
         - ${dataset}
@@ -155,7 +160,6 @@
         - slim/label-image
         - ${dataset}
         - frozen-model
-
   resources:
     trained-model:
       description: Trained {{model_label}} model (train operation)
@@ -210,7 +214,9 @@
           --checkpoint_exclude_scopes {{model_name}}/logits
           --trainable_scopes {{model_name}}/logits
       flags:
-        $include: dataset-support
+        $include:
+          - dataset-support
+          - train-support
       requires:
         - slim/models-lib
         - ${dataset}
