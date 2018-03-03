@@ -129,9 +129,6 @@
           --labels data/labels.txt
           --output-layer {{model_name}}/predictions/Reshape_1
       flags:
-        label-image-bin:
-          description: Path to the TensorFlow label_image program
-          default: label_image
         image:
           description: Path to the input image
           required: yes
@@ -155,6 +152,7 @@
                 input-std: 255
             - custom
       requires:
+        - slim/label-image
         - ${dataset}
         - frozen-model
 
