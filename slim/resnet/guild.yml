@@ -8,8 +8,8 @@
   maintainer: Guild AI
   maintainer-email: packages@guild.ai
   requires:
-    - slim
-    - slim.datasets
+    - slim>=0.3.0.dev6
+    - slim.datasets>=0.3.0
   license: Apache 2.0
   tags: [resnet, images, model]
 
