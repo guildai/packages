@@ -165,7 +165,7 @@
       description: Trained {{model_label}} model (train operation)
       path: model
       sources:
-        - operation: train
+        - operation: train,finetune
           select: checkpoint|model\.ckpt.*
     export:
       description: Exported {{model_label}} graph def from export operation
@@ -200,7 +200,6 @@
           select: data
 
 - config: slim-finetunable
-  extends: slim-image-classifier
   operations:
     finetune:
       description: Fine tune a {{model_label}} model
@@ -211,8 +210,8 @@
           --dataset_split_name train
           --dataset_dir data
           --checkpoint_path {{model_name}}.ckpt
-          --checkpoint_exclude_scopes {{model_name}}/logits
-          --trainable_scopes {{model_name}}/logits
+          --checkpoint_exclude_scopes {{checkpoint_exclude_scopes}}
+          --trainable_scopes {{trainable_scopes}}
       flags:
         $include:
           - dataset-support
