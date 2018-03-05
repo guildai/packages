@@ -1,3 +1,7 @@
+# ===================================================================
+# keras.mnist package
+# ===================================================================
+
 - package: keras.mnist
   version: 0.3.0.dev6
   description: MNIST related models in Keras
@@ -9,6 +13,10 @@
     - pypi.keras
   license: Apache 2.0
   tags: [mnist, keras, images, model]
+
+# -------------------------------------------------------------------
+# base config
+# -------------------------------------------------------------------
 
 - config: base
   operations:
@@ -31,6 +39,10 @@
         - url: https://raw.githubusercontent.com/keras-team/keras/458ede12641a2089f7d1a233ff0753e7d676a45d/examples/{{script}}
           sha256: '{{script_hash}}'
 
+# -------------------------------------------------------------------
+# mnist-mlp
+# -------------------------------------------------------------------
+
 - model: mnist-mlp
   description:
     Multilayer perceptron (MLP) classifier for MNIST in Keras
@@ -43,6 +55,10 @@
     script_hash: 96120c3681b330eae8e82ab25379cd71f5b5704d0fb64666b2c3f52872ef8b0b
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py
+
+# -------------------------------------------------------------------
+# mnist-acgan
+# -------------------------------------------------------------------
 
 - model: mnist-acgan
   description:
@@ -69,6 +85,10 @@
     - https://github.com/keras-team/keras/blob/master/examples/mnist_acgan.py
     - https://arxiv.org/abs/1511.06434
 
+# -------------------------------------------------------------------
+# mnist-cnn
+# -------------------------------------------------------------------
+
 - model: mnist-cnn
   description:
     Convolutional neural network (CNN) classifier for MNIST in Keras
@@ -82,6 +102,10 @@
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py
 
+# -------------------------------------------------------------------
+# mnist-denoising-autoencoder
+# -------------------------------------------------------------------
+
 - model: mnist-denoising-autoencoder
   description:
     Denoising autoencoder for MNIST in Keras
@@ -94,6 +118,10 @@
     script_hash: 201c27edd9547f921703507f1b1899dab7a3d3f1c1d4344d59126889519f6875
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_denoising_autoencoder.py
+
+# -------------------------------------------------------------------
+# mnist-hierarchical-rnn
+# -------------------------------------------------------------------
 
 - model: mnist-hierarchical-rnn
   description:
@@ -109,6 +137,10 @@
     - https://github.com/keras-team/keras/blob/master/examples/mnist_hierarchical_rnn.py
     - https://arxiv.org/abs/1506.01057
     - http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7298714
+
+# -------------------------------------------------------------------
+# mnist-irnn
+# -------------------------------------------------------------------
 
 - model: mnist-irnn
   description:
@@ -132,6 +164,10 @@
     - https://github.com/keras-team/keras/blob/master/examples/mnist_irnn.py
     - http://arxiv.org/pdf/1504.00941v2.pdf
 
+# -------------------------------------------------------------------
+# mnist-net2net
+# -------------------------------------------------------------------
+
 - model: mnist-net2net
   description: >
     Implementation of 'Net2Net: Accelerating Learning via Knowledge Transfer'
@@ -147,6 +183,10 @@
     - https://github.com/keras-team/keras/blob/master/examples/mnist_net2net.py
     - http://arxiv.org/abs/1511.05641
 
+# -------------------------------------------------------------------
+# mnist-siamese
+# -------------------------------------------------------------------
+
 - model: mnist-siamese
   description:
     Siamese MLP classifier for MNIST in Keras
@@ -160,6 +200,10 @@
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_siamese.py
     - http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+
+# -------------------------------------------------------------------
+# mnist-swwae
+# -------------------------------------------------------------------
 
 - model: mnist-swwae
   description:
