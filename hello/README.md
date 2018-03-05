@@ -3,7 +3,7 @@
 The `hello` package is sample package that illustrates basic model and
 operation design.
 
-Refer to [guild.yml](guild.yml) for details.
+Refer to `[guild.yml](guild.yml)` for details.
 
 To install this package, run:
 
@@ -22,4 +22,10 @@ Guild operations. To get help on a particular operation, run:
 
 ```
 $ guild run hello:OPERATION --help
+```
+
+When you're ready to run an operation, use:
+
+```
+$ guild run hello:OPERATION [FLAG...]
 ```
