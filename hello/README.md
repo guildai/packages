@@ -3,7 +3,7 @@
 The `hello` package is sample package that illustrates basic model and
 operation design.
 
-Refer to `[guild.yml](guild.yml)` for details.
+Refer to [`guild.yml`](guild.yml) for details.
 
 To install this package, run:
 
