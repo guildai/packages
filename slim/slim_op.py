@@ -58,7 +58,13 @@ def main():
     sys.argv = _init_argv(main_mod, sys.argv[:1] + sys.argv[2:])
     dataset_factory.datasets_map["custom"] = CustomDataset()
     mod_info = imp.find_module(main_mod)
-    imp.load_module("__main__", *mod_info)
+    # need stack variable to function as globals are reset on
+    # load_module
+    handle_interrupted = _handle_interrupted
+    try:
+        imp.load_module("__main__", *mod_info)
+    except KeyboardInterrupt:
+        handle_interrupted(main_mod)
 
 def _init_argv(main_mod, args):
     if main_mod == "tensorflow/python/tools/freeze_graph":
@@ -91,6 +97,18 @@ def _model_checkpoint_path(dir):
     line1 = open(index, "r").readlines()[0]
     path_val = re.search("\"(.+?)\"", line1).group(1)
     return os.path.join(dir, path_val)
+
+def _handle_interrupted(main_mod):
+    # We need to re-import here, assuming this is called after
+    # imp.load_module, which resets our globals
+    import os, sys
+    sys.stderr.write("Run terminated")
+    if main_mod == "train_image_classifier":
+        sys.stderr.write(
+            " - refer to %s for model checkpoints, which may be "
+            "used to resume training" % os.path.abspath("."))
+    sys.stderr.write("\n")
+    sys.exit(1)
 
 if __name__ == "__main__":
     main()
