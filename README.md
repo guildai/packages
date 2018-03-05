@@ -45,7 +45,7 @@ For example, to install the `slim.resnet` package, run:
 $ guild install slim.resnet
 ```
 
-### Finding packages
+## Finding packages
 
 To find a package, browse this repository or use `guild search`:
 
@@ -53,7 +53,7 @@ To find a package, browse this repository or use `guild search`:
 $ guild search TERM
 ```
 
-### Getting package information
+## Getting package information
 
 Once a package is installed, you can read more about it by running:
 
@@ -73,7 +73,7 @@ To see a list of operations available in the package, run:
 $ guild operations PACKAGE
 ```
 
-### Running package model operations
+## Running package model operations
 
 Packages are primarily used to distribute models. You can run a model
 operation in Guild AI this way:
@@ -90,3 +90,9 @@ To get help on a particular operation, run:
 ```
 $ guild run MODEL:OPERATION --help-op
 ```
+
+## Getting help
+
+If you have questions about Guild AI packages or are facing problems
+with a particular package, please open an issue at
+[https://github.com/guildai/packages/issues](https://github.com/guildai/packages/issues).
