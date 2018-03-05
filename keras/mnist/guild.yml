@@ -10,24 +10,176 @@
   license: Apache 2.0
   tags: [mnist, keras, images, model]
 
-- model: mnist-mlp
-  description: Multilayer perceptron (MLP) classifier for MNIST in Keras
+- config: base
   operations:
     train:
-      description: Train the MLP
-      cmd: guild.plugins.keras_op_main train mnist_mlp.py
+      description: Train the {{model_desc}}
+      cmd: guild.plugins.keras_op_main train {{script}}
       flags:
         epochs:
           description: Number of epochs to train
-          default: 20
+          default: '{{default_epochs}}'
         batch-size:
           description: Training batch size
-          default: 128
+          default: '{{default_batch_size}}'
       requires:
         - script
   resources:
     script:
       private: yes
       sources:
-        - url: https://raw.githubusercontent.com/keras-team/keras/8c2944e00121b6182ca7e0ee7d9e6537eb3e56e5/examples/mnist_mlp.py
-          sha256: 07ab8d85e6a44efd4c5bce137f82f3f95c60fe45a7d0df7d6d7ff91ed410fb63
+        - url: https://raw.githubusercontent.com/keras-team/keras/458ede12641a2089f7d1a233ff0753e7d676a45d/examples/{{script}}
+          sha256: '{{script_hash}}'
+
+- model: mnist-mlp
+  description:
+    Multilayer perceptron (MLP) classifier for MNIST in Keras
+  extends: base
+  params:
+    model_desc: MLP
+    default_epochs: 20
+    default_batch_size: 128
+    script: mnist_mlp.py
+    script_hash: 96120c3681b330eae8e82ab25379cd71f5b5704d0fb64666b2c3f52872ef8b0b
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py
+
+- model: mnist-acgan
+  description:
+    Auxiliary Classifier Generative Adversarial Network (ACGAN) for MNIST in Keras
+  extends: base
+  params:
+    model_desc: ACGAN
+    default_epochs: 100
+    default_batch_size: 100
+    script: mnist_acgan.py
+    script_hash: 6e0bae3795e07d0f3a5b4bc6f6fce6c1eaf264f7a49cf40b0bf9245ec64afec4
+  operations:
+    train:
+      flags:
+        learning-rate:
+          description: Learning rate
+          default: 0.0002
+          arg-name: adam_lr
+        beta-1:
+          description: Beta 1
+          default: 0.5
+          arg-name: adam_beta_1
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_acgan.py
+    - https://arxiv.org/abs/1511.06434
+
+- model: mnist-cnn
+  description:
+    Convolutional neural network (CNN) classifier for MNIST in Keras
+  extends: base
+  params:
+    model_desc: CNN
+    default_epochs: 12
+    default_batch_size: 128
+    script: mnist_cnn.py
+    script_hash: 201c27edd9547f921703507f1b1899dab7a3d3f1c1d4344d59126889519f6875
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py
+
+- model: mnist-denoising-autoencoder
+  description:
+    Denoising autoencoder for MNIST in Keras
+  extends: base
+  params:
+    model_desc: autoencoder
+    default_epochs: 30
+    default_batch_size: 128
+    script: mnist_denoising_autoencoder.py
+    script_hash: 201c27edd9547f921703507f1b1899dab7a3d3f1c1d4344d59126889519f6875
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_denoising_autoencoder.py
+
+- model: mnist-hierarchical-rnn
+  description:
+    Hierarchical RNN (HRNN) classifier for MNIST in Keras
+  extends: base
+  params:
+    model_desc: HRNN
+    default_epochs: 5
+    default_batch_size: 32
+    script: mnist_hierarchical_rnn.py
+    script_hash: c3d10f333d4ffc276d0718afce459276a9393140d12c44f5e40d3a82c6434a31
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_hierarchical_rnn.py
+    - https://arxiv.org/abs/1506.01057
+    - http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7298714
+
+- model: mnist-irnn
+  description:
+    Implementation of 'A Simple Way to Initialize Recurrent Networks
+    of Rectified Linear Units' with MNIST in Keras
+  extends: base
+  params:
+    model_desc: RNN
+    default_epochs: 200
+    default_batch_size: 32
+    script: mnist_irnn.py
+    script_hash: e349f36aff0a2a394e193c65d71366fa3aae3283b98f872256af7b1000ac73e0
+  operations:
+    train:
+      flags:
+        learning-rate:
+          description: Learning rate
+          arg-name: learning_rate
+          default: 0.000001
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_irnn.py
+    - http://arxiv.org/pdf/1504.00941v2.pdf
+
+- model: mnist-net2net
+  description: >
+    Implementation of 'Net2Net: Accelerating Learning via Knowledge Transfer'
+    with MNIST in Keras
+  extends: base
+  params:
+    model_desc: network
+    default_epochs: 3
+    default_batch_size: 32
+    script: mnist_net2net.py
+    script_hash: 0d1037443ca0c0cb6c238df971669e3f2ea820222e8f4a579469a296b7af3262
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_net2net.py
+    - http://arxiv.org/abs/1511.05641
+
+- model: mnist-siamese
+  description:
+    Siamese MLP classifier for MNIST in Keras
+  extends: base
+  params:
+    model_desc: MLP
+    default_epochs: 20
+    default_batch_size: 128
+    script: mnist_siamese.py
+    script_hash: 544901d298b472d16e597d9d55c503a070de626d8da8c7ca6f20cfcbd5e847cf
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_siamese.py
+    - http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+
+- model: mnist-swwae
+  description:
+    Stacked what-where autoencoder for MNIST in Keras
+  extends: base
+  params:
+    model_desc: MLP
+    default_epochs: 5
+    default_batch_size: 128
+    script: mnist_swwae.py
+    script_hash: 4407b79cb8745ecd0933cfff298c1dbfc55888814fe97a2195d6392c20326b96
+  operations:
+    train:
+      flags:
+        pool-size:
+          description: kernel size used for the MaxPooling2D
+          arg-name: pool_size
+          default: 2
+          choices: [2, 3]
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_swwae.py
+    - https://arxiv.org/abs/1311.2901v3
+    - https://arxiv.org/abs/1506.02351v8
