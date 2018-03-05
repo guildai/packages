@@ -64,6 +64,9 @@
       description: Seconds between model saves
       default: 60
       arg-name: save_interval_secs
+    checkpoint:
+      description: Run ID or path to checkpoint to resume training from.
+      arg-name: checkpoint_path
 
 - config: slim-image-classifier
   description: '{{model_label}} classifier for TF-Slim'
