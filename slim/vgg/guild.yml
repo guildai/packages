@@ -1,0 +1,81 @@
+- include: ../shared.yml
+
+# ===================================================================
+# slim.vgg package
+# ===================================================================
+
+- package: slim.vgg
+  version: 0.3.0.dev1
+  description: Oxford VGG models (11-Layers verion A, 16-Layers version D, 19-Layers version E)
+  url: https://github.com/guildai/index/tree/master/slim/vgg
+  maintainer: Guild AI
+  maintainer-email: packages@guild.ai
+  requires:
+    - slim>=0.3.0.dev6
+    - slim.datasets>=0.3.0.dev3
+  license: Apache 2.0
+  tags: [vgg, images, model]
+
+# -------------------------------------------------------------------
+# slim-vgg config
+# -------------------------------------------------------------------
+
+- config: slim-vgg
+  extends: slim-image-classifier
+  references:
+    - https://github.com/tensorflow/models/blob/master/research/slim/nets/vgg.py
+    - http://arxiv.org/pdf/1409.1556.pdf
+    - http://www.robots.ox.ac.uk/~karen/pdf/ILSVRC_2014.pdf
+
+# -------------------------------------------------------------------
+# slim-vgg-11
+# -------------------------------------------------------------------
+
+- model: slim-vgg-11
+  description: Oxford VGG 11-Layers version A model
+  extends: slim-vgg
+  params:
+    model_name: vgg_a
+    model_label: VGG-11
+
+# -------------------------------------------------------------------
+# slim-vgg-16
+# -------------------------------------------------------------------
+
+- model: slim-vgg-16
+  description: Oxford VGG 16-Layers version D model
+  extends:
+    - slim-vgg
+    - slim-finetunable
+  params:
+    model_name: vgg_16
+    model_label: VGG-16
+    checkpoint_exclude_scopes: vgg_16/fc8
+    trainable_scopes: vgg_16/fc8
+  resources:
+    checkpoint:
+      description: Pretrained VGG-16 model
+      sources:
+        - url: http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz
+          sha256: d03868e16d063422f4486f442171c895c123fe51d018610a73f5d94abae63582
+
+# -------------------------------------------------------------------
+# slim-vgg-19
+# -------------------------------------------------------------------
+
+- model: slim-vgg-19
+  description: Oxford VGG 19-Layers version E model
+  extends:
+    - slim-vgg
+    - slim-finetunable
+  params:
+    model_name: vgg_19
+    model_label: VGG-19
+    checkpoint_exclude_scopes: vgg_19/fc8
+    trainable_scopes: vgg_19/fc8
+  resources:
+    checkpoint:
+      description: Pretrained VGG-19 model
+      sources:
+        - url: http://download.tensorflow.org/models/vgg_19_2016_08_28.tar.gz
+          sha256: 9071fd96f91e261c62378cd073897cf038a278a1fbd6c763a8f9eecf311a3cf8
