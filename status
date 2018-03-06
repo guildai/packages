@@ -1,0 +1,177 @@
+#!/usr/bin/env python
+
+# Copyright 2017-2018 TensorHub, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from __future__ import absolute_import
+from __future__ import division
+
+import os
+import re
+import subprocess
+import sys
+
+here = os.path.dirname(__file__)
+guild_peer = os.path.join(here, "..", "guild")
+if os.path.exists(guild_peer):
+    sys.path.append(guild_peer)
+
+from guild import cli
+from guild import guildfile
+
+class Pkg(object):
+
+    def __init__(self):
+        self.local_pkgs = []
+        self.release = None
+        self.issues = []
+
+    @property
+    def name(self):
+        if self.local_pkgs:
+            return self.local_pkgs[0].name
+        else:
+            assert self.release
+            return self.release[0]
+
+    @property
+    def local_version(self):
+        if self.local_pkgs:
+            return self.local_pkgs[0].version
+        else:
+            return ""
+
+    @property
+    def release_version(self):
+        if self.release:
+            return self.release[1]
+        else:
+            return ""
+
+class Issues(object):
+
+    def __init__(self):
+        self.issues = []
+
+    def add(self, pkg, issue):
+        try:
+            i0 = self.issues.index(issue)
+        except ValueError:
+            i0 = len(self.issues)
+            self.issues.append(issue)
+        pkg.issues.append(i0 + 1)
+
+    def __nonzero__(self):
+        return bool(self.issues)
+
+    def __iter__(self):
+        for i in range(len(self.issues)):
+            yield i + 1, self.issues[i]
+
+def main():
+    local_pkgs = _iter_local_pkgs()
+    releases = _iter_releases()
+    data = {}
+    issues = Issues()
+    _apply_local_data(local_pkgs, data)
+    _apply_release_data(releases, data)
+    _check_data(data, issues)
+    formatted, cols = _format_table_data(data, issues)
+    header = { col: col for col in cols}
+    cli.table([header] + formatted, cols)
+    for i, issue in issues:
+        cli.out()
+        cli.out(cli.style("[%i] " % i, fg="red"), nl=False)
+        cli.out(issue)
+
+def _iter_releases():
+    sys.stderr.write("Reading releases...")
+    out = subprocess.check_output(["pip", "search", "gpkg"])
+    sys.stderr.write("\n")
+    for line in out.split("\n"):
+        m = re.match(r"(.+?) \((.+?)\)", line)
+        if m and m.group(1).startswith("gpkg."):
+            yield m.group(1)[5:], m.group(2)
+
+def _iter_local_pkgs():
+    for root, dirs, files in os.walk(here):
+        if ".git" in dirs:
+            dirs.remove(".git")
+            continue
+        if "guild.yml" in files:
+            gf = guildfile.from_dir(root)
+            if gf.package:
+                yield gf.package
+
+def _apply_local_data(local_pkgs, data):
+    for local_pkg in local_pkgs:
+        pkg = data.setdefault(local_pkg.name, Pkg())
+        pkg.local_pkgs.append(local_pkg)
+
+def _apply_release_data(releases, data):
+    releases = list(releases)
+    for rel in releases:
+        name, _ver = rel
+        pkg = data.setdefault(name, Pkg())
+        assert pkg.release is None, pkg.release
+        pkg.release = rel
+
+def _check_data(data, issues):
+    for pkg in data.values():
+        _check_multiple_packages(pkg, issues)
+        _check_makefile(pkg, issues)
+
+def _check_multiple_packages(pkg, issues):
+    if len(pkg.local_pkgs) > 1:
+        dirs = [_local_pkg_dir(local_pkg) for local_pkg in pkg.local_pkgs]
+        issues.add(pkg, "multiple packages: %s" % ", ".join(dirs))
+
+def _check_makefile(pkg, issues):
+    if pkg.local_pkgs:
+        pkg_dir = _local_pkg_dir(pkg.local_pkgs[0])
+        if not os.path.exists(os.path.join(pkg_dir, "Makefile")):
+            issues.add(pkg, "no Makefile")
+
+def _local_pkg_dir(local_pkg):
+    return os.path.relpath(local_pkg.guildfile.dir)
+
+def _format_table_data(data, issues):
+    rows = [
+        _format_pkg_row(data[name])
+        for name in sorted(data)
+    ]
+    cols = [
+        "package",
+        "local version",
+        "released version",
+        "issues"]
+    return rows, cols
+
+def _format_pkg_row(pkg):
+    return {
+        "package": pkg.name,
+        "local version": pkg.local_version,
+        "released version": pkg.release_version,
+        "issues": _format_pkg_issues(pkg),
+    }
+
+def _format_pkg_issues(pkg):
+    if pkg.issues:
+        list_str  = ",".join([str(i) for i in pkg.issues])
+        return cli.style("[%s]" % list_str, fg="red")
+    else:
+        return ""
+
+if __name__ == "__main__":
+    main()
