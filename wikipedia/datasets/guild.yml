@@ -1,0 +1,34 @@
+# ===================================================================
+# wikipedia.datasets package
+# ===================================================================
+
+- package: wikipedia.datasets
+  version: 0.3.0.dev1
+  description: Support for downloading images from Wikipedia Commons
+  url: https://github.com/guildai/index/tree/master/wikipedia/commons
+  maintainer: Guild AI
+  maintainer-email: packages@guild.ai
+  requires: [CommonsDownloader]
+  license: Apache 2.0
+  tags: [wikipedia, images, dataset]
+
+- model: commons-images
+  description: Support for downloading images from Wikipedia Commons
+  operations:
+    prepare:
+      cmd: commonsdownloader_wrapper -c ${category} -w ${width}
+      description:
+        Download images from Wikipedia Commons
+
+        Specify the category to download. See
+        https://commons.wikimedia.org/wiki/Category:Images for a list
+        of categories.
+
+      flags:
+        category:
+          description: Category of images to download
+          required: yes
+          arg-skip: yes
+        width:
+          description: Image width
+          default: 100
