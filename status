@@ -33,31 +33,44 @@ from guild import guildfile
 class Pkg(object):
 
     def __init__(self):
-        self.local_pkgs = []
+        self.local_pkg = None
+        self.local_extra = []
         self.release = None
         self.issues = []
 
+    def add_local_pkg(self, local_pkg):
+        if self.local_pkg is None:
+            self.local_pkg = local_pkg
+        else:
+            self.local_extra.append(local_pkg)
+
     @property
     def name(self):
-        if self.local_pkgs:
-            return self.local_pkgs[0].name
+        if self.local_pkg:
+            return self.local_pkg.name
         else:
             assert self.release
-            return self.release[0]
+            return self.release.name
 
     @property
     def local_version(self):
-        if self.local_pkgs:
-            return self.local_pkgs[0].version
+        if self.local_pkg:
+            return self.local_pkg.version
         else:
             return ""
 
     @property
     def release_version(self):
         if self.release:
-            return self.release[1]
+            return self.release.version
         else:
             return ""
+
+class Release(object):
+
+    def __init__(self, name, version):
+        self.name = name
+        self.version = version
 
 class Issues(object):
 
@@ -82,18 +95,19 @@ class Issues(object):
 def main():
     local_pkgs = _iter_local_pkgs()
     releases = _iter_releases()
-    data = {}
+    pkgs = {}
     issues = Issues()
-    _apply_local_data(local_pkgs, data)
-    _apply_release_data(releases, data)
-    _check_data(data, issues)
-    formatted, cols = _format_table_data(data, issues)
+    _apply_local_pkgs(local_pkgs, pkgs)
+    _apply_releases(releases, pkgs)
+    _check_data(pkgs, issues)
+    formatted, cols = _format_table_data(pkgs, issues)
     header = { col: col for col in cols}
     cli.table([header] + formatted, cols)
-    for i, issue in issues:
+    if issues:
         cli.out()
-        cli.out(cli.style("[%i] " % i, fg="red"), nl=False)
-        cli.out(issue)
+        for i, issue in issues:
+            cli.out(cli.style("[%i] " % i, fg="red"), nl=False)
+            cli.out(issue)
 
 def _iter_releases():
     sys.stderr.write("Reading releases...")
@@ -114,34 +128,45 @@ def _iter_local_pkgs():
             if gf.package:
                 yield gf.package
 
-def _apply_local_data(local_pkgs, data):
+def _apply_local_pkgs(local_pkgs, pkgs):
     for local_pkg in local_pkgs:
-        pkg = data.setdefault(local_pkg.name, Pkg())
-        pkg.local_pkgs.append(local_pkg)
+        pkg = pkgs.setdefault(local_pkg.name, Pkg())
+        pkg.add_local_pkg(local_pkg)
 
-def _apply_release_data(releases, data):
+def _apply_releases(releases, pkgs):
     releases = list(releases)
     for rel in releases:
-        name, _ver = rel
-        pkg = data.setdefault(name, Pkg())
+        name, version = rel
+        pkg = pkgs.setdefault(name, Pkg())
         assert pkg.release is None, pkg.release
-        pkg.release = rel
+        pkg.release = Release(name, version)
 
 def _check_data(data, issues):
     for pkg in data.values():
         _check_multiple_packages(pkg, issues)
         _check_makefile(pkg, issues)
+        _check_missing_local(pkg, issues)
+        _check_release_version(pkg, issues)
 
 def _check_multiple_packages(pkg, issues):
-    if len(pkg.local_pkgs) > 1:
-        dirs = [_local_pkg_dir(local_pkg) for local_pkg in pkg.local_pkgs]
+    if pkg.local_extra:
+        dirs = [_local_pkg_dir(local_pkg) for local_pkg in pkg.local_extra]
         issues.add(pkg, "multiple packages: %s" % ", ".join(dirs))
 
 def _check_makefile(pkg, issues):
-    if pkg.local_pkgs:
-        pkg_dir = _local_pkg_dir(pkg.local_pkgs[0])
+    if pkg.local_pkg:
+        pkg_dir = _local_pkg_dir(pkg.local_pkg)
         if not os.path.exists(os.path.join(pkg_dir, "Makefile")):
             issues.add(pkg, "no Makefile")
+
+def _check_missing_local(pkg, issues):
+    if pkg.release and not pkg.local_pkg:
+        issues.add(pkg, "missing local package")
+
+def _check_release_version(pkg, issues):
+    if (pkg.local_pkg and pkg.release and
+        pkg.local_pkg.version != pkg.release.version):
+        issues.add(pkg, "version mismatch")
 
 def _local_pkg_dir(local_pkg):
     return os.path.relpath(local_pkg.guildfile.dir)
