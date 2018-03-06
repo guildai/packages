@@ -99,7 +99,7 @@ def main():
     issues = Issues()
     _apply_local_pkgs(local_pkgs, pkgs)
     _apply_releases(releases, pkgs)
-    _check_data(pkgs, issues)
+    _check_pkgs(pkgs, issues)
     formatted, cols = _format_table_data(pkgs, issues)
     header = { col: col for col in cols}
     cli.table([header] + formatted, cols)
@@ -110,23 +110,31 @@ def main():
             cli.out(issue)
 
 def _iter_releases():
-    sys.stderr.write("Reading releases...")
     out = subprocess.check_output(["pip", "search", "gpkg"])
-    sys.stderr.write("\n")
     for line in out.split("\n"):
         m = re.match(r"(.+?) \((.+?)\)", line)
         if m and m.group(1).startswith("gpkg."):
             yield m.group(1)[5:], m.group(2)
 
 def _iter_local_pkgs():
+    skip_dirs = [
+        re.compile(r".git$"),
+        re.compile(r"build$"),
+        re.compile(r"dist$"),
+        re.compile(r"\.egg-info$"),
+    ]
     for root, dirs, files in os.walk(here):
-        if ".git" in dirs:
-            dirs.remove(".git")
-            continue
+        _remove_dirs(dirs, skip_dirs)
         if "guild.yml" in files:
             gf = guildfile.from_dir(root)
             if gf.package:
                 yield gf.package
+
+def _remove_dirs(dirs, to_remove):
+    for pattern in to_remove:
+        for dir in list(dirs):
+            if pattern.match(dir):
+                dirs.remove(dir)
 
 def _apply_local_pkgs(local_pkgs, pkgs):
     for local_pkg in local_pkgs:
@@ -141,23 +149,17 @@ def _apply_releases(releases, pkgs):
         assert pkg.release is None, pkg.release
         pkg.release = Release(name, version)
 
-def _check_data(data, issues):
-    for pkg in data.values():
+def _check_pkgs(pkgs, issues):
+    for pkg in pkgs.values():
         _check_multiple_packages(pkg, issues)
-        _check_makefile(pkg, issues)
         _check_missing_local(pkg, issues)
         _check_release_version(pkg, issues)
+        _check_build(pkg, issues)
 
 def _check_multiple_packages(pkg, issues):
     if pkg.local_extra:
         dirs = [_local_pkg_dir(local_pkg) for local_pkg in pkg.local_extra]
         issues.add(pkg, "multiple packages: %s" % ", ".join(dirs))
-
-def _check_makefile(pkg, issues):
-    if pkg.local_pkg:
-        pkg_dir = _local_pkg_dir(pkg.local_pkg)
-        if not os.path.exists(os.path.join(pkg_dir, "Makefile")):
-            issues.add(pkg, "no Makefile")
 
 def _check_missing_local(pkg, issues):
     if pkg.release and not pkg.local_pkg:
@@ -168,8 +170,17 @@ def _check_release_version(pkg, issues):
         pkg.local_pkg.version != pkg.release.version):
         issues.add(pkg, "version mismatch")
 
+def _check_build(pkg, issues):
+    if pkg.local_pkg:
+        makefile = _makefile_path(pkg.local_pkg)
+        if not os.path.exists(makefile):
+            issues.add(pkg, "no Makefile")
+
 def _local_pkg_dir(local_pkg):
     return os.path.relpath(local_pkg.guildfile.dir)
+
+def _makefile_path(local_pkg):
+    return os.path.join(_local_pkg_dir(local_pkg), "Makefile")
 
 def _format_table_data(data, issues):
     rows = [
