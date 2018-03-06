@@ -3,12 +3,12 @@
 # ===================================================================
 
 - package: wikipedia.datasets
-  version: 0.3.0.dev1
+  version: 0.3.0.dev2
   description: Support for downloading images from Wikipedia Commons
   url: https://github.com/guildai/index/tree/master/wikipedia/commons
   maintainer: Guild AI
   maintainer-email: packages@guild.ai
-  requires: [CommonsDownloader]
+  requires: [pypi.CommonsDownloader]
   license: Apache 2.0
   tags: [wikipedia, images, dataset]
 
