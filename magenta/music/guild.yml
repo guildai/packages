@@ -1,11 +1,13 @@
-- package: magenta.melody-rnn
-  version: 0.3.0.dev2
-  description: Melody generation using an LSTM from the Magenta project
-  url: https://github.com/guildai/index/tree/master/magenta/image-stylize
-  modelfile: https://github.com/guildai/index/tree/master/magenta/image-stylize/MODEL
+# ===================================================================
+# magenta.music package
+# ===================================================================
+
+- package: magenta.music
+  version: 0.3.0.dev1
+  description: Music generators from the Magenta project
+  url: https://github.com/guildai/index/tree/master/magenta/music
   maintainer: Guild AI
   maintainer-email: packages@guild.ai
-  requires: [pypi.magenta-gpu]
   license: Apache 2.0
   tags:
     - magenta
@@ -14,15 +16,24 @@
     - music
     - midi
 
+# -------------------------------------------------------------------
+# magenta-melody
+# -------------------------------------------------------------------
+
 - model: magenta-melody
-  description: Applies language modeling to melody generation using an LSTM
+  description:
+    Applies language modeling to melody generation using an LSTM
   operations:
-    compose:
-      description: Compose melodies using one of three available pretrained models
-      cmd: magenta.models.melody_rnn.melody_rnn_generate --output_dir .
+    generate:
+      description:
+        Compose melodies using one of three available pretrained
+        models
+      cmd:
+        magenta.models.melody_rnn.melody_rnn_generate --output_dir .
       flags:
         config:
-          description: Model configuration (basic, lookback, or attention)
+          description:
+            Model configuration (basic, lookback, or attention)
           default: basic_rnn
           choices:
             - value: basic_rnn
