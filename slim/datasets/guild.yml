@@ -2,7 +2,6 @@
   version: 0.3.0.dev3
   description: Support for downloading an converting TF-Slim datasets
   url: https://github.com/guildai/index/tree/master/slim/datasets
-  modelfile: https://github.com/guildai/index/tree/master/slim/datasets/MODELS
   maintainer: Guild AI
   maintainer-email: packages@guild.ai
   requires: [slim]
