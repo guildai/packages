@@ -1,42 +1,74 @@
-- model: resnet-cifar10
-  description: ResNet classifier for CIFAR-10
+# ===================================================================
+# tensorflow.resnet package
+# ===================================================================
+
+- package: tensorflow.resnet
+  version: 0.3.0.dev1
+  description: Official TensorFlow ResNet classifier
+  url: https://github.com/guildai/index/tree/master/tensorflow/resnet
+  maintainer: Guild AI
+  maintainer-email: packages@guild.ai
+  license: Apache 2.0
+  tags:
+    - cnn
+    - cifar10
+    - imagenet
+    - images
+    - model
+    - estimator
+    - layers
+  resources:
+    resnet-lib:
+      sources:
+        - url: https://github.com/tensorflow/models/archive/v.1.6.0.zip
+          sha256: ed8fd7066bb014feccaed2cd2a46e516468ef24c40be8ef21a96a09849db7ff5
+          select: models-v.1.6.0/official/resnet
+
+# -------------------------------------------------------------------
+# ResNet config
+# -------------------------------------------------------------------
+
+- config: train-support
+  flags:
+    epochs:
+      description: Number of epochs to train
+      default: 250
+      arg-name: train_epochs
+    epochs-per-eval:
+      description: Number of epochs to run in between evaluations
+      default: 10
+    batch-size:
+      description: Number of images per batch
+      default: 128
+
+# -------------------------------------------------------------------
+# resnet-32-cifar10
+# -------------------------------------------------------------------
+
+- model: resnet-32-cifar10
+  description: ResNet-32 classifier for CIFAR-10
   operations:
     train:
       description: Train the ResNet model on CIFAR-10 data
-      requires: [scripts, dataset]
-      cmd: cifar10_main --data_dir . --model_dir .
+      cmd: resnet/cifar10_main --data_dir . --model_dir .
       flags:
-        resnet-size:
-          description: Size of the ResNet model to use
-          value: 32
-        epochs:
-          description: Number of epochs to train
-          value: 250
-          arg-name: train_epochs
-        epochs-per-eval:
-          description: Number of epochs to run in between evaluations
-          value: 10
-        batch-size:
-          description: Number of images per batch
-          value: 128
-        data-format:
-          description: Data format used by the model (channels_first or channels_last)
-          options:
-            - value: channels_first
-              description: Provides a performance boost on GPU
-            - value: channels_last
-              description: Use if channels_first not supported on CPU
+        $include: train-support
+      requires:
+        - tensorflow.resnet/resnet-lib
+        - dataset
   resources:
-    scripts:
-      sources:
-        - url: https://raw.githubusercontent.com/tensorflow/models/01aa7a4a6190bf021f448dee26fc649f4b47753e/official/resnet/cifar10_main.py
-          sha256: e0c4a03113a7015c71e1a7c4f5b2880d8045b6d659aa6f7fab178925c29cbf02
-        - url: https://raw.githubusercontent.com/tensorflow/models/01aa7a4a6190bf021f448dee26fc649f4b47753e/official/resnet/resnet_model.py
-          sha256: aad8bd5b2e86f5c90b41e8d1820bcfc336db428c9cc0b242ae777280c0bdb1d6
     dataset:
       sources:
         - url: https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz
           sha256: c4a38c50a1bc5f3a1c5537f2155ab9d68f9f25eb1ed8d9ddda3db29a59bca1dd
+  references:
+    - https://github.com/tensorflow/models/tree/v.1.6.0/official/resnet
+    - https://arxiv.org/pdf/1512.03385.pdf
+    - https://arxiv.org/pdf/1603.05027.pdf
+
+# -------------------------------------------------------------------
+# resnet-imagenet
+# -------------------------------------------------------------------
 
 - model: resnet-imagenet
   description: >
@@ -48,35 +80,19 @@
   operations:
     train:
       description: Train the ResNet model on ImageNet data
-      requires: scripts
+      requires:
+        - tensorflow.resnet/resnet-lib
       cmd: imagenet_main --model_dir .
       flags:
+        $include: train-support
+        resnet-size:
+          description: Size of the ResNet model to use (18, 34, 50, 101, 152, or 200)
+          choices: [18, 34, 50, 101, 152, 200]
+          default: 50
         data-dir:
           description: ImageNet data location
           required: yes
-        resnet-size:
-          description: Size of the ResNet model to use (18, 34, 50, 101, 152, or 200)
-          value: 50
-        epochs:
-          description: Number of epochs to train
-          value: 100
-          arg-name: train_epochs
-        epochs-per-eval:
-          description: Number of epochs to run in between evaluations
-          value: 1
-        batch-size:
-          description: Number of images per batch
-          value: 32
-        data-format:
-          description: Data format used by the model (channels_first or channels_last)
-          options:
-            - value: channels_first
-              description: Provides a performance boost on GPU
-            - value: channels_last
-              description: Use if channels_first not supported on CPU
-  resources:
-    scripts:
-      sources:
-        - url: https://raw.githubusercontent.com/tensorflow/models/master/official/resnet/imagenet_main.py
-        - url: https://raw.githubusercontent.com/tensorflow/models/master/official/resnet/resnet_model.py
-        - url: https://raw.githubusercontent.com/tensorflow/models/master/official/resnet/vgg_preprocessing.py
+  references:
+    - https://github.com/tensorflow/models/tree/v.1.6.0/official/resnet
+    - https://arxiv.org/pdf/1512.03385.pdf
+    - https://arxiv.org/pdf/1603.05027.pdf
