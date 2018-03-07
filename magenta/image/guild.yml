@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: magenta.image
-  version: 0.3.0.dev1
+  version: 0.3.0.dev2
   description: Image generators from the Magenta project
   url: https://github.com/guildai/index/tree/master/magenta/image
   maintainer: Guild AI
@@ -11,12 +11,25 @@
   license: Apache 2.0
   tags:
     - magenta
-    - google
-    - brain
+    - google brain
     - art
     - images
     - model
     - dataset
+
+# -------------------------------------------------------------------
+# Magenta image model config
+# -------------------------------------------------------------------
+
+- config: magenta-image-model
+  resources:
+    magenta:
+      description: Magenta Python distribution
+      sources:
+        - module: magenta
+          help:
+            Try 'pip install magenta-gpu' if you have a GPU otherwise,
+            try 'pip install magenta'.
 
 # -------------------------------------------------------------------
 # magenta-image-stylize
@@ -25,6 +38,7 @@
 - model: magenta-image-stylize
   description:
     Implementation of 'A Learned Representation for Artistic Style'
+  extends: magenta-image-model
   operations:
     generate:
       description:
@@ -58,18 +72,24 @@
           required: yes
           arg-name: input_image
       requires:
+        - magenta
         - ${style}
   resources:
     monet:
       description: Pretrained model using Monet images
+      private: yes
       sources:
         - url: http://download.magenta.tensorflow.org/models/multistyle-pastiche-generator-monet.ckpt
           sha256: 7044c0a6cad9a2865a0aded7567be31437fd6dcc289a40df1efb5096d9a29d88
     varied:
       description: Pretrained model using varied images
+      private: yes
       sources:
         - url: http://download.magenta.tensorflow.org/models/multistyle-pastiche-generator-varied.ckpt
           sha256: f0de79e9b91e28e260873cf26cb68589179fe0519c6d1a86a4eb2d4aa5023083
+  references:
+    - https://github.com/tensorflow/magenta/tree/master/magenta/models/image_stylization
+    - https://arxiv.org/abs/1610.07629
 
 # -------------------------------------------------------------------
 # magenta-arbitrary-stylize
@@ -78,6 +98,7 @@
 - model: magenta-arbitrary-stylize
   description:
     Fast artistic style transfer using arbitrary painting styles
+  extends: magenta-image-model
   operations:
     generate:
       description:
@@ -102,15 +123,38 @@
           description: Size of images
           default: 1024
           arg-name: image_size
+        interpolation-weights:
+          description:
+            Interpolation weights
+
+            This value is a list of float values inside square
+            brackets. Each value is a weight for interpolation between
+            the parameters of the identity transform and the style
+            parameters of the style image.
+
+            The larger the weight is the strength of stylization is
+            more. Weight of 1.0 means the normal style transfer and
+            weight of 0.0 means identity transform.
+          default: '[1.0]'
+          arg-name: interpolation_weights
       requires:
+        - magenta
         - pretrained-model
         - arbitrary-stylize-lib
   resources:
     pretrained-model:
+      private: yes
       sources:
         - url: https://storage.googleapis.com/download.magenta.tensorflow.org/models/arbitrary_style_transfer.tar.gz
           sha256: 523b600b508e9e1e31d77860d7ff650125b2f41e15dc9d612e15e3600fa65a60
     arbitrary-stylize-lib:
+      private: yes
       sources:
         - url: http://pub.guild.ai.s3.amazonaws.com/magenta/arbitrary_image_stylization-0.3.2.zip
           sha256: 6528e2d4ccc1139729b0b9b66d7ce68a4cf0638ee55aa7e22b1720754feea408
+  references:
+    - https://github.com/tensorflow/magenta/tree/master/magenta/models/arbitrary_image_stylization
+    - https://arxiv.org/abs/1705.06830
+    - https://arxiv.org/abs/1610.07629
+    - https://arxiv.org/abs/1603.08155
+    - https://arxiv.org/abs/1508.06576
