@@ -1,9 +1,0 @@
-name: tensorflow.wide-deep
-version: 0.1.0.dev2
-description: Wide and deep classifier of Census Income data
-url: https://github.com/guildai/index/tree/master/tensorflow/wide-deep
-modelfile: https://github.com/guildai/index/tree/master/tensorflow/wide-deep/MODEL
-maintainer: Guild AI
-maintainer-email: packages@guild.ai
-license: Apache 2.0
-tags: [wide, deep, census, model, estimator]
