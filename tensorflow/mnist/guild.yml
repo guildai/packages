@@ -26,7 +26,7 @@
   operations:
     train:
       description: Train the CNN
-      cmd: mnist/mnist --model_dir . --data_dir mnist-idx-data
+      cmd: mnist/mnist --data_dir mnist-idx-data --model_dir . --export_dir .
       requires:
         - mnist-lib
         - mnist/dataset
