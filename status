@@ -66,6 +66,13 @@ class Pkg(object):
         else:
             return ""
 
+    @property
+    def models(self):
+        if self.local_pkg:
+            return self.local_pkg.guildfile.models
+        else:
+            return {}
+
 class Release(object):
 
     def __init__(self, name, version):
@@ -196,7 +203,9 @@ def _format_table_data(data, issues):
         "package",
         "local version",
         "released version",
-        "issues"]
+        "models",
+        "issues",
+    ]
     return rows, cols
 
 def _format_pkg_row(pkg):
@@ -204,6 +213,7 @@ def _format_pkg_row(pkg):
         "package": pkg.name,
         "local version": pkg.local_version,
         "released version": pkg.release_version,
+        "models": len(pkg.models),
         "issues": _format_pkg_issues(pkg),
     }
 

@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: tensorflow.mnist
-  version: 0.3.0.dev3
+  version: 0.3.0.dev4
   description: Official TensorFlow CNN classifiers for MNIST
   url: https://github.com/guildai/index/tree/master/tensorflow/mnist
   maintainer: Guild AI
@@ -16,13 +16,6 @@
     - model
     - estimator
     - layers
-  resources:
-    mnist-lib:
-      description: Python library for tensorflow.mnist
-      sources:
-        - url: https://github.com/tensorflow/models/archive/v.1.6.0.zip
-          sha256: ed8fd7066bb014feccaed2cd2a46e516468ef24c40be8ef21a96a09849db7ff5
-          select: models-v.1.6.0/official/mnist
 
 # -------------------------------------------------------------------
 # mnist-layers
@@ -35,7 +28,7 @@
       description: Train the CNN
       cmd: mnist/mnist --data_dir mnist-idx-data --model_dir . --export_dir .
       requires:
-        - tensorflow.mnist/mnist-lib
+        - mnist-lib
         - mnist/dataset
       flags:
         batch-size:
@@ -45,5 +38,13 @@
           description: Number of epochs to train
           default: 40
           arg-name: train_epochs
+  resources:
+    mnist-lib:
+      description: Python library for tensorflow.mnist
+      private: yes
+      sources:
+        - url: https://github.com/tensorflow/models/archive/v.1.6.0.zip
+          sha256: ed8fd7066bb014feccaed2cd2a46e516468ef24c40be8ef21a96a09849db7ff5
+          select: models-v.1.6.0/official/mnist
   references:
     - https://github.com/tensorflow/models/tree/v.1.6.0/official/mnist

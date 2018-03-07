@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: magenta.music
-  version: 0.3.0.dev1
+  version: 0.3.0.dev2
   description: Music generators from the Magenta project
   url: https://github.com/guildai/index/tree/master/magenta/music
   maintainer: Guild AI
@@ -67,16 +67,19 @@
   resources:
     basic_rnn:
       description: Pretrained melody LSTM
+      private: yes
       sources:
         - url: http://download.magenta.tensorflow.org/models/basic_rnn.mag
           sha256: 8726e7427cec1b1a507a8217242e0ffa117c53a4c8d7734fa904e33ee58436ff
     lookback_rnn:
       description: Pretrained melody RNN with lookback
+      private: yes
       sources:
         - url: http://download.magenta.tensorflow.org/models/lookback_rnn.mag
           sha256: d99de2ae9af9c9e229b0a6ba820b2fe9eef9a735343ecd2a0e41696fbe718736
     attention_rnn:
       description: Pretrained melody RNN with attention
+      private: yes
       sources:
         - url: http://download.magenta.tensorflow.org/models/attention_rnn.mag
           sha256: ef91c0bcd1c146fdd5cae09f82c8ea3fe2e9164bf782714ff84736ab86514d71
