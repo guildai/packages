@@ -137,7 +137,7 @@
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_hierarchical_rnn.py
     - https://arxiv.org/abs/1506.01057
-    - http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7298714
+    - http://ieeexplore.ieee.org/document/7298714/
 
 # -------------------------------------------------------------------
 # mnist-irnn
