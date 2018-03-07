@@ -1,3 +1,7 @@
+# ===================================================================
+# cloudml.census package
+# ===================================================================
+
 - package: cloudml.census
   version: 0.3.0.dev1
   description: Census models for Cloud ML
@@ -9,6 +13,10 @@
   tags: [cloudml, census, estimators, model]
   data-files:
     - prediction-samples.json
+
+# -------------------------------------------------------------------
+# census-dnn
+# -------------------------------------------------------------------
 
 - model: census-dnn
   description: Wide and deep classifier for census income data using TensorFlow estimators
