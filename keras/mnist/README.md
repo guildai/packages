@@ -1,4 +1,4 @@
-# Guild AI - Keras MNIST package
+# Keras MNIST models
 
 The `keras.mnist` package contains various MNIST models that are
 provided in

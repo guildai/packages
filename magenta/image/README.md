@@ -1,4 +1,4 @@
-# Magenta Image
+# Magenta image generators
 
 This package image generators from the [Magenta
 project](ttps://magenta.tensorflow.org/).

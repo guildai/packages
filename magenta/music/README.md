@@ -1,4 +1,4 @@
-# Magenta Music
+# Magenta music generators
 
 This package music generators from the [Magenta
 project](ttps://magenta.tensorflow.org/).
