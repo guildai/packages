@@ -1,11 +1,11 @@
 # ===================================================================
-# keras.deepdream package
+# keras.deep-dream package
 # ===================================================================
 
-- package: keras.deepdream
+- package: keras.deep-dream
   version: 0.3.0.dev1
   description: Deep dream generator in Keras
-  url: https://github.com/guildai/index/tree/master/keras/deepdream
+  url: https://github.com/guildai/index/tree/master/keras/deep-dream
   maintainer: Guild AI
   maintainer-email: packages@guild.ai
   requires:
@@ -14,17 +14,17 @@
   tags: [mnist, keras, images, model]
 
 # -------------------------------------------------------------------
-# deepdream
+# deep-dream
 # -------------------------------------------------------------------
 
-- model: deepdream
+- model: deep-dream
   operations:
     generate:
-      description: Generate an image
+      description: Generate a Deep Dream image
       cmd: deep_dream ${image} generated
       flags:
         image:
-          description: Image to apply deep dream to
+          description: Input image used by Deep Dream
           required: yes
           arg-skip: yes
       requires:
