@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: tensorflow.mnist
-  version: 0.3.0.dev2
+  version: 0.3.0.dev3
   description: Official TensorFlow CNN classifiers for MNIST
   url: https://github.com/guildai/index/tree/master/tensorflow/mnist
   maintainer: Guild AI
@@ -18,6 +18,7 @@
     - layers
   resources:
     mnist-lib:
+      description: Python library for tensorflow.mnist
       sources:
         - url: https://github.com/tensorflow/models/archive/v.1.6.0.zip
           sha256: ed8fd7066bb014feccaed2cd2a46e516468ef24c40be8ef21a96a09849db7ff5

@@ -3,14 +3,14 @@
 # ===================================================================
 
 - package: tensorflow.resnet
-  version: 0.3.0.dev1
+  version: 0.3.0.dev2
   description: Official TensorFlow ResNet classifier
   url: https://github.com/guildai/index/tree/master/tensorflow/resnet
   maintainer: Guild AI
   maintainer-email: packages@guild.ai
   license: Apache 2.0
   tags:
-    - cnn
+    - resnet
     - cifar10
     - imagenet
     - images
@@ -19,6 +19,7 @@
     - layers
   resources:
     resnet-lib:
+      description: Python library for tensorflow.resnet
       sources:
         - url: https://github.com/tensorflow/models/archive/v.1.6.0.zip
           sha256: ed8fd7066bb014feccaed2cd2a46e516468ef24c40be8ef21a96a09849db7ff5
@@ -58,6 +59,7 @@
         - dataset
   resources:
     dataset:
+      description: CIFAR10 dataset
       sources:
         - url: https://www.cs.toronto.edu/~kriz/cifar-10-binary.tar.gz
           sha256: c4a38c50a1bc5f3a1c5537f2155ab9d68f9f25eb1ed8d9ddda3db29a59bca1dd
