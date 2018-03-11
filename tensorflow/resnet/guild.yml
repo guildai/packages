@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: tensorflow.resnet
-  version: 0.3.0.dev3
+  version: 0.3.0.dev4
   description: Official TensorFlow ResNet classifier
   url: https://github.com/guildai/index/tree/master/tensorflow/resnet
   maintainer: Guild AI
@@ -17,24 +17,6 @@
     - model
     - estimator
     - layers
-# -------------------------------------------------------------------
-# ResNet config
-# -------------------------------------------------------------------
-
-- config: train-support
-  flags:
-    epochs:
-      description: Number of epochs to train
-      default: 250
-      arg-name: train_epochs
-    epochs-per-eval:
-      description: Number of epochs to run in between evaluations
-      default: 10
-    batch-size:
-      description: Number of images per batch
-      default: 128
-
-- config: resnet-model
   resources:
     resnet-lib:
       description: Python library for tensorflow.resnet
@@ -42,6 +24,25 @@
         - url: https://github.com/tensorflow/models/archive/v.1.6.0.zip
           sha256: ed8fd7066bb014feccaed2cd2a46e516468ef24c40be8ef21a96a09849db7ff5
           select: models-v.1.6.0/official/resnet
+
+# -------------------------------------------------------------------
+# ResNet config
+# -------------------------------------------------------------------
+
+- config: resnet-model
+  operations:
+    train:
+      flags:
+        epochs:
+          description: Number of epochs to train
+          default: 250
+          arg-name: train_epochs
+        epochs-per-eval:
+          description: Number of epochs to run in between evaluations
+          default: 10
+        batch-size:
+          description: Number of images per batch
+          default: 128
 
 # -------------------------------------------------------------------
 # resnet-32-cifar10
@@ -54,8 +55,6 @@
     train:
       description: Train the ResNet model on CIFAR-10 data
       cmd: resnet/cifar10_main --data_dir . --model_dir .
-      flags:
-        $include: train-support
       requires:
         - tensorflow.resnet/resnet-lib
         - dataset
@@ -85,11 +84,8 @@
   operations:
     train:
       description: Train the ResNet model on ImageNet data
-      requires:
-        - tensorflow.resnet/resnet-lib
       cmd: imagenet_main --model_dir .
       flags:
-        $include: train-support
         resnet-size:
           description: Size of the ResNet model to use (18, 34, 50, 101, 152, or 200)
           choices: [18, 34, 50, 101, 152, 200]
@@ -97,6 +93,8 @@
         data-dir:
           description: ImageNet data location
           required: yes
+      requires:
+        - tensorflow.resnet/resnet-lib
   references:
     - https://github.com/tensorflow/models/tree/v.1.6.0/official/resnet
     - https://arxiv.org/pdf/1512.03385.pdf
