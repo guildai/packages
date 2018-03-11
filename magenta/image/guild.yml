@@ -27,7 +27,7 @@
       description: Magenta Python distribution
       sources:
         - module: magenta
-          help:
+          resolution-help:
             Try 'pip install magenta-gpu' if you have a GPU otherwise,
             try 'pip install magenta'.
 
