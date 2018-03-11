@@ -56,7 +56,7 @@
         - url: https://github.com/tensorflow/models/archive/v.1.6.0.zip
           sha256: ed8fd7066bb014feccaed2cd2a46e516468ef24c40be8ef21a96a09849db7ff5
           select: models-v.1.6.0/official/wide_deep
-      process: >
+      post-process: >
         sed '/shutil.rmtree(FLAGS.model_dir/d' wide_deep.py > wide_deep_patched.py
     dataset:
       description: Prepared Census Income dataset
