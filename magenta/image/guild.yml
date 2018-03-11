@@ -28,7 +28,7 @@
       sources:
         - module: magenta
           resolution-help:
-            Try 'pip install magenta-gpu' if you have a GPU otherwise,
+            Try 'pip install magenta-gpu' for GPU support, otherwise
             try 'pip install magenta'.
 
 # -------------------------------------------------------------------
