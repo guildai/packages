@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: tensorflow.wide-deep
-  version: 0.3.0.dev2
+  version: 0.3.0
   description: Wide and deep income predictor for Census Income data
   url: https://github.com/guildai/index/tree/master/tensorflow/wide-deep
   maintainer: Guild AI

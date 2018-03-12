@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: magenta.music
-  version: 0.3.0.dev2
+  version: 0.3.0
   description: Music generators from the Magenta project
   url: https://github.com/guildai/index/tree/master/magenta/music
   maintainer: Guild AI

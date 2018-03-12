@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: magenta.image
-  version: 0.3.0.dev2
+  version: 0.3.0
   description: Image generators from the Magenta project
   url: https://github.com/guildai/index/tree/master/magenta/image
   maintainer: Guild AI

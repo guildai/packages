@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: keras.mnist
-  version: 0.3.0.dev7
+  version: 0.3.0
   description: MNIST related models in Keras
   url: https://github.com/guildai/index/tree/master/keras/mnist
   maintainer: Guild AI

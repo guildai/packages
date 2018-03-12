@@ -1,5 +1,5 @@
 - package: slim.datasets
-  version: 0.3.0.dev3
+  version: 0.3.0
   description: Support for downloading an converting TF-Slim datasets
   url: https://github.com/guildai/index/tree/master/slim/datasets
   maintainer: Guild AI

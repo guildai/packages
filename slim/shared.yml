@@ -6,7 +6,7 @@
       choices:
         - value: cifar10
           description: CIFAR-10 images
-        - value: minst
+        - value: mnist
           description: MNIST digits images
         - value: flowers
           description: Flickr sample flower images
@@ -152,7 +152,7 @@
           arg-skip: yes
           choices:
             - cifar10
-            - minst
+            - mnist
             - flowers
             - value: imagenet
               args:

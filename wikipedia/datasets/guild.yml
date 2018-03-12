@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: wikipedia.datasets
-  version: 0.3.0.dev3
+  version: 0.3.0
   description: Support for downloading images from Wikipedia Commons
   url: https://github.com/guildai/index/tree/master/wikipedia/commons
   maintainer: Guild AI

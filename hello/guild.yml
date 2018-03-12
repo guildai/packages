@@ -1,5 +1,5 @@
 - package: hello
-  version: 0.3.0.dev6
+  version: 0.3.0
   description: Example "hello world" model
   url: https://github.com/guildai/index/tree/master/hello
   maintainer: Guild AI
