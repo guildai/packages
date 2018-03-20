@@ -21,8 +21,8 @@
 # mnist-layers
 # -------------------------------------------------------------------
 
-- model: mnist-layers
-  description: CNN estimator for MNIST using tf.layers
+- model: mnist-cnn
+  description: CNN classifier for MNIST using Estimators
   operations:
     train:
       description: Train the CNN
