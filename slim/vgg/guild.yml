@@ -5,14 +5,14 @@
 # ===================================================================
 
 - package: slim.vgg
-  version: 0.3.0
+  version: 0.3.1.dev1
   description: Oxford VGG models (11-Layers verion A, 16-Layers version D, 19-Layers version E)
   url: https://github.com/guildai/index/tree/master/slim/vgg
-  maintainer: Guild AI
-  maintainer-email: packages@guild.ai
+  author: Guild AI
+  author-email: packages@guild.ai
   requires:
-    - slim>=0.3.0.dev11
-    - slim.datasets>=0.3.0.dev3
+    - slim>=0.3.1.dev1
+    - slim.datasets>=0.3.1.dev1
   license: Apache 2.0
   tags: [vgg, images, model]
 

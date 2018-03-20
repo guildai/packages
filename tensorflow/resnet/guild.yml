@@ -3,11 +3,11 @@
 # ===================================================================
 
 - package: tensorflow.resnet
-  version: 0.3.0
+  version: 0.3.1.dev1
   description: Official TensorFlow ResNet classifier
   url: https://github.com/guildai/index/tree/master/tensorflow/resnet
-  maintainer: Guild AI
-  maintainer-email: packages@guild.ai
+  author: Guild AI
+  author-email: packages@guild.ai
   license: Apache 2.0
   tags:
     - resnet

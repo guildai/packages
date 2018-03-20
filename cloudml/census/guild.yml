@@ -3,11 +3,11 @@
 # ===================================================================
 
 - package: cloudml.census
-  version: 0.3.0
+  version: 0.3.1.dev1
   description: Census models for Cloud ML
   url: https://github.com/guildai/index/tree/master/cloudml/census
-  maintainer: Guild AI
-  maintainer-email: packages@guild.ai
+  author: Guild AI
+  author-email: packages@guild.ai
   requires: [cloudml.datasets]
   license: Apache 2.0
   tags: [cloudml, census, estimators, model]

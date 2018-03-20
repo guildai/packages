@@ -1,9 +1,9 @@
 - package: slim.datasets
-  version: 0.3.0
+  version: 0.3.1.dev1
   description: Support for downloading an converting TF-Slim datasets
   url: https://github.com/guildai/index/tree/master/slim/datasets
-  maintainer: Guild AI
-  maintainer-email: packages@guild.ai
+  author: Guild AI
+  author-email: packages@guild.ai
   requires: [slim]
   license: Apache 2.0
   tags: [mnist, cifar10, flowers, images, dataset]
