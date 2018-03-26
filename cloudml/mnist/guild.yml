@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: cloudml.mnist
-  version: 0.3.1.dev2
+  version: 0.3.1.dev3
   description: MNIST model for Cloud ML
   url: https://github.com/guildai/index/tree/master/cloudml/mnist
   author: Guild AI
@@ -20,7 +20,7 @@
 - model: mnist-cnn
   description: CNN classifier for MNIST data
   operations:
-    prepare:
+    prepare-data:
       description: Prepare the MNIST data for training
       cmd: scripts/create_records --directory .
       flags:
@@ -92,5 +92,5 @@
     data:
       description: Prepared MNIST data
       sources:
-        - operation: prepare
+        - operation: prepare-data
           select: .*\.tfrecords
