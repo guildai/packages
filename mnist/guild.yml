@@ -1,5 +1,5 @@
 - package: mnist
-  version: 0.3.1.dev1
+  version: 0.3.1.dev2
   description: CNN and softmax regression classifiers for MNIST digits
   url: https://github.com/guildai/index/tree/master/mnist
   author: Guild AI
@@ -33,6 +33,20 @@
         epochs:
           description: Number of epochs to train
           default: 10
+    evaluate:
+      description: 'Evaluate a trained {{model_desc}}'
+      cmd: '{{train_cmd}} --test --data-dir mnist-idx-data --run-dir .'
+      requires:
+        - trained-model
+        - mnist/dataset
+  resources:
+    trained-model:
+      private: yes
+      sources:
+        - operation: train
+          select:
+            - model.ckpt.*
+            - checkpoint
 
 - model: mnist-softmax
   description: Softmax regression classifier for MNIST
@@ -47,3 +61,15 @@
   params:
     model_desc: CNN
     train_cmd: cnn
+
+- model: mnist-samples
+  description: Sample MNIST images
+  operations:
+    prepare:
+      description: Generate a set of sample MNIST images
+      cmd: samples --data-dir mnist-idx-data --sample-dir .
+      flags:
+        count:
+          description: Number of images to generate
+          default: 100
+      requires: mnist/dataset

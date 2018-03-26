@@ -24,6 +24,7 @@ def init_train():
     init_model()
     init_train_op()
     init_eval_op()
+    init_prediction_op()
     init_summaries()
     init_collections()
     init_session()
@@ -88,6 +89,10 @@ def init_eval_op():
     correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
+def init_prediction_op():
+    global prediction
+    prediction = tf.argmax(y, 1)
+
 def init_summaries():
     init_inputs_summary()
     init_op_summaries()
@@ -123,36 +128,61 @@ def init_session():
 
 def train():
     steps = (mnist.train.num_examples // FLAGS.batch_size) * FLAGS.epochs
-    for step in range(steps + 1):
+    for step in range(1, steps + 1):
         images, labels = mnist.train.next_batch(FLAGS.batch_size)
         batch = {x: images, y_: labels}
         sess.run(train_op, batch)
         maybe_log_accuracy(step, batch)
-        maybe_save_model(step)
+        maybe_checkpoint(step)
 
 def maybe_log_accuracy(step, last_training_batch):
-    if step % 20 == 0:
-        evaluate(step, last_training_batch, train_writer, "training")
-        validate_data = {
-            x: mnist.validation.images,
-            y_: mnist.validation.labels
-        }
-        evaluate(step, validate_data, validate_writer, "validate")
+    epoch_step = mnist.train.num_examples / FLAGS.batch_size
+    if step % 20 == 0 or step % epoch_step == 0:
+        log_accuracy(step, last_training_batch)
+
+def log_accuracy(step, last_training_batch):
+    evaluate(step, last_training_batch, train_writer, "training")
+    validate_data = {
+        x: mnist.validation.images,
+        y_: mnist.validation.labels
+    }
+    evaluate(step, validate_data, validate_writer, "validate")
 
 def evaluate(step, data, writer, name):
     accuracy_val, summary = sess.run([accuracy, summaries], data)
     writer.add_summary(summary, step)
     print("Step %i: %s=%f" % (step, name, accuracy_val))
 
-def maybe_save_model(step):
+def maybe_checkpoint(step):
     epoch_step = mnist.train.num_examples / FLAGS.batch_size
-    if step != 0 and step % epoch_step == 0:
-        save_model()
+    if step % epoch_step == 0:
+        checkpoint(step)
 
-def save_model():
-    print("Saving trained model")
-    tf.gfile.MakeDirs(FLAGS.run_dir + "/model")
-    tf.train.Saver().save(sess, FLAGS.run_dir + "/model/export")
+def checkpoint(step):
+    print("Saving checkpoint")
+    tf.train.Saver().save(sess, FLAGS.run_dir + "/model.ckpt", step)
+
+def export_saved_model():
+    print("Exporting saved model")
+    builder = tf.saved_model.builder.SavedModelBuilder(
+        FLAGS.run_dir + "/export")
+    serve_signature = tf.saved_model.signature_def_utils.build_signature_def(
+        inputs={
+            "inputs": tf.saved_model.utils.build_tensor_info(x)
+        },
+        outputs={
+            "outputs": tf.saved_model.utils.build_tensor_info(y),
+            "classes": tf.saved_model.utils.build_tensor_info(prediction)
+        },
+        method_name="tensorflow/serving/predict"
+    )
+    builder.add_meta_graph_and_variables(
+        sess, ["serve"],
+        signature_def_map={
+            "serving_default": serve_signature
+        }
+    )
+    builder.save()
 
 def init_test():
     init_session()
@@ -160,8 +190,10 @@ def init_test():
 
 def init_exported_collections():
     global x, y_, accuracy
-    saver = tf.train.import_meta_graph(FLAGS.run_dir + "/model/export.meta")
-    saver.restore(sess, FLAGS.run_dir + "/model/export")
+    latest_checkpoint = tf.train.latest_checkpoint(FLAGS.run_dir)
+    assert latest_checkpoint, "no checkpoints in %s" % FLAGS.run_dir
+    saver = tf.train.import_meta_graph(latest_checkpoint + ".meta")
+    saver.restore(sess, latest_checkpoint)
     x = sess.graph.get_tensor_by_name(tf.get_collection("x")[0])
     y_ = sess.graph.get_tensor_by_name(tf.get_collection("y_")[0])
     accuracy = sess.graph.get_tensor_by_name(tf.get_collection("accuracy")[0])
@@ -182,3 +214,4 @@ if __name__ == "__main__":
     else:
         init_train()
         train()
+        export_saved_model()
