@@ -1,5 +1,8 @@
+from __future__ import print_function
+
 import argparse
 import json
+import os
 
 import tensorflow as tf
 import numpy as np
@@ -17,13 +20,14 @@ def prepare_samples(mnist):
     tf.gfile.MakeDirs(FLAGS.sample_dir)
     images, labels = mnist.train.next_batch(FLAGS.sample_count)
     i = 1
+    all_json = os.path.join(FLAGS.sample_dir, "all.json")
     for image, label in zip(images, labels):
         summary_bin = sess.run(summary, feed_dict={inputs: [image]})
         summary.image = summary_pb2.Summary()
         summary.image.ParseFromString(summary_bin)
-        basename = FLAGS.sample_dir + "/" + ("%05i" % i)
+        basename = os.path.join(FLAGS.sample_dir, "%05i" % i)
         image_path = basename + ".png"
-        print "Writing %s" % image_path
+        print("Writing %s" % image_path)
         with open(image_path, "w") as f:
             f.write(summary.image.value[0].image.encoded_image_string)
         json_enc = json.dumps({
@@ -31,10 +35,13 @@ def prepare_samples(mnist):
         })
         with open(basename + ".json", "w") as f:
             f.write(json_enc)
-        with open("all.json", "a") as f:
+        with open(all_json, "a") as f:
             f.write(json_enc)
             f.write("\n")
         i += 1
+    print("Samples generated in %s" % os.path.abspath(FLAGS.sample_dir))
+    print("Use %s for JSON instances in predict operations"
+          % os.path.abspath(all_json))
 
 def main(_):
     mnist = input_data.read_data_sets(FLAGS.data_dir, one_hot=True)
