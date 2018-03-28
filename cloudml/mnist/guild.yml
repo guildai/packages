@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: cloudml.mnist
-  version: 0.3.1.dev3
+  version: 0.3.1
   description: MNIST model for Cloud ML
   url: https://github.com/guildai/index/tree/master/cloudml/mnist
   author: Guild AI

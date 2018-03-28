@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: keras.deep-dream
-  version: 0.3.1.dev1
+  version: 0.3.1
   description: Deep dream generator in Keras
   url: https://github.com/guildai/index/tree/master/keras/deep-dream
   author: Guild AI

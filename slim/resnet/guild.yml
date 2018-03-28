@@ -5,7 +5,7 @@
 # ===================================================================
 
 - package: slim.resnet
-  version: 0.3.1.dev1
+  version: 0.3.1
   description: TF-Slim ResNet models (50, 101, 152, and 200 layer models for ResNet v1 and v2)
   url: https://github.com/guildai/index/tree/master/slim/resnet
   author: Guild AI

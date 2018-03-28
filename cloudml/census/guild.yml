@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: cloudml.census
-  version: 0.3.1.dev1
+  version: 0.3.1
   description: Census models for Cloud ML
   url: https://github.com/guildai/index/tree/master/cloudml/census
   author: Guild AI

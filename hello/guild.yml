@@ -1,5 +1,9 @@
+# ===================================================================
+# hello package
+# ===================================================================
+
 - package: hello
-  version: 0.3.1.dev1
+  version: 0.3.1
   description: Example "hello world" model
   url: https://github.com/guildai/index/tree/master/hello
   author: Guild AI
@@ -8,6 +12,10 @@
   tags: [example, model]
   data-files:
     - msg.txt
+
+# -------------------------------------------------------------------
+# hello
+# -------------------------------------------------------------------
 
 - model: hello
   description: >
