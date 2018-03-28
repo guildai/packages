@@ -28,7 +28,7 @@ def prepare_samples(mnist):
         basename = os.path.join(FLAGS.sample_dir, "%05i" % i)
         image_path = basename + ".png"
         print("Writing %s" % image_path)
-        with open(image_path, "w") as f:
+        with open(image_path, "wb") as f:
             f.write(summary.image.value[0].image.encoded_image_string)
         json_enc = json.dumps({
             "inputs": image.tolist()
