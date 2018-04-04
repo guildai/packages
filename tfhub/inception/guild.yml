@@ -1,0 +1,4 @@
+- model: tfhub-inception-v1
+  operations:
+    train:
+      cmd: inception
