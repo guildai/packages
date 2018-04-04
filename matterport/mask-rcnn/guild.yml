@@ -14,6 +14,7 @@
   resources:
     lib:
       private: yes
+      path: lib
       sources:
         - url: https://github.com/matterport/Mask_RCNN/archive/bec48231ab889aa1470d2102e42bef6391dd4293.zip
           sha256: 7aeaf77425f4df55c4f1769a45bafb5408e55711a1f26f94d0ef74040754a9fe

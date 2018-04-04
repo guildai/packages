@@ -1,0 +1,19 @@
+# Cython and numpy are required to build pycocotools and unfortunately
+# must be installed manually before installing the remaining
+# requirements. See https://github.com/h5py/h5py/issues/535 for more
+# background.
+
+Cython
+numpy
+
+# Once the above two packages are installed, the remaining below can
+# be installed using `pip install -r requirements.txt` normally.
+
+pycocotools
+imgaug
+opencv-python
+keras
+scikit-image
+matplotlib
+ipython
+h5py

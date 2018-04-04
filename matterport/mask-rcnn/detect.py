@@ -4,8 +4,16 @@ from __future__ import print_function
 
 import argparse
 import glob
+import os
+import sys
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 import skimage.io
+
+sys.path.insert(0, "lib")
 
 import coco
 import model as modellib
@@ -57,10 +65,12 @@ def init_config():
 
 def detect(images, model):
     for image_path in glob.glob(images):
-        image = skimage.io.imread(image_path)
+        run_local_path, instances_path = _image_paths(image_path)
+        os.symlink(image_path, run_local_path)
+        image = skimage.io.imread(run_local_path)
         results = model.detect([image], verbose=1)
         r = results[0]
-        import pdb;pdb.set_trace()
+        plt.show = _write_image_fn(instances_path)
         visualize.display_instances(
             image,
             r['rois'],
@@ -68,6 +78,14 @@ def detect(images, model):
             r['class_ids'],
             class_names,
             r['scores'])
+
+def _image_paths(src):
+    basename = os.path.basename(src)
+    basename_no_ext, _ = os.path.splitext(basename)
+    return basename, "{}-instances.png".format(basename_no_ext)
+
+def _write_image_fn(path):
+    return lambda: plt.savefig(path)
 
 if __name__ == "__main__":
     main()
