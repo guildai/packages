@@ -1,0 +1,68 @@
+- config: keras-retinanet-support
+  resources:
+    lib:
+      description: Keras RetinaNet library
+      private: yes
+      sources:
+        - url: https://github.com/fizyr/keras-retinanet/archive/f333ea710fa7eee79577840f56de45655998f34b.zip
+          sha256: 150ac45d2a75e0fdb7d743e7bd26ecec87cb400fff750ba76f864a9075fb4a0d
+          select:
+            - keras-retinanet-f333ea710fa7eee79577840f56de45655998f34b/keras_retinanet
+        - module: keras
+          help: Try 'pip install keras' to install the required module.
+        - module: cv2
+          help: Try 'pip install opencv-python' to install the required module.
+        - module: keras_resnet
+          help: Try 'pip install keras-resnet' to install the required module.
+        - module: h5py
+          help: Try 'pip install h5py' to install the required module.
+
+- model: pascal-dataset
+  extends: keras-retinanet-support
+  operations:
+    prepare:
+      description: Prepare the Pascal VOC 2007 dataset for training and test
+      cmd: ops pascal-prepare
+      requires:
+        - lib
+        - data
+  resources:
+    data:
+      description: Pascal VOC 2007 train, validate, and test data archives
+      private: yes
+      sources:
+        - url: http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar
+          sha256: 7d8cd951101b0957ddfd7a530bdc8a94f06121cfc1e511bb5937e973020c7508
+          unpack: no
+        - url: http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar
+          sha256: 6836888e2e01dca84577a849d339fa4f73e1e4f135d312430c4856b5609b4892
+          unpack: no
+
+- model: keras-retinanet
+  extends: keras-retinanet-support
+  operations:
+    train:
+      description: Train RetinaNet
+      cmd: ops train
+      flags:
+        dataset:
+          description: Dataset to train on
+          default: pascal
+          choices:
+            - value: pascal
+              args:
+                dataset-path: VOC2007
+        epochs:
+          description: Number of epochs to train
+          default: 50
+      requires:
+        - lib
+        - ${dataset}
+  resources:
+    pascal:
+      description: Prepared Pascal VOC 2007 dataset
+      private: yes
+      sources:
+        - operation: pascal-dataset:prepare
+          select: VOCdevkit/VOC2007
+          help: Try 'guild run pascal-dataset:prepare' to prepare the dataset.
