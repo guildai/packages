@@ -85,7 +85,11 @@ def _image_paths(src):
     return basename, "{}-instances.png".format(basename_no_ext)
 
 def _write_image_fn(path):
-    return lambda: plt.savefig(path)
+    return lambda: plt.savefig(
+        path,
+        bbox_inches="tight",
+        pad_inches=0,
+        transparent=True)
 
 if __name__ == "__main__":
     main()
