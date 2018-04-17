@@ -76,7 +76,8 @@ class ImageReader(object):
 def main():
     args = _parse_args()
     state = State(args)
-    os.makedirs(state.output_dir)
+    if not os.path.exists(state.output_dir):
+        os.makedirs(state.output_dir)
     _convert_images(state.training, "train", state)
     _convert_images(state.validation, "validation", state)
     _write_label_file(state)
