@@ -1,3 +1,7 @@
+# -------------------------------------------------------------------
+# keras-retinanet-support (shared config)
+# -------------------------------------------------------------------
+
 - config: keras-retinanet-support
   resources:
     lib:
@@ -16,6 +20,76 @@
           help: Try 'pip install keras-resnet' to install the required module.
         - module: h5py
           help: Try 'pip install h5py' to install the required module.
+        - module: PIL
+          help: Try 'pip install Pillow' to install the required module.
+
+# -------------------------------------------------------------------
+# keras-retinanet
+# -------------------------------------------------------------------
+
+- model: keras-retinanet
+  extends: keras-retinanet-support
+  operations:
+    train:
+      description: Train RetinaNet
+      cmd: ops train
+      flags:
+        dataset:
+          description: Dataset to train on
+          default: pascal
+          choices:
+            - value: pascal
+              args:
+                dataset-path: VOC2007
+        backbone:
+          description: Backbone model used by retinanet
+          default: resnet50
+          choices:
+            - densenet121
+            - densenet169
+            - densenet201
+            - mobilenet128
+            - mobilenet160
+            - mobilenet192
+            - mobilenet224
+            - resnet101
+            - resnet152
+            - resnet50
+            - vgg16
+            - vgg19
+        batch-size:
+          description: Images per batch
+          default: 1
+        epochs:
+          description: Epochs to train
+          default: 50
+        steps:
+          description: Steps per epoch
+          default: 10000
+        weights:
+          description:
+            Use weights from pre-trained model
+
+            Values may be 'imagenet' for pretrained weights from
+            ImageNet (default), 'none' for no weights, 'resume' to use
+            the weights from the latest train operation, a path to a
+            weights file, or a run ID.
+          default: imagenet
+      requires:
+        - lib
+        - ${dataset}
+  resources:
+    pascal:
+      description: Prepared Pascal VOC 2007 dataset
+      private: yes
+      sources:
+        - operation: pascal-dataset:prepare
+          select: VOCdevkit/VOC2007
+          help: Try 'guild run pascal-dataset:prepare' to prepare the dataset.
+
+# -------------------------------------------------------------------
+# pascal-dataset
+# -------------------------------------------------------------------
 
 - model: pascal-dataset
   extends: keras-retinanet-support
@@ -37,32 +111,3 @@
         - url: http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar
           sha256: 6836888e2e01dca84577a849d339fa4f73e1e4f135d312430c4856b5609b4892
           unpack: no
-
-- model: keras-retinanet
-  extends: keras-retinanet-support
-  operations:
-    train:
-      description: Train RetinaNet
-      cmd: ops train
-      flags:
-        dataset:
-          description: Dataset to train on
-          default: pascal
-          choices:
-            - value: pascal
-              args:
-                dataset-path: VOC2007
-        epochs:
-          description: Number of epochs to train
-          default: 50
-      requires:
-        - lib
-        - ${dataset}
-  resources:
-    pascal:
-      description: Prepared Pascal VOC 2007 dataset
-      private: yes
-      sources:
-        - operation: pascal-dataset:prepare
-          select: VOCdevkit/VOC2007
-          help: Try 'guild run pascal-dataset:prepare' to prepare the dataset.
