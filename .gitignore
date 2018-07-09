@@ -1,5 +1,6 @@
 *.pyc
 build
 dist
+env
 *.egg-info
 README.html
