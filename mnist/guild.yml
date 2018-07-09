@@ -33,7 +33,6 @@
     train:
       description: 'Train the {{model_desc}}'
       cmd: '{{train_cmd}} --data-dir mnist-idx-data --run-dir .'
-      requires: mnist/dataset
       flags:
         batch-size:
           description: Number of images to include in a training batch
@@ -41,6 +40,7 @@
         epochs:
           description: Number of epochs to train
           default: 10
+      requires: mnist/dataset
     evaluate:
       description: 'Evaluate a trained {{model_desc}}'
       cmd: '{{train_cmd}} --test --data-dir mnist-idx-data --run-dir .'
