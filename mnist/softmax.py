@@ -167,9 +167,12 @@ def init_exported_collections():
     assert latest_checkpoint, "no checkpoints in %s" % FLAGS.run_dir
     saver = tf.train.import_meta_graph(latest_checkpoint + ".meta")
     saver.restore(sess, latest_checkpoint)
-    x = sess.graph.get_tensor_by_name(tf.get_collection("x")[0])
-    y_ = sess.graph.get_tensor_by_name(tf.get_collection("y_")[0])
-    accuracy = sess.graph.get_tensor_by_name(tf.get_collection("accuracy")[0])
+    tensor = lambda name: (
+        sess.graph.get_tensor_by_name(tf.get_collection(name)[0].decode())
+    )
+    x = tensor("x")
+    y_ = tensor("y_")
+    accuracy = tensor("accuracy")
 
 def test():
     data = {x: mnist.test.images, y_: mnist.test.labels}
