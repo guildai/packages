@@ -1,0 +1,51 @@
+- config: detection-lib-support
+  resources:
+    detection-lib:
+      sources:
+        - url: https://github.com/tensorflow/models/archive/4285be595492351aff42b31d7aadf842eb34d7f3.zip
+          sha256: 0d86f9fa7afd6ea1e217e06a326c46d6f638434eeeeea3252e4af4b45054f3fc
+          select:
+            - models-4285be595492351aff42b31d7aadf842eb34d7f3/research/object_detection
+            - models-4285be595492351aff42b31d7aadf842eb34d7f3/research/slim/deployment
+            - models-4285be595492351aff42b31d7aadf842eb34d7f3/research/slim/nets
+          post-process: >
+            cd models-4285be595492351aff42b31d7aadf842eb34d7f3/research &&
+            protoc object_detection/protos/*.proto --python_out .
+
+- config: detection-model
+  extends: detection-lib-support
+  operations:
+    train:
+      description: Train {{model-name}}
+      main: model_main
+      requires:
+        - detection-lib
+
+- model: ssd-mobilenet-v2
+  extends: detection-model
+  params:
+    model-name: MobileNet v2
+
+- model: pet-dataset
+  description: Oxford-IIIT pet dataset
+  extends: detection-lib-support
+  operations:
+    prepare:
+      description: Prepare Oxford-IIT pet dataset for training
+      main: >
+        object_detection/dataset_tools/create_pet_tf_record
+          --label_map_path object_detection/data/pet_label_map.pbtxt
+          --nofaces_only
+          --data_dir .
+          --output_dir .
+      requires:
+        - detection-lib
+        - pet-images
+  resources:
+    pet-images:
+      description: Oxford-IIIT pet images with annotations
+      sources:
+        - url: https://s3.amazonaws.com/guild-pub/oxford-pets/images.tar.gz
+          sha256: 67195c5e1c01f1ab5f9b6a5d22b8c27a580d896ece458917e61d459337fa318d
+        - url: https://s3.amazonaws.com/guild-pub/oxford-pets/annotations.tar.gz
+          sha256: 52425fb6de5c424942b7626b428656fcbd798db970a937df61750c0f1d358e91
