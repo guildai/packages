@@ -37,12 +37,12 @@
         - pet-detector.config
     pretrained-model:
       description: Pretrained model used for finetuning
-      path: pretrained
+      path: checkpoint
       sources:
         # TODO: move somewhere else (e.g. defined by model)
         - url: http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz
           sha256: b9380178b2e35333f1a735e39745928488bdabeb9ed20bc6fa07af8172cb5adc
-          select: ssd_mobilenet_v2_coco_2018_03_29/model.ckpt.index
+          select: ssd_mobilenet_v2_coco_2018_03_29/.*
 
     prepared-data:
       description: Data prepared for training
