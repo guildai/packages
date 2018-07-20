@@ -17,14 +17,16 @@ def main():
 
 def _init_args():
     p = argparse.ArgumentParser()
+    p.add_argument("--model-dir")
     return p.parse_args()
 
 def _model_main_argv(args):
-    print(args)
-    return [
-        sys.argv[0],
-        # TODO: either generate config or get from args
-        "--pipeline_config_path", "pet-detector.config"]
+    argv = [sys.argv[0]]
+    # TODO: either generate config or get from args
+    argv.extend(["--pipeline_config_path", "pet-detector.config"])
+    if args.model_dir:
+        argv.extend(["--model_dir", args.model_dir])
+    return argv
 
 if __name__ == "__main__":
     main()

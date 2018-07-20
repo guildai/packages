@@ -22,7 +22,7 @@
       main: prepare_data
     finetune:
       description: Finetune {{model-name}}
-      main: train
+      main: train --model-dir model
       requires:
         - detection-lib
         - pipeline-config
