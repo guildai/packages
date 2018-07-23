@@ -11,11 +11,11 @@ import tensorflow as tf
 from object_detection import model_main
 
 def main():
-    args = _init_args()
+    args = _parse_args()
     sys.argv = _model_main_argv(args)
     tf.app.run(model_main.main)
 
-def _init_args():
+def _parse_args():
     p = argparse.ArgumentParser()
     p.add_argument("--model-dir")
     return p.parse_args()

@@ -98,7 +98,7 @@ allow more sensible mixing and matching of configuration and minimize
 the proliferation of configuration files, which we're starting to see
 under `object_detection/samples/config`.
 
-Update: On further inspection, it's probably a bad idea to attempt
+Update 1: On further inspection, it's probably a bad idea to attempt
 factoring the config into smaller, reusable parts:
 
 - While there are indeed sharable pieces, they tend to have
@@ -116,3 +116,28 @@ factoring the config into smaller, reusable parts:
 Our strategy must at this time preserve Google's configuration. The
 easiest way to do that is to use it directly -- i.e. use the files
 under `samples/config` as they are.
+
+Update 2: It's possible to reuse config, but at a high level
+(i.e. don't factor into parts). E.g. the "mobilenet_xxx" config is
+pretty similar and we can probably provide a single config for it,
+with overrides per model.
+
+``` yaml
+- config: detection-mobile
+  operations:
+    train:
+      main:
+        train
+          --config {{config}}
+          --
+
+- model: ssd-mobilenet-v1
+  extends: detection-model
+  params:
+    config: ssd-mobilenet-v1.config
+
+- model: my-model
+  extends: ssd-mobilenet-v1
+  params:
+    num_classes: 90
+```
