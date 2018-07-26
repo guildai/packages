@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: keras.mnist
-  version: 0.3.1
+  version: 0.4.0
   description: MNIST related models in Keras
   url: https://github.com/guildai/index/tree/master/keras/mnist
   author: Guild AI
@@ -21,7 +21,7 @@
   operations:
     train:
       description: Train the {{model_desc}}
-      cmd: guild.plugins.keras_op_main train {{script}}
+      main: guild.plugins.keras_op_main train {{script}}
       flags:
         epochs:
           description: Number of epochs to train

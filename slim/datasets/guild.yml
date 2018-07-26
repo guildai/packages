@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: slim.datasets
-  version: 0.3.1.2
+  version: 0.4.0
   description: Support for downloading an converting TF-Slim datasets
   url: https://github.com/guildai/index/tree/master/slim/datasets
   author: Guild AI
@@ -20,7 +20,7 @@
   description: Support for preparing the MNIST TF-Slim dataset
   operations:
     prepare:
-      cmd: prepare --dataset_name mnist --dataset_dir data
+      main: prepare --dataset_name mnist --dataset_dir data
       description: Prepare the MNIST dataset
       requires:
         - slim/models-lib
@@ -48,7 +48,7 @@
   operations:
     prepare:
       description: Prepare the CIFAR-10 dataset
-      cmd: prepare --dataset_name cifar10 --dataset_dir data
+      main: prepare --dataset_name cifar10 --dataset_dir data
       requires:
         - slim/models-lib
         - data
@@ -69,7 +69,7 @@
   operations:
     prepare:
       description: Prepare the Flickr flowers dataset
-      cmd: prepare --dataset_name flowers --dataset_dir data
+      main: prepare --dataset_name flowers --dataset_dir data
       requires:
         - slim/models-lib
         - data
@@ -90,7 +90,7 @@
   operations:
     prepare:
       description: Prepare a custom images dataset
-      cmd: prepare_custom --output-dir data
+      main: prepare_custom --output-dir data
       flags:
         images:
           description: Directory containing images

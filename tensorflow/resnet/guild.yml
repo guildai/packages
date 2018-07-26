@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: tensorflow.resnet
-  version: 0.3.1
+  version: 0.4.0
   description: Official TensorFlow ResNet classifier
   url: https://github.com/guildai/index/tree/master/tensorflow/resnet
   author: Guild AI
@@ -54,7 +54,7 @@
   operations:
     train:
       description: Train the ResNet model on CIFAR-10 data
-      cmd: resnet/cifar10_main --data_dir . --model_dir .
+      main: resnet/cifar10_main --data_dir . --model_dir .
       requires:
         - tensorflow.resnet/resnet-lib
         - dataset
@@ -84,7 +84,7 @@
   operations:
     train:
       description: Train the ResNet model on ImageNet data
-      cmd: imagenet_main --model_dir .
+      main: imagenet_main --model_dir .
       flags:
         resnet-size:
           description: Size of the ResNet model to use (18, 34, 50, 101, 152, or 200)

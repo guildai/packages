@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: magenta.image
-  version: 0.3.1
+  version: 0.4.0
   description: Image generators from the Magenta project
   url: https://github.com/guildai/index/tree/master/magenta/image
   author: Guild AI
@@ -43,7 +43,7 @@
     generate:
       description:
         Generate a stylized image using a pretrained models
-      cmd:
+      main:
         magenta.models.image_stylization.image_stylization_transform
           --output_dir .
           --output_basename stylized
@@ -103,7 +103,7 @@
     generate:
       description:
         Generate a stylized using model pretrained on PNB and DRD images
-      cmd:
+      main:
         magenta.models.arbitrary_image_stylization.arbitrary_image_stylization_with_weights
           --checkpoint=arbitrary_style_transfer/model.ckpt
           --output_dir=.

@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: tensorflow.wide-deep
-  version: 0.3.1
+  version: 0.4.0
   description: Wide and deep income predictor for Census Income data
   url: https://github.com/guildai/index/tree/master/tensorflow/wide-deep
   author: Guild AI
@@ -22,12 +22,12 @@
   operations:
     prepare:
       description: Download and prepare the Census Income data
-      cmd: wide_deep/data_download --data_dir data
+      main: wide_deep/data_download --data_dir data
       requires:
         - tensorflow.wide-deep/wide-deep-lib
     train:
       description: Train a wide and deep model on Census Income data
-      cmd: wide_deep_patched --model_dir . --train_data data/adult.data --test_data data/adult.test
+      main: wide_deep_patched --model_dir . --train_data data/adult.data --test_data data/adult.test
       flags:
         model-type:
           description: Model type (wide, deep, wide_deep)

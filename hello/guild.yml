@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: hello
-  version: 0.3.1
+  version: 0.4.0
   description: Example "hello world" model
   url: https://github.com/guildai/index/tree/master/hello
   author: Guild AI
@@ -37,7 +37,7 @@
         from-flag operation with the 'message' flag to print an
         alternative message.
 
-      cmd: say
+      main: say
 
     from-flag:
       description: >
@@ -45,7 +45,7 @@
 
         Use the 'message' flag to specify the message to print.
 
-      cmd: say
+      main: say
       flags:
         message:
           description: Message to print
@@ -57,7 +57,7 @@
 
         Use the 'file' flag to specify the file to print.
 
-      cmd: say
+      main: say
       requires: msg-file
       flags:
         file:
@@ -70,7 +70,7 @@
 
         This operation requires a completed file-output run.
 
-      cmd: say --file-output
+      main: say --file-output
       requires: file-output
 
   resources:

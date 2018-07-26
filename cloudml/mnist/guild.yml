@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: cloudml.mnist
-  version: 0.3.1
+  version: 0.4.0
   description: MNIST model for Cloud ML
   url: https://github.com/guildai/index/tree/master/cloudml/mnist
   author: Guild AI
@@ -22,7 +22,7 @@
   operations:
     prepare-data:
       description: Prepare the MNIST data for training
-      cmd: scripts/create_records --directory .
+      main: scripts/create_records --directory .
       flags:
         validation-size:
           description: >
@@ -32,7 +32,7 @@
       requires: scripts
     train:
       description: Train the classifier locally
-      cmd: trainer/task --data_dir . --output_dir .
+      main: trainer/task --data_dir . --output_dir .
       flags:
         train-batch-size:
           description: Batch size for training steps
@@ -69,7 +69,7 @@
           default: 1.2
     prepare-request:
       description: Generate a sample request file
-      cmd: scripts/make_request
+      main: scripts/make_request
       requires: scripts
     cloudml-predict:
       description: Send a prediction request to Cloud ML

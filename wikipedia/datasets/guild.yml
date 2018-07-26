@@ -3,7 +3,7 @@
 # ===================================================================
 
 - package: wikipedia.datasets
-  version: 0.3.1
+  version: 0.4.0
   description: Support for downloading images from Wikipedia Commons
   url: https://github.com/guildai/index/tree/master/wikipedia/commons
   author: Guild AI
@@ -16,7 +16,7 @@
   description: Support for downloading images from Wikipedia Commons
   operations:
     prepare:
-      cmd: commonsdownloader_wrapper -c ${category} -w ${width}
+      main: commonsdownloader_wrapper -c ${category} -w ${width}
       description:
         Download images from Wikipedia Commons
 

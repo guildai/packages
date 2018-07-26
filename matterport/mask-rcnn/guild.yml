@@ -3,7 +3,7 @@
   operations:
     detect:
       description: Detect objects in one or more objects
-      cmd: detect
+      main: detect
       flags:
         images:
           description: Images containing objects to detect

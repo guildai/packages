@@ -32,7 +32,7 @@
   operations:
     train:
       description: Train RetinaNet
-      cmd: ops train
+      main: ops train
       flags:
         dataset:
           description: Dataset to train on
@@ -96,7 +96,7 @@
   operations:
     prepare:
       description: Prepare the Pascal VOC 2007 dataset for training and test
-      cmd: ops pascal-prepare
+      main: ops pascal-prepare
       requires:
         - lib
         - data
