@@ -21,9 +21,10 @@
     annotations-dir: annotations
     labels: labels.pbtxt
     object-class-method: object
+    dataset-name: data
   operations:
     prepare-data:
-      description: Prepare data for training and evaluation
+      description: Prepare {{dataset-name}} for training and evaluation
       main:
         pascal_voc
           --images-dir {{images-dir}}
@@ -35,7 +36,7 @@
         - labeled-data
     finetune:
       description: Finetune {{model-name}}
-      main: train --model-dir model
+      main: train --model-dir model {{pipeline-config}}
       requires:
         - detection-lib
         - pipeline-config
@@ -45,7 +46,7 @@
     pipeline-config:
       description: Config for detection pipeline
       sources:
-        - '{{config}}'
+        - '{{pipeline-config}}'
     pretrained-model:
       description: Pretrained model used for finetuning
       path: checkpoint
@@ -59,10 +60,10 @@
       path: data
       sources:
         - operation: prepare-data
-          select: .+\.record-.+
+          select: .+\.record
 
 - model: ssd-mobilenet-v1
   extends: detection-model
   params:
     model-name: MobileNet v1
-  description: SSD MobileNet v1
+  description: MobileNet v1
