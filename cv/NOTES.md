@@ -141,3 +141,14 @@ with overrides per model.
   params:
     num_classes: 90
 ```
+
+## Patching
+
+We'll use git@github.com:guildai/models.git to maintain fixes and
+apply those as patches to the Google upstream.
+
+These patches are stored as `patches/object_detection.patch`
+
+They're generated within the Guild AI fork by running:
+
+    git format-patch --stdout > ../guild-packages/cv/patches/object_detection.patch
