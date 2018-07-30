@@ -1,0 +1,64 @@
+From b7f8f371dcb88f8de9dbfce348c3842256410506 Mon Sep 17 00:00:00 2001
+From: Garrett Smith <g@rre.tt>
+Date: Wed, 18 Jul 2018 15:01:25 -0500
+Subject: [PATCH 1/2] Use print function for Python 3 compatibility
+
+---
+ .../object_detection/utils/object_detection_evaluation.py | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/research/object_detection/utils/object_detection_evaluation.py b/research/object_detection/utils/object_detection_evaluation.py
+index 8a38d8c2..91426a2a 100644
+--- a/research/object_detection/utils/object_detection_evaluation.py
++++ b/research/object_detection/utils/object_detection_evaluation.py
+@@ -27,6 +27,8 @@ It supports the following operations:
+ Note: This module operates on numpy boxes and box lists.
+ """
+ 
++from __future__ import print_function
++
+ from abc import ABCMeta
+ from abc import abstractmethod
+ import collections
+@@ -839,9 +841,9 @@ class ObjectDetectionEvaluation(object):
+       if self.use_weighted_mean_ap:
+         all_scores = np.append(all_scores, scores)
+         all_tp_fp_labels = np.append(all_tp_fp_labels, tp_fp_labels)
+-      print 'Scores and tpfp per class label: {}'.format(class_index)
+-      print tp_fp_labels
+-      print scores
++      print('Scores and tpfp per class label: {}'.format(class_index))
++      print(tp_fp_labels)
++      print(scores)
+       precision, recall = metrics.compute_precision_recall(
+           scores, tp_fp_labels, self.num_gt_instances_per_class[class_index])
+       self.precisions_per_class.append(precision)
+-- 
+2.17.1
+
+
+From ef045f60265a8763620741b1f3cf9ca5e7947b25 Mon Sep 17 00:00:00 2001
+From: Garrett Smith <g@rre.tt>
+Date: Fri, 20 Jul 2018 13:07:36 -0500
+Subject: [PATCH 2/2] Python 3 friendly API
+
+---
+ research/object_detection/model_lib.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/research/object_detection/model_lib.py b/research/object_detection/model_lib.py
+index 23bcd0df..b7ccf625 100644
+--- a/research/object_detection/model_lib.py
++++ b/research/object_detection/model_lib.py
+@@ -279,7 +279,7 @@ def create_model_fn(detection_model_fn, configs, hparams, use_tpu=False):
+     if mode in (tf.estimator.ModeKeys.TRAIN, tf.estimator.ModeKeys.EVAL):
+       losses_dict = detection_model.loss(
+           prediction_dict, features[fields.InputDataFields.true_image_shape])
+-      losses = [loss_tensor for loss_tensor in losses_dict.itervalues()]
++      losses = [loss_tensor for loss_tensor in losses_dict.values()]
+       if train_config.add_regularization_loss:
+         regularization_losses = tf.get_collection(
+             tf.GraphKeys.REGULARIZATION_LOSSES)
+-- 
+2.17.1
+

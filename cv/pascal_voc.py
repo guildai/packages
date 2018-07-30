@@ -13,11 +13,8 @@ from lxml import etree
 
 import tensorflow as tf
 
-try:
-    from object_detection.utils import dataset_util
-    from object_detection.utils import label_map_util
-except ImportError as e:
-    sys.stderr.write("WARNING: %s\n" % e)
+from object_detection.utils import dataset_util
+from object_detection.utils import label_map_util
 
 def main():
     args = _parse_args()

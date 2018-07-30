@@ -4,15 +4,17 @@
       description: Object detection Python libraries
       private: yes
       sources:
-        - url: https://github.com/tensorflow/models/archive/4285be595492351aff42b31d7aadf842eb34d7f3.zip
-          sha256: 0d86f9fa7afd6ea1e217e06a326c46d6f638434eeeeea3252e4af4b45054f3fc
+        - url: https://github.com/tensorflow/models/archive/887bbcb9ddc046eff66ce10c681edbc2ae8bac6a.zip
+          sha256: fede456a860a44afcc42e9b3eda7453f50c7d18005e8ceb577a19fa7d32d35bb
           select:
-            - models-4285be595492351aff42b31d7aadf842eb34d7f3/research/object_detection
-            - models-4285be595492351aff42b31d7aadf842eb34d7f3/research/slim/deployment
-            - models-4285be595492351aff42b31d7aadf842eb34d7f3/research/slim/nets
+            - models-887bbcb9ddc046eff66ce10c681edbc2ae8bac6a/research/object_detection
+            - models-887bbcb9ddc046eff66ce10c681edbc2ae8bac6a/research/slim/deployment
+            - models-887bbcb9ddc046eff66ce10c681edbc2ae8bac6a/research/slim/nets
           post-process: >
-            cd models-4285be595492351aff42b31d7aadf842eb34d7f3/research &&
-            protoc object_detection/protos/*.proto --python_out .
+            cd models-887bbcb9ddc046eff66ce10c681edbc2ae8bac6a
+            && patch -p1 < $(resource-src patches/object_detection.patch)
+            && cd research
+            && protoc object_detection/protos/*.proto --python_out .
 
 - config: detection-model
   extends: detection-lib-support
