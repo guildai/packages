@@ -151,4 +151,4 @@ These patches are stored as `patches/object_detection.patch`
 
 They're generated within the Guild AI fork by running:
 
-    git format-patch --stdout > ../guild-packages/cv/patches/object_detection.patch
+    git diff upstream/master > ../guild-packages/cv/patches/object_detection.patch
