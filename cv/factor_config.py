@@ -5,6 +5,9 @@ import glob
 import logging
 import os
 
+# Ensure proper encoding of floats in protobuf
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
 from google.protobuf import text_format
 
 from object_detection.protos import pipeline_pb2
