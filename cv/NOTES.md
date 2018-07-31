@@ -152,3 +152,14 @@ These patches are stored as `patches/object_detection.patch`
 They're generated within the Guild AI fork by running:
 
     git diff upstream/master > ../guild-packages/cv/patches/object_detection.patch
+
+## Issues with object_detection
+
+- See git@github.com:guildai/models.git
+
+- No requirements.txt
+
+- Requires tkinter unless the following is added to model_main.py:
+
+    import matplotlib
+    matplotlib.use('Agg')

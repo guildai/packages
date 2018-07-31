@@ -16,7 +16,10 @@ except ImportError as e:
 def main():
     args = _parse_args()
     sys.argv = _model_main_argv(args)
-    tf.app.run(model_main.main)
+    try:
+        tf.app.run(model_main.main)
+    except KeyboardInterrupt:
+        sys.stderr.write("Operation stopped by user\n")
 
 def _parse_args():
     p = argparse.ArgumentParser()
