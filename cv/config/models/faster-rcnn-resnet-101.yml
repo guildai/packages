@@ -1,5 +1,4 @@
 faster_rcnn:
-  num_classes: 37
   image_resizer:
     keep_aspect_ratio_resizer:
       min_dimension: 600

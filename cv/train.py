@@ -80,8 +80,11 @@ def _generate_config(dataset_src, model_src, train_src, eval_src):
         _apply_config(model_src, "model", config.model)
     if train_src:
         _apply_config(train_src, "train", config.train_config)
+    if eval_src:
+        _apply_config(eval_src, "eval", config.eval_config)
+    if dataset_src:
+        _apply_config(dataset_src, "dataset", config)
     _write_config(config, CONFIG_FILENAME)
-    raise RuntimeError("TODO: check ze config yo")
     return CONFIG_FILENAME
 
 def _apply_config(src, desc, x):
