@@ -2,6 +2,11 @@ model:
   faster_rcnn:
     num_classes: 37
 
+eval_config:
+  metrics_set:
+    - coco_detection_metrics
+  num_examples: 1101
+
 train_input_reader:
   tf_record_input_reader:
     input_path:

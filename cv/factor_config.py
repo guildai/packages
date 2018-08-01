@@ -32,7 +32,7 @@ def _factor_all(args):
     for path in glob.glob(os.path.join(args.in_dir, "*.config")):
         config = _try_load_config(path, args)
         if config is None:
-            log.warn("unable to load %s, skipping", path)
+            log.warning("unable to load %s, skipping", path)
         _factor_config(config, path, args)
 
 def _try_load_config(path, args):
@@ -40,7 +40,7 @@ def _try_load_config(path, args):
         return _load_config(path)
     except Exception:
         if args.debug:
-            log.exception("loading %s" % path)
+            log.exception("loading %s", path)
         return None
 
 def _load_config(path):

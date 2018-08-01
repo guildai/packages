@@ -20,30 +20,31 @@ from object_detection import model_main
 
 import config_util
 
+logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
 
 def main():
     args = _parse_args()
     _validate_args(args)
     config_path = _init_config(args)
-    if os.getenv("SKIP_TRAIN") == "1":
-        log.info("SKIP_TRAIN set, skipping train")
+    if os.getenv("SKIP_EVAL") == "1":
+        log.info("SKIP_EVAL set, skipping evaluate")
         return
     sys.argv = _model_main_argv(config_path, args)
     log.info("Running model_main with %s", sys.argv[1:])
-    try:
-        tf.app.run(model_main.main)
-    except KeyboardInterrupt:
-        sys.stderr.write("Operation stopped by user\n")
+    tf.app.run(model_main.main)
 
 def _parse_args():
     p = argparse.ArgumentParser()
     p.add_argument(
         "--model-dir", metavar="PATH", default="model",
-        help="directory to write model checkpoints and logs")
+        help="directory to write logs")
     p.add_argument(
-        "--train-steps", metavar="STEPS", type=int,
-        help="train steps")
+        "--checkpoint-dir", metavar="PATH", default="checkpoint",
+        help="directory containing checkpoint to evaluate")
+    p.add_argument(
+        "--eval-examples", metavar="COUNT", type=int,
+        help="eval examples")
     config_util.add_config_args(p)
     return p.parse_args()
 
@@ -61,6 +62,8 @@ def _model_main_argv(config_path, args):
     argv = [sys.argv[0]]
     argv.extend(["--pipeline_config_path", config_path])
     argv.extend(["--model_dir", args.model_dir])
+    argv.extend(["--checkpoint_dir", args.checkpoint_dir])
+    argv.append("--run_once")
     return argv
 
 if __name__ == "__main__":

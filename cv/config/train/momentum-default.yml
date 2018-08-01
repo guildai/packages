@@ -16,5 +16,4 @@ optimizer:
 gradient_clipping_by_norm: 10.0
 fine_tune_checkpoint: "checkpoint/model.ckpt"
 from_detection_checkpoint: true
-num_steps: 200000
 load_all_detection_checkpoint_vars: true

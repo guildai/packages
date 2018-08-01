@@ -4,9 +4,9 @@ from __future__ import print_function
 
 import argparse
 import hashlib
+import os
 import random
 import re
-import sys
 
 import click
 from lxml import etree
