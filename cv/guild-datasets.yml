@@ -1,0 +1,43 @@
+- config: pascal-voc-dataset-support
+  params:
+    images-dir: images
+    annotations-dir: annotations
+    labels: labels.pbtxt
+    object-class-method: object
+  operations:
+    prepare-data:
+      description: Prepare dataset for training and evaluation
+      main:
+        pascal_voc
+          --images-dir {{images-dir}}
+          --annotations-dir {{annotations-dir}}
+          --labels {{labels}}
+          --object-class-method {{object-class-method}}
+      requires:
+        - detection-lib
+        - labeled-data
+
+- config: pet-dataset-support
+  description:
+    Defines prepare-dataset operation for Oxford-IIIT pet dataset
+  params:
+    dataset-config: config/datasets/pet.yml
+  operations:
+    prepare-data:
+      description: Prepare Oxford-IIIT pet dataset for training and evaluation
+      main:
+        object_detection.dataset_tools.create_pet_tf_record
+          --label_map_path=object_detection/data/pet_label_map.pbtxt
+          --data_dir=data
+          --output_dir=.
+      requires:
+        - detection-lib
+        - pet-dataset
+  resources:
+    pet-dataset:
+      path: data
+      sources:
+        - url: http://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz
+          sha256: 67195c5e1c01f1ab5f9b6a5d22b8c27a580d896ece458917e61d459337fa318d
+        - url: http://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz
+          sha256: 52425fb6de5c424942b7626b428656fcbd798db970a937df61750c0f1d358e91
