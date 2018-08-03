@@ -28,6 +28,7 @@
     model-config: ''
     train-config: ''
     eval-config: ''
+    extra-config: ''
   operations:
     finetune:
       description: Finetune {{model-name}}
@@ -38,13 +39,10 @@
           --model-config '{{model-config}}'
           --train-config '{{train-config}}'
           --eval-config '{{eval-config}}'
+          --extra-config '{{extra-config}}'
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
       flags:
-        config:
-          description:
-            Additional YAML formatted config to apply to operation
-          arg-name: extra-config
         train-steps:
           description:
             Number of training steps (default trains indefinitely)

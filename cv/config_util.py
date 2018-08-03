@@ -77,7 +77,34 @@ def _apply_eval_config(args, config):
 
 def _apply_dataset_config(args, config):
     if args.dataset_config:
-        _apply_config(args.dataset_config, "dataset", config)
+        data = _load_config(args.dataset_config, "dataset")
+        _apply_num_classes(data, config)
+        _maybe_apply_dict(data, "eval_config", config.eval_config)
+        _maybe_apply_dict(data, "train_input_reader", config.train_input_reader)
+        _maybe_apply_dict(data, "eval_input_reader", config.eval_input_reader)
+
+def _maybe_apply_dict(parent, attr_name, msg):
+    try:
+        d = parent[attr_name]
+    except KeyError:
+        pass
+    else:
+        _apply_dict(d, msg)
+
+def _apply_num_classes(data, config):
+    try:
+        num_classes = data["num_classes"]
+    except KeyError:
+        pass
+    else:
+        if config.model.HasField("ssd"):
+            config.model.ssd.num_classes = num_classes
+        elif config.model.HasField("faster_rcnn"):
+            config.model.faster_rcnn.num_classes = num_classes
+        else:
+            raise AssertionError(
+                type(config.model),
+                config.model.ListFields())
 
 def _apply_extra_config(args, config):
     if args.extra_config:
@@ -92,14 +119,14 @@ def _apply_arg_config(args, config):
         config.eval_config, ["num_examples"])
 
 def _apply_config(src, desc, x):
-    data = _try_load_config(src, desc)
+    data = _load_config(src, desc)
     if not isinstance(data, dict):
         raise ConfigError(
             "invalid configuration in %s: expected dict, got %s"
             % (src, type(data)))
     _apply_dict(data, x)
 
-def _try_load_config(src, desc):
+def _load_config(src, desc):
     resolved = op_util.find_file(src)
     if not resolved:
         raise ConfigError("cannot find config %s" % src)

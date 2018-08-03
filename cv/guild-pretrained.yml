@@ -1,6 +1,6 @@
 - config: faster-rcnn-resnet-101-coco-checkpoint-support
   description:
-    Defines 'finetune-checkpoint' resource for Faster RCNN ResNet 101
+    Defines finetune-checkpoint resource for Faster RCNN ResNet 101
     trained on MS-COCO
   resources:
     finetune-checkpoint:
@@ -11,15 +11,15 @@
           sha256: f08a8475b1abae663bef51234545baa8c44972a8c16cfcaea0a41330426fed02
           select: faster_rcnn_resnet101_coco_11_06_2017/.*
 
-- config: ssd-mobilenet-v2-coco-support
+- config: ssd-mobilenet-v1-coco-checkpoint-support
   description:
-    Defines 'finetune-checkpoint' resource for SDD MobileNet v2 trained
+    Defines finetune-checkpoint resource for SDD MobileNet v1 trained
     on MS-COCO
   resources:
     finetune-checkpoint:
-      description: SSD MobileNet v2 model pretrained on MS-COCO
+      description: SSD MobileNet v1 model trained on MS-COCO
       path: checkpoint
       sources:
-        - url: http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz
-          sha256: b9380178b2e35333f1a735e39745928488bdabeb9ed20bc6fa07af8172cb5adc
-          select: ssd_mobilenet_v2_coco_2018_03_29/.*
+        - url: http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz
+          sha256: 8788f89108519fd1102b8a5c2ac861cf6d86603571b6ce5bbd1c245b7fe005e3
+          select: ssd_mobilenet_v1_coco_2018_01_28/.*

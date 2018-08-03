@@ -1,15 +1,17 @@
 - include: guild-core.yml
 
 - model: faster-rcnn-resnet-101
-  description: Faster RCCN ResNet 101
+  description: Faster RCCN with ResNet 101
   extends: detection-model
   params:
     model-name: Faster RCNN ResNet 101
     model-config: config/models/faster-rcnn-resnet-101.yml
-    train-config: config/train/momentum-default.yml
+    train-config: config/train/faster-rcnn-default.yml
 
 - model: ssd-mobilenet-v1
-  description: MobileNet v1
+  description: SSD with MobileNet v1
   extends: detection-model
   params:
     model-name: MobileNet v1
+    model-config: config/models/ssd-mobilenet-v1.yml
+    train-config: config/train/ssd-default.yml

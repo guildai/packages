@@ -1,6 +1,4 @@
-model:
-  faster_rcnn:
-    num_classes: 37
+num_classes: 37
 
 eval_config:
   metrics_set:
