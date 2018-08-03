@@ -1,1 +1,63 @@
-# Placeholder for upcoming TensorFlow Hub vision support
+- config: retrain-support
+  description: Provides TensorFlow Hub image retrain script
+  resources:
+    retrain-script:
+      description: Transfer learning with image modules from TensorFlow Hub
+      sources:
+        - url: https://raw.githubusercontent.com/tensorflow/hub/42d7bcea698b614dbc20cee52091108c0753d990/examples/image_retraining/retrain.py
+          sha256: e51a56202c842a4221f762c6fc1d3d33dc14761b50a0455c9ada22c211abf786
+
+- model: test
+  description: TEMP test model for development
+  extends:
+    - retrain-support
+  operations:
+    retrain:
+      description: Retrain model with new images
+      main:
+        retrain
+          --output_graph model/graph.pb
+          --intermediate_output_graphs_dir model
+          --intermediate_store_frequency 0
+          --output_labels labels.txt
+          --summaries_dir .
+          --bottleneck_dir bottleneck
+      requires:
+        - retrain-script
+      flags:
+        images:
+          description: Directory containing images to retrain with
+          required: yes
+          arg-name: image_dir
+        train-steps:
+          description: Number of steps to train
+          default: 4000
+          arg-name: how_many_training_steps
+        learning-rate:
+          description: Learning rate for training
+          default: 0.01
+          arg-name: learning_rate
+        test-percent:
+          description: Percent of images used to test
+          default: 10
+          arg-name: testing_percentage
+        validate-percent:
+          description: Percent of images used to validate
+          default: 10
+          arg-name: validation_percentage
+        eval-steps:
+          description: How may steps before evaluating
+          default: 10
+          arg-name: eval_step_interval
+        train-batch-size:
+          description: Batch size used for training
+          default: 100
+          arg-name: train_batch_size
+        test-batch-size:
+          description: Batch size used for test; use -1 to test all images
+          default: -1
+          arg-name: test_batch_size
+        validate-batch-size:
+          description: Batch size used for validting
+          default: 100
+          arg-name: validation_batch_size
