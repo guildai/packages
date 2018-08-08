@@ -11,6 +11,7 @@
   extends:
     - retrain-support
   params:
+    image-dir: images
     train-summary-steps: 20
     eval-steps: 100
     checkpoint-steps: 1000
