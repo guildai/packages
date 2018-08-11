@@ -16,8 +16,8 @@
     eval-steps: 100
     checkpoint-steps: 1000
   operations:
-    retrain:
-      description: Retrain model with new images
+    train:
+      description: Train model with new images
       main:
         retrain
           --tfhub_module "{{tfhub-module}}"
