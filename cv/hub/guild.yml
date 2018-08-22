@@ -1,3 +1,12 @@
+- package: cv.hub
+  version: 0.0.1
+  description: In-development support for TensorFlow Hub vision
+  url: https://www.tensorflow.org/hub/
+  author: Guild AI
+  author-email: packages@guild.ai
+  license: Apache 2.0
+  tags: []
+
 - config: retrain-support
   description: Provides TensorFlow Hub image retrain script
   resources:
