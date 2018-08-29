@@ -1,0 +1,10 @@
+- config: tfrecord-support
+  description: Support for TF record processing
+  operations:
+    prepare-images:
+      description: Prepare images for training.
+      main: tfrecord_prepare
+      flags:
+        images:
+          description: Directory containing images to prepare.
+          required: yes
