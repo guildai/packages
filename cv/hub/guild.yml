@@ -89,6 +89,7 @@
           arg-name: random_brightness
 
 - model: hub-inception-v3
+  description: Inception v3
   extends:
     - hub-image-model
   params:
