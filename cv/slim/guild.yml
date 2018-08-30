@@ -1,10 +1,23 @@
+- config: slim-models-support
+  resources:
+    slim-models:
+      description: TF Slim models
+      sources:
+        - url: https://github.com/tensorflow/models/archive/2aec950cf5670a86eb0681e3a0348570c4a4638c.zip
+          sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
+          select: models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim
+
 - config: tfrecord-support
   description: Support for TF record processing
+  extends: slim-models-support
   operations:
     prepare-images:
       description: Prepare images for training.
-      main: tfrecord_prepare
+      main: tfrecord_prepare ${images}
       flags:
         images:
           description: Directory containing images to prepare.
           required: yes
+          arg-skip: yes
+      requires:
+        - slim-models

@@ -17,10 +17,12 @@ from __future__ import division
 from __future__ import print_function
 
 import argparse
+import glob
 import io
 import logging
 import os
 import random
+import sys
 import warnings
 
 import click
@@ -38,10 +40,11 @@ IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".gif", ".bmp")
 
 class Writer(object):
 
-    def __init__(self, output_dir, basename, max_file_size_mb):
+    def __init__(self, output_dir, basename, example_count, max_file_size_mb):
         self.output_dir = output_dir
         self.basename = basename
-        self.max_file_size_bytes = max_file_size_mb * 1024 * 1024
+        self.example_count = example_count
+        self.max_file_size = (max_file_size_mb - 1) * 1024 * 1024
         self._writer = None
         self._writer_path = None
         self._cur_start = None
@@ -51,15 +54,19 @@ class Writer(object):
     def write(self, example):
         example_bytes = example.SerializeToString()
         writer = self._next_writer(len(example_bytes))
-        writer.write()
+        writer.write(example_bytes)
         self._last_written += 1
+        self._cur_size += len(example_bytes)
 
-    def _next_writer(self, next_write_size):
-        if self._writer is None:
-            self._new_writer()
-        elif self._cur_size + next_write_size >= self.max_file_size:
+    def _next_writer(self, next_len):
+        if self._writer is None or self._next_too_big(next_len):
             self._new_writer()
         return self._writer
+
+    def _next_too_big(self, next_len):
+        return (
+            self.max_file_size > 0 and
+            self._cur_size + next_len > self.max_file_size)
 
     def _new_writer(self):
         self.close()
@@ -69,17 +76,28 @@ class Writer(object):
         self._writer_path = path
 
     def _tfrecord_name(self):
-        start = "%0.6i" % self._cur_start
+        digits_needed = self._digits_needed(self.example_count)
+        digits_pattern = "%%0.%ii" % digits_needed
+        start = digits_pattern % self._cur_start
         if self._last_written > 0:
-            end = "%0.6i" % self._last_written
+            end = digits_pattern % self._last_written
         else:
-            end = "?" * 6
+            end = "?" * digits_needed
         return "%s-%s-%s.tfrecord" % (self.basename, start, end)
 
-    def close(self):
+    @staticmethod
+    def _digits_needed(n):
+        digits = 1
+        while n > 10:
+            digits += 1
+            n = n // 10
+        return digits
+
+    def close(self, rename=True):
         if self._writer is not None:
             self._writer.close()
-            self._rename_writer()
+            if rename:
+                self._rename_writer()
             self._writer = None
             self._writer_path = None
             self._cur_size = 0
@@ -89,20 +107,30 @@ class Writer(object):
         assert self._writer is not None
         new_path = os.path.join(self.output_dir, self._tfrecord_name())
         assert new_path != self._writer_path, self._writer_path
-        os.move(self._writer_path, new_path)
+        os.rename(self._writer_path, new_path)
 
     def __enter__(self):
         return self
 
-    def __exit__(self, _type, _value, _tb):
-        self.close()
+    def __exit__(self, exc_type, _value, _tb):
+        self.close(exc_type is None)
 
 def main():
     args = _parse_args()
     _init_logging(args)
+    _check_existing_files(args)
     label_ids, train, val = _init_examples(args)
-    _write_records("train", train, label_ids, args)
-    _write_records("val", val, label_ids, args)
+    if not train or not val:
+        _error(
+            "not enough examples to generate train "
+            "and validation datasets")
+    log.info(
+        "Found %i examples of %i classes",
+        len(train) + len(val), len(label_ids))
+    _ensure_output_dir(args)
+    _write_labels(label_ids, args)
+    _write_records("train", "train", train, label_ids, args)
+    _write_records("validation", "val", val, label_ids, args)
 
 def _init_logging(args):
     if args.debug:
@@ -111,8 +139,24 @@ def _init_logging(args):
         level = logging.INFO
     logging.basicConfig(format="%(message)s", level=level)
 
+def _check_existing_files(args):
+    g = lambda pattern: os.path.join(
+        args.output_dir, pattern % args.output_prefix)
+    globs = (
+        g("%strain-*.tfrecord"),
+        g("%sval-*.tfrecord"),
+        g("%slabels.txt"),
+    )
+    matches = []
+    for pattern in globs:
+        matches.extend(glob.glob(pattern))
+    if matches:
+        _error(
+            "the following record files already exist in %s: %s"
+            % (args.output_dir, ", ".join(matches)))
+
 def _init_examples(args):
-    log.info("Reading images from %s", args.images_dir)
+    log.info("Reading examples from %s", args.images_dir)
     label_ids, filenames = _list_images(args.images_dir)
     random.seed(args.random_seed)
     random.shuffle(filenames)
@@ -146,9 +190,9 @@ def _apply_filenames(root, label, acc):
 
 def _format_for_ext(ext):
     if ext == ".jpeg":
-        return "jpg"
+        return b"jpg"
     else:
-        return ext[1:]
+        return ext[1:].encode()
 
 def _label_map(labels):
     return {name: label_id for label_id, name in enumerate(sorted(labels))}
@@ -157,19 +201,44 @@ def _split_examples(examples, args):
     val = int(len(examples) * args.val_split / 100)
     return examples[val:], examples[:val]
 
-def _write_records(basename, examples, labels, args):
+def _ensure_output_dir(args):
+    try:
+        os.makedirs(args.output_dir)
+    except OSError as e:
+        if e.errno != 17:
+            raise
+    else:
+        log.debug("Created %s", args.output_dir)
+
+def _write_labels(label_ids, args):
+    labels_name = args.output_prefix + "labels.txt"
+    log.info(
+        "Writing class labels %s",
+        os.path.join(args.output_dir, labels_name))
+    id_to_name_map = {label_ids[name]: name for name in label_ids}
+    dataset_utils.write_label_file(id_to_name_map, args.output_dir, labels_name)
+
+def _write_records(type_desc, basename, examples, labels, args):
     writer = Writer(
         args.output_dir,
         args.output_prefix + basename,
+        len(examples),
         args.max_file_size)
     with writer:
+        log.info(
+            "Writing %i %s records %s",
+            len(examples), type_desc, _filename_pattern(basename, args))
         with _progress(len(examples)) as bar:
             for label, fmt, path in examples:
-                import pdb;pdb.set_trace()
                 full_path = os.path.join(args.images_dir, path)
                 example = _image_tf_example(full_path, fmt, labels[label])
                 writer.write(example)
                 bar.update(1)
+
+def _filename_pattern(basename, args):
+    return os.path.join(
+        args.output_dir,
+        "%s%s-*.tfrecord" % (args.output_prefix, basename))
 
 def _progress(length):
     bar = click.progressbar(length=length)
@@ -186,9 +255,13 @@ def _image_tf_example(image_path, image_format, label_id):
         label_id)
 
 def _load_image(path):
-    image_bytes = open(path, "r").read()
+    image_bytes = open(path, "rb").read()
     image = PIL.Image.open(io.BytesIO(image_bytes))
     return image_bytes, image.height, image.width
+
+def _error(msg):
+    sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
+    sys.exit(1)
 
 def _parse_args():
     p = argparse.ArgumentParser()
@@ -196,22 +269,22 @@ def _parse_args():
         "images_dir", metavar="IMAGES-DIR",
         help="directory containing images to prepare")
     p.add_argument(
-        "--val-split", metavar="N",
+        "-s", "--val-split", metavar="N",
         default=30,
         type=int,
-        help="percent of examples reserved for validation (30)")
+        help="percent of examples reserved for validation (default is 30)")
     p.add_argument(
-        "--output-prefix", metavar="VAL",
+        "-p", "--output-prefix", metavar="PREFIX",
         default="",
         help="optional prefix to use for generated database files")
     p.add_argument(
-        "--output-dir", metavar="DIR",
+        "-o", "--output-dir", metavar="DIR",
         default=".",
         help=(
             "directory to write generated dataset files info "
-            "(current directory)"))
+            "(default is current directory)"))
     p.add_argument(
-        "--random-seed", metavar="N",
+        "-r", "--random-seed", metavar="N",
         default=829, # arbitrary constant
         type=int,
         help="seed used to randomly split training and validation images")
@@ -219,7 +292,9 @@ def _parse_args():
         "-m", "--max-file-size", metavar="MB",
         default=100,
         type=int,
-        help="max size per TF record file in MB (100)")
+        help=(
+            "max size per TF record file in MB; use 0 to disable "
+            "(default is 100)"))
     p.add_argument(
         "--debug", action="store_true",
         help="show debug info")
