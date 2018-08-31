@@ -1,3 +1,12 @@
+- package: cv.slim
+  version: 0.0.1
+  description: Support for TensorFlow Slim image models (under development)
+  url: https://github.com/tensorflow/models/tree/master/research/slim
+  author: Guild AI
+  author-email: packages@guild.ai
+  license: Apache 2.0
+  tags: []
+
 - config: slim-models-support
   resources:
     slim-models:

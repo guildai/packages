@@ -1,2 +1,2 @@
-lint:
-	pylint -rn -f parseable *.py
+root := ../../
+include $(root)/package.mk
