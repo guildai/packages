@@ -7,8 +7,8 @@
           sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
           select: models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim
 
-- config: tfrecord-support
-  description: Support for TF record processing
+- config: tfrecord-images-dir-support
+  description: TF record processing of images in a directory
   extends: slim-models-support
   operations:
     prepare-images:
@@ -21,3 +21,35 @@
           arg-skip: yes
       requires:
         - slim-models
+
+- config: tfrecord-images-resource-support
+  description: TF record processing of images provided as a resource
+  extends: slim-models-support
+  operations:
+    prepare-images:
+      description: Prepare images for training.
+      main: tfrecord_prepare {{images-resource-path}}
+      requires:
+        - slim-models
+        - '{{images-resource}}'
+
+- config: slim-model
+  description: Base config for TF Slim models
+  extends:
+    - slim-models-support
+  params:
+    slim-model-dataset-resource: dataset
+    slim-model-dataset-dir: data
+    slim-model-default-image-size: 224
+  operations:
+    train:
+      description: Train model from scratch
+      main:
+        slim_train_prepared
+          --train_dir .
+          --dataset_dir {{slim-model-dataset-dir}}
+          --model_name {{slim-model-name}}
+          --train_image_size {{slim-model-default-image-size}}
+      requires:
+        - slim-models
+        - '{{slim-model-dataset-resource}}'

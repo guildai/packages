@@ -115,15 +115,11 @@ class Writer(object):
     def __exit__(self, exc_type, _value, _tb):
         self.close(exc_type is None)
 
-def main():
-    args = _parse_args()
+def main(argv):
+    args = _parse_args(argv)
     _init_logging(args)
-    _check_existing_files(args)
+    _check_existing_output(args)
     label_ids, train, val = _init_examples(args)
-    if not train or not val:
-        _error(
-            "not enough examples to generate train "
-            "and validation datasets")
     log.info(
         "Found %i examples of %i classes",
         len(train) + len(val), len(label_ids))
@@ -139,7 +135,7 @@ def _init_logging(args):
         level = logging.INFO
     logging.basicConfig(format="%(message)s", level=level)
 
-def _check_existing_files(args):
+def _check_existing_output(args):
     g = lambda pattern: os.path.join(
         args.output_dir, pattern % args.output_prefix)
     globs = (
@@ -161,6 +157,10 @@ def _init_examples(args):
     random.seed(args.random_seed)
     random.shuffle(filenames)
     train, val = _split_examples(filenames, args)
+    if not train or not val:
+        _error(
+            "not enough examples to generate train "
+            "and validation datasets")
     return label_ids, train, val
 
 def _list_images(root):
@@ -230,8 +230,7 @@ def _write_records(type_desc, basename, examples, labels, args):
             len(examples), type_desc, _filename_pattern(basename, args))
         with _progress(len(examples)) as bar:
             for label, fmt, path in examples:
-                full_path = os.path.join(args.images_dir, path)
-                example = _image_tf_example(full_path, fmt, labels[label])
+                example = _image_tf_example(path, fmt, labels[label])
                 writer.write(example)
                 bar.update(1)
 
@@ -263,8 +262,8 @@ def _error(msg):
     sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
     sys.exit(1)
 
-def _parse_args():
-    p = argparse.ArgumentParser()
+def _parse_args(argv):
+    p = argparse.ArgumentParser(argv)
     p.add_argument(
         "images_dir", metavar="IMAGES-DIR",
         help="directory containing images to prepare")
@@ -301,4 +300,4 @@ def _parse_args():
     return p.parse_args()
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv)
