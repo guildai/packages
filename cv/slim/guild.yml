@@ -7,9 +7,19 @@
           sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
           select: models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim
 
+- config: tfrecord-prepare-flags
+  operations:
+    prepare-images:
+      flags:
+        val-split:
+          description: Percent images reserved for validation
+          default: 30
+
 - config: tfrecord-images-dir-support
   description: TF record processing of images in a directory
-  extends: slim-models-support
+  extends:
+    - slim-models-support
+    - tfrecord-prepare-flags
   operations:
     prepare-images:
       description: Prepare images for training.
@@ -24,7 +34,9 @@
 
 - config: tfrecord-images-resource-support
   description: TF record processing of images provided as a resource
-  extends: slim-models-support
+  extends:
+    - slim-models-support
+    - tfrecord-prepare-flags
   operations:
     prepare-images:
       description: Prepare images for training.
