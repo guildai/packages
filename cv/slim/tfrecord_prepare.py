@@ -23,6 +23,7 @@ import logging
 import os
 import random
 import sys
+import time
 import warnings
 
 import click
@@ -233,6 +234,7 @@ def _write_records(type_desc, basename, examples, labels, args):
                 example = _image_tf_example(path, fmt, labels[label])
                 writer.write(example)
                 bar.update(1)
+            time.sleep(0.1) # workaround stdout sync with bar
 
 def _filename_pattern(basename, args):
     return os.path.join(
