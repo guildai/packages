@@ -1,5 +1,5 @@
 - package: cv.slim
-  version: 0.0.1
+  version: 0.0.2
   description: Support for TensorFlow Slim image models (under development)
   url: https://github.com/tensorflow/models/tree/master/research/slim
   author: Guild AI
