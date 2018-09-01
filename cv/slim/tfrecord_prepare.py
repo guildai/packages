@@ -186,14 +186,7 @@ def _apply_filenames(root, label, acc):
                 "ignoring file %s in %s (unsupported extension)",
                 name, root)
             continue
-        log.debug("Adding %s", path)
-        acc.append((label, _format_for_ext(ext), path))
-
-def _format_for_ext(ext):
-    if ext == ".jpeg":
-        return b"jpg"
-    else:
-        return ext[1:].encode()
+        acc.append((label, path))
 
 def _label_map(labels):
     return {name: label_id for label_id, name in enumerate(sorted(labels))}
@@ -229,11 +222,13 @@ def _write_records(type_desc, basename, examples, labels, args):
         log.info(
             "Writing %i %s records %s",
             len(examples), type_desc, _filename_pattern(basename, args))
+        quiet = os.getenv("NO_PROGRESS") == "1"
         with _progress(len(examples)) as bar:
-            for label, fmt, path in examples:
-                example = _image_tf_example(path, fmt, labels[label])
+            for label, path in examples:
+                example = _image_tf_example(path, labels[label])
                 writer.write(example)
-                bar.update(1)
+                if not quiet:
+                    bar.update(1)
             time.sleep(0.1) # workaround stdout sync with bar
 
 def _filename_pattern(basename, args):
@@ -246,11 +241,14 @@ def _progress(length):
     bar.is_hidden = False
     return bar
 
-def _image_tf_example(image_path, image_format, label_id):
-    image_bytes, image_h, image_w = _load_image(image_path)
+def _image_tf_example(image_path, label_id):
+    image_bytes, image_format, image_h, image_w = _load_image(image_path)
+    log.debug(
+        "%s: format=%s size=%i height=%i width=%i",
+        image_path, image_format, len(image_bytes), image_h, image_w)
     return dataset_utils.image_to_tfexample(
         image_bytes,
-        image_format,
+        image_format.encode(),
         image_h,
         image_w,
         label_id)
@@ -258,7 +256,7 @@ def _image_tf_example(image_path, image_format, label_id):
 def _load_image(path):
     image_bytes = open(path, "rb").read()
     image = PIL.Image.open(io.BytesIO(image_bytes))
-    return image_bytes, image.height, image.width
+    return image_bytes, image.format, image.height, image.width
 
 def _error(msg):
     sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
