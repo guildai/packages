@@ -1,0 +1,197 @@
+- package: slim.examples
+  version: 0.0.1
+  description: TF-Slim examples
+  url: https://github.com/guildai/index/tree/master/slim/examples
+  author: Guild AI
+  author-email: packages@guild.ai
+  license: Apache 2.0
+  tags: [slim]
+
+- config: slim-models-support
+  resources:
+    slim-models:
+      sources:
+        - url: https://github.com/tensorflow/models/archive/2aec950cf5670a86eb0681e3a0348570c4a4638c.zip
+          sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
+          select: models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim
+
+- config: slim-example
+  description: Base config for TF-Slim examples
+  extends:
+    - slim-models-support
+  params:
+    dataset-name: CHANGE_ME
+    model-name: CHANGE_ME
+    image-size: CHANGE_ME
+  operations:
+    train:
+      description: Train model from scratch
+      main:
+        slim/train_image_classifier
+          --dataset_dir data
+          --dataset_name {{dataset-name}}
+          --train_dir train
+          --model_name {{model-name}}
+          --train_image_size {{image-size}}
+      requires:
+        - slim-models
+        - prepared-data
+    transfer-learn:
+      description: Train flowers classifier (MobileNet v2) from ImageNet pretrained
+      main:
+        slim/train_image_classifier
+          --dataset_dir data
+          --dataset_name flowers
+          --train_dir train
+          --model_name mobilenet_v2_140
+          --train_image_size 224
+          --checkpoint_path checkpoint/mobilenet_v2_1.4_224.ckpt
+          --checkpoint_exclude_scopes MobilenetV2/Logits
+          --trainable_scopes MobilenetV2/Logits
+      requires:
+        - slim-models
+        - prepared-data
+        - mobilenet-v2-1.4-224
+    finetune:
+      description: Finetune flowers classifier (MobileNet v2)
+      main:
+        slim/train_image_classifier
+          --dataset_dir data
+          --dataset_name flowers
+          --train_dir train
+          --model_name mobilenet_v2_140
+          --train_image_size 224
+          --checkpoint_path model
+      requires:
+        - slim-models
+        - prepared-data
+        - trained-model
+    evaluate:
+      description: Evaluate flowers classifier (MobileNet v2)
+      main:
+        slim/eval_image_classifier
+          --alsologtostderr
+          --checkpoint_path model
+          --dataset_dir data
+          --dataset_name flowers
+          --dataset_split_name validation
+          --model_name mobilenet_v2_140
+          --eval_image_size 224
+          --eval_dir .
+      requires:
+        - slim-models
+        - prepared-data
+        - trained-model
+    export:
+      description: Export flowers inference graph architecture (MobileNet v2)
+      main:
+        slim/export_inference_graph
+          --alsologtostderr
+          --model_name mobilenet_v2_140
+          --image_size 224
+          --dataset_name flowers
+          --output_file flowers_mobilenet_v2_224.pb
+      requires:
+        - slim-models
+    freeze:
+      description: Generate flowers inference graph with trained model (MobileNet v2)
+      main:
+        tensorflow/python/tools/freeze_graph
+          --input_graph flowers_mobilenet_v2_224.pb
+          --input_binary
+          --input_checkpoint model/model.ckpt-${checkpoint-step}
+          --output_node_names MobilenetV2/Predictions/Reshape_1
+          --output_graph flowers_mobilenet_v2_224_frozen.pb
+      requires:
+        - exported-graph
+        - trained-model
+      flags:
+        checkpoint-step:
+          description: Checkpoint step used for freeze variables
+          required: yes
+    tflite:
+      description: Generate a TFLite file from a frozen graph
+      main:
+        tensorflow/contrib/lite/python/tflite_convert
+          --graph_def_file flowers_mobilenet_v2_224_frozen.pb
+          --output_file flowers_mobilenet_v2_224.tflite
+          --input_arrays input
+          --output_arrays MobilenetV2/Predictions/Reshape_1
+      requires:
+        - frozen-graph
+    label:
+      description: Classify an image using a trained model
+      main:
+        label_image
+          --graph flowers_mobilenet_v2_224_frozen.pb
+          --image ${image}
+          --input_width 224
+          --input_height 224
+          --input_layer input
+          --output_layer MobilenetV2/Predictions/Reshape_1
+          --labels labels.txt
+      requires:
+        - label-image
+        - frozen-graph
+        - labels
+      flags:
+        image:
+          description: Path to image to classify
+          required: yes
+  resources:
+    prepared-data:
+      sources:
+        - operation: {{dataset-name}}-dataset:prepare
+          select: data
+    trained-model:
+      description: Trained model from train, transfer-learn, or finetune
+      path: model
+      sources:
+        - operation: train,transfer-learn,finetune
+          select: train/*.*
+    exported-graph:
+      description: Exported inference graph
+      sources:
+        - operation: export
+          select: .+\.pb
+    mobilenet-v2-1.4-224:
+      path: checkpoint
+      sources:
+        - url: https://storage.googleapis.com/mobilenet_v2/checkpoints/mobilenet_v2_1.4_224.tgz
+          sha256: a20d0c8d698502dc6a620528871c97a588885df7737556243a3412b39fce85e0
+    frozen-graph:
+      description: Frozen inference graph
+      sources:
+        - operation: freeze
+          select: .+_frozen\.pb
+    label-image:
+      sources:
+        - url: https://raw.githubusercontent.com/tensorflow/tensorflow/b9018073ec1afc7dfc302ab171db8bf5b177c2dd/tensorflow/examples/label_image/label_image.py
+          sha256: 58ce0de9fe2d0a75dc3c59d10a1d4e2fd6aa4b8b2192ff4499593542f4847eb8
+    labels:
+      sources:
+        - operation: prepare-data
+          select: data/labels.txt
+
+- model: flowers-dataset
+  description: TensorFlow flowers dataset
+  extends:
+    - slim-models-support
+  operations:
+    prepare:
+      description: Prepare dataset for training
+      main:
+        slim/download_and_convert_data
+          --dataset_name flowers
+          --dataset_dir data
+      requires:
+        - slim-models
+
+- model: flowers-mobilenet-v2
+  description: Flowers classifier using MobileNet v2
+  extends:
+    - slim-example
+  params:
+    dataset-name: flowers
+    model-name: mobilenet_v2_140
+    image-size: 224
