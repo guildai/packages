@@ -24,21 +24,30 @@ sys.path.insert(0, "slim")
 
 from datasets import dataset_factory
 
-import eval_image_classifier
-
 import _custom_dataset
-import _cli_util
+import _util
 
 def main(argv):
     if "--dataset_name" in argv:
-        _cli_util.error("--dataset_name is not supported")
+        _util.error("--dataset_name is not supported")
     if "--model_name" not in argv:
-        _cli_util.error("--model_name is required")
+        _util.error("--model_name is required")
     dataset_factory.datasets_map = {
         "custom": _custom_dataset
     }
-    argv = argv + ["--dataset_name", "custom"]
-    tf.app.run(eval_image_classifier.main, argv)
+    _eval(argv)
+
+def _eval(argv):
+    with _util.argv(_eval_args(argv)):
+        import eval_image_classifier
+        try:
+            tf.app.run(eval_image_classifier.main)
+        except SystemExit as e:
+            if e.code:
+                raise
+
+def _eval_args(argv):
+    return argv + ["--dataset_name", "custom"]
 
 if __name__ == "__main__":
     main(sys.argv)

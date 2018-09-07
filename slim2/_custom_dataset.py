@@ -24,7 +24,7 @@ import tensorflow as tf
 
 from datasets import dataset_utils
 
-import _cli_util
+import _util
 
 def get_split(split_name, dataset_dir, file_pattern=None, reader=None):
     assert file_pattern is None, file_pattern
@@ -49,20 +49,20 @@ def _source_pattern(split_name, dataset_dir):
     try:
         pattern = pattern_map[split_name]
     except KeyError:
-        _error("unsupported split name: %r" % split_name)
+        _util.error("unsupported split name: %r" % split_name)
     return os.path.join(dataset_dir, pattern)
 
 def _example_count_from_sources(source_pattern):
     sources = glob.glob(source_pattern)
     if not sources:
-        _cli_util.error("no files matching '%s'" % source_pattern)
+        _util.error("no files matching '%s'" % source_pattern)
     count = 0
     for source in sources:
         m = re.search("[0-9]+-([0-9]+)", source)
         if m:
             count = max(count, int(m.group(1)))
     if count == 0:
-        _cli_util.error(
+        _util.error(
             "could not get example count from files '%s'"
             % source_pattern)
     return count

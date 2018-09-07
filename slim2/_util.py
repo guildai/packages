@@ -16,8 +16,28 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import os
 import sys
 
 def error(msg):
     sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
     sys.exit(1)
+
+class argv(object):
+
+    def __init__(self, new_argv):
+        self._new_argv = new_argv
+        self._argv_save = None
+
+    def __enter__(self):
+        self._argv_save = sys.argv
+        sys.argv = self._new_argv
+        if os.getenv("DEBUG") == "1":
+            sys.stderr.write("DEBUG: sys.argv changed: %r\n" % sys.argv)
+
+    def __exit__(self, exc_type, exc, tb):
+        assert self._argv_save is not None, self._argv_save
+        sys.argv = self._argv_save
+        if os.getenv("DEBUG") == "1":
+            sys.stderr.write("DEBUG: sys.argv restored: %r\n" % sys.argv)
+        return False

@@ -1,5 +1,5 @@
 - package: slim.examples
-  version: 0.0.1
+  version: 0.0.2
   description: TF-Slim examples
   url: https://github.com/guildai/index/tree/master/slim/examples
   author: Guild AI
@@ -67,10 +67,16 @@
           --model_name {{model-name}}
           --train_image_size {{image-size}}
           --checkpoint_path model
+          --optimizer sgd
+          --learning_rate ${learning-rate}
       requires:
         - slim-models
         - prepared-data
         - trained-model
+      flags:
+        learning-rate:
+          description: Initial learning rate
+          default: 0.001
     evaluate:
       description: Evaluate a trained model
       main:
