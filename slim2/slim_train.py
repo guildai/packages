@@ -23,7 +23,6 @@ import tensorflow as tf
 sys.path.insert(0, "slim")
 
 from datasets import dataset_factory
-from datasets import dataset_utils
 
 import _custom_dataset
 import _util

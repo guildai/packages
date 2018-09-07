@@ -17,9 +17,7 @@ from __future__ import division
 from __future__ import print_function
 
 import argparse
-import glob
 import os
-import re
 import sys
 
 import tensorflow as tf
@@ -54,6 +52,12 @@ def _init_args():
             "path checkpoint used in export; may be a directory "
             "or a ckpt path"))
     p.add_argument(
+        "--checkpoint-step", metavar="STEP",
+        type=int,
+        help=(
+            "step of checkpoint used for frozen graph; defaults to "
+            "latest"))
+    p.add_argument(
         "--output_dir", metavar="DIR",
         default=".",
         help="directory to write exported graph files")
@@ -87,7 +91,7 @@ def _freeze_graph(cmd_args):
     freeze_args = [
         "--input_graph", _graph_pb(cmd_args),
         "--input_binary",
-        "--input_checkpoint", _latest_checkpoint(cmd_args.input_checkpoint),
+        "--input_checkpoint", _input_checkpoint(cmd_args),
         "--output_graph", _frozen_graph_pb(cmd_args),
         "--output_node_names", cmd_args.output_node_names,
     ]
@@ -105,31 +109,8 @@ def _freeze_graph(cmd_args):
 def _frozen_graph_pb(args):
     return os.path.join(args.output_dir, "frozen_graph.pb")
 
-def _latest_checkpoint(path):
-    if os.path.isdir(path):
-        checkpoint = tf.train.latest_checkpoint(path)
-    elif path.endswith(".ckpt"):
-        checkpoint = _latest_checkpoint_for_base(path)
-    else:
-        checkpoint = path
-    if not checkpoint:
-        _util.error("cannot find latest checkpoint for path: %s" % path)
-    return checkpoint
-
-def _latest_checkpoint_for_base(base):
-    max = 0
-    latest = None
-    for match in glob.glob("%s-*.meta" % base):
-        match_step = _checkpoint_step(match)
-        if match_step > max:
-            max = match_step
-            latest = match
-    return os.path.splitext(latest)[0]
-
-def _checkpoint_step(meta_path):
-    m = re.search(r"-([0-9]+)\.meta$", meta_path)
-    assert m, meta_path
-    return int(m.group(1))
+def _input_checkpoint(args):
+    return _util.input_checkpoint(args.input_checkpoint, args.checkpoint_step)
 
 if __name__ == "__main__":
     main(sys.argv)

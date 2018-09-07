@@ -16,6 +16,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import argparse
 import sys
 
 import tensorflow as tf
@@ -32,13 +33,25 @@ def main(argv):
         _util.error("--dataset_name is not supported")
     if "--model_name" not in argv:
         _util.error("--model_name is required")
+    cmd_args, rest_args = _init_args(argv)
     dataset_factory.datasets_map = {
         "custom": _custom_dataset
     }
-    _eval(argv)
+    _eval(cmd_args, rest_args)
 
-def _eval(argv):
-    with _util.argv(_eval_args(argv)):
+def _init_args(argv):
+    p = argparse.ArgumentParser()
+    p.add_argument(
+        "--checkpoint_path", metavar="PATH",
+        help="checkpoint path")
+    p.add_argument(
+        "--checkpoint-step", metavar="STEP",
+        type=int,
+        help="checkpoint step to evaluate")
+    return p.parse_known_args(argv)
+
+def _eval(cmd_args, rest_args):
+    with _util.argv(_eval_args(cmd_args, rest_args)):
         import eval_image_classifier
         try:
             tf.app.run(eval_image_classifier.main)
@@ -46,8 +59,14 @@ def _eval(argv):
             if e.code:
                 raise
 
-def _eval_args(argv):
-    return argv + ["--dataset_name", "custom"]
+def _eval_args(cmd_args, rest_args):
+    return rest_args + [
+        "--checkpoint_path", _checkpoint_path(cmd_args),
+        "--dataset_name", "custom"
+    ]
+
+def _checkpoint_path(args):
+    return _util.input_checkpoint(args.checkpoint_path, args.checkpoint_step)
 
 if __name__ == "__main__":
     main(sys.argv)
