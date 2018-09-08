@@ -45,7 +45,7 @@ def _init_args(argv):
         "--checkpoint_path", metavar="PATH",
         help="checkpoint path")
     p.add_argument(
-        "--checkpoint-step", metavar="STEP",
+        "--checkpoint_step", metavar="STEP",
         type=int,
         help="checkpoint step to evaluate")
     return p.parse_known_args(argv)

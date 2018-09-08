@@ -1,3 +1,21 @@
+# Copyright 2018 TensorHub, Inc. and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# ===================================================================
+# Package def
+# ===================================================================
+
 - package: slim2
   version: 0.0.1
   description: TF-Slim models library
@@ -14,3 +32,309 @@
         - url: https://github.com/tensorflow/models/archive/2aec950cf5670a86eb0681e3a0348570c4a4638c.zip
           sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
           select: models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim
+
+# ===================================================================
+# Shared flag defs
+# ===================================================================
+
+- config: log-flags
+  # Flag defs associated with logging - use via $include
+  flags:
+    log-steps:
+      description: Frequency of summary logs in steps
+      default: 100
+      arg-name: log_every_n_steps
+    log-save-seconds:
+      description: Frequency of log summary saves in seconds
+      default: 60
+      arg-name: save_interval_secs
+
+- config: train-flags
+  # Flag defs associated with training - use via $include
+  flags:
+    batch-size:
+      description: Number of examples in each training batch
+      default: 32
+      arg-name: batch_size
+    optimizer:
+      description: Optimizer used to train
+      default: rmsprop
+      choices:
+        - adadelta
+        - adagrad
+        - adam
+        - ftrl
+        - momentum
+        - rmsprop
+        - sgd
+    learning-rate-decay-type:
+      description: Method used to decay the learning rate
+      default: exponential
+      choices:
+        - exponential
+        - fixed
+        - polynomial
+      arg-name: learning_rate_decay_type
+    learning-rate:
+      description: Initial learning rate
+      default: 0.001
+      arg-name: learning_rate
+    learning-rate-decay-factor:
+      description: Learning rate decay factor
+      default: 0.94
+      arg-name: learning_rate_decay_factor
+    learning-rate-decay-epochs:
+      description: Number of epochs after which learning rate decays
+      default: 2.0
+      arg-name: num_epochs_per_decay
+    learning-rate-end:
+      description: Minimal learning rate used by polynomial learning rate decay
+      default: 0.0001
+      arg-name: learning_rate_end
+    weight-decay:
+      description: Decay on the model weights
+      default: 0.00004
+      arg-name: weight_decay
+    model-save-seconds:
+      description: Frequency of model saves (checkpoints) in seconds
+      default: 600
+      arg-name: save_interval_secs
+
+- config: finetune-flags
+  # Adjusted train flags for fine tuning
+  extends: train-flags
+  flags:
+    learning-rate:
+      default: 0.0001
+
+# ===================================================================
+# Shared slim resources
+# ===================================================================
+
+- config: slim-models-support
+  # Mixin to define slim-models library resource
+  resources:
+    slim-models:
+      sources:
+        - url: https://github.com/tensorflow/models/archive/2aec950cf5670a86eb0681e3a0348570c4a4638c.zip
+          sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
+          select: models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim
+
+# ===================================================================
+# Model base config
+# ===================================================================
+
+- config: slim-model-base
+  # Model base config defining core operations and resources
+  extends:
+    - slim-models-support
+  # Ensure that all params below are defined by extending
+  # models.
+  params:
+    prepare-data-op: DEFINE-prepare-data-op
+    data-path: DEFINE-data-path
+    model-name: DEFINE-model-name
+    image-size: DEFINE-image-size
+    dataset-path: DEFINE-dataset-path
+    transfer-learn-checkpoint-path: DEFINE-transfer-learn-checkpoint-path
+    transfer-learn-train-layer: DEFINE-transfer-learn-train-layer
+    input-layer: DEFINE-input-layer
+    output-layer: DEFINE-output-layer
+  operations:
+    train:
+      description: Train model from scratch
+      main:
+        slim2/slim_train
+          --model_name {{model-name}}
+          --dataset_dir {{data-path}}
+          --train_dir train
+          --train_image_size {{image-size}}
+      requires:
+        - slim-models
+        - prepared-data
+      flags:
+        $include:
+          - train-flags
+          - log-flags
+    transfer-learn:
+      description: Train model using transfer learning
+      main:
+        slim2/slim_train
+          --model_name {{model-name}}
+          --dataset_dir {{data-path}}
+          --train_dir train
+          --train_image_size {{image-size}}
+          --checkpoint_path {{transfer-learn-checkpoint-path}}
+          --checkpoint_exclude_scopes {{transfer-learn-train-layer}}
+          --trainable_scopes {{transfer-learn-train-layer}}
+      requires:
+        - slim-models
+        - prepared-data
+        - transfer-learn-checkpoint
+      flags:
+        $include:
+          - train-flags
+          - log-flags
+    finetune:
+      description: Finetune a trained model
+      main:
+        slim2/slim_train
+          --model_name {{model-name}}
+          --dataset_dir {{data-path}}
+          --train_dir train
+          --train_image_size {{image-size}}
+          --checkpoint_path model
+      requires:
+        - slim-models
+        - prepared-data
+        - trained-model
+      flags:
+        $include:
+          - finetune-flags
+          - log-flags
+    evaluate:
+      description: Evaluate a trained model
+      main:
+        slim2/slim_eval
+          --alsologtostderr
+          --model_name {{model-name}}
+          --checkpoint_path model
+          --dataset_dir {{data-path}}
+          --dataset_split_name validation
+          --eval_image_size {{image-size}}
+          --eval_dir .
+      requires:
+        - slim-models
+        - prepared-data
+        - trained-model
+      flags:
+        step:
+          description: Checkpoint step to evaluate (default is latest)
+          arg-name: checkpoint_step
+        batch-size:
+          description: Number of examples in each evaluated batch
+          default: 100
+          arg-name: batch_size
+        eval-batches:
+          description: Maximum number of batches to evaluate (default is all)
+          arg-name: max_num_batches
+    export-and-freeze:
+      description:
+        Export an inference graph with and without checkpoint weights
+      main:
+        slim2/slim_export_and_freeze
+          --input_checkpoint model
+          --model_name {{model-name}}
+          --image_size {{image-size}}
+          --dataset_dir {{data-path}}
+          --output_dir .
+          --output_node_names {{output-layer}}
+      requires:
+        - slim-models
+        - prepared-data
+        - trained-model
+      flags:
+        step:
+          description:
+            Checkpoint step to use for the frozen graph (default is latest)
+          arg-name: checkpoint_step
+    tflite:
+      description: Generate a TFLite file from a frozen graph
+      main:
+        tensorflow/contrib/lite/python/tflite_convert
+          --graph_def_file frozen_graph.pb
+          --output_file model.tflite
+          --input_arrays {{input-layer}}
+          --output_arrays {{output-layer}}
+      requires:
+        - frozen-graph
+    label:
+      description: Classify an image using a trained model
+      main:
+        label_image
+          --graph frozen_graph.pb
+          --image ${image}
+          --input_width {{image-size}}
+          --input_height {{image-size}}
+          --input_layer {{input-layer}}
+          --output_layer {{output-layer}}
+          --labels labels.txt
+      requires:
+        - label-image-script
+        - frozen-graph
+        - labels
+      flags:
+        image:
+          description: Path to image to classify
+          required: yes
+  resources:
+    label-image-script:
+      description: TensorFlow label_image script
+      sources:
+        - url: https://raw.githubusercontent.com/tensorflow/tensorflow/b9018073ec1afc7dfc302ab171db8bf5b177c2dd/tensorflow/examples/label_image/label_image.py
+          sha256: 58ce0de9fe2d0a75dc3c59d10a1d4e2fd6aa4b8b2192ff4499593542f4847eb8
+    trained-model:
+      description: Trained model from train, transfer-learn, or finetune
+      path: model
+      sources:
+        - operation: train,transfer-learn,finetune
+          select: train/*.*
+    exported-graph:
+      description: Exported inference graph
+      sources:
+        - operation: export
+          select: graph\.pb
+    frozen-graph:
+      description: Frozen inference graph
+      sources:
+        - operation: export-and-freeze
+          select: frozen_graph\.pb
+
+# ===================================================================
+# Images dataset base
+# ===================================================================
+
+- config: slim-images-dataset-base
+  # Images dataset base config defining prepare operation
+  extends:
+    - slim-models-support
+  params:
+    images-path: DEFINE-images-path
+    dataset-path: DEFINE-dataset-path
+  operations:
+    prepare:
+      description: Prepare images for training
+      main:
+        slim2/tfrecord_prepare {{images-path}}
+          -o {{dataset-path}}
+          -s ${val-split}
+      requires:
+        - slim-models
+        - images
+      flags:
+        val-split:
+          description: Percentage of images reserved for validation
+          default: 30
+
+# ===================================================================
+# Architecture specific model config
+# ===================================================================
+
+- config: slim-mobilenet-v1
+  # Mixin for mobilenet-v1 support
+  extends:
+    - slim-model-base
+  params:
+    model-name: mobilenet_v1
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/mobilenet_v1_1.0_224.ckpt
+    transfer-learn-train-layer: MobilenetV1/Logits
+    input-layer: input
+    output-layer: MobilenetV1/Predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz
+          sha256: 1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b
+          select: .+\.ckpt\..+

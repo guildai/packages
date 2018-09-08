@@ -52,7 +52,7 @@ def _init_args():
             "path checkpoint used in export; may be a directory "
             "or a ckpt path"))
     p.add_argument(
-        "--checkpoint-step", metavar="STEP",
+        "--checkpoint_step", metavar="STEP",
         type=int,
         help=(
             "step of checkpoint used for frozen graph; defaults to "
