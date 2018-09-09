@@ -47,7 +47,7 @@
     log-save-seconds:
       description: Frequency of log summary saves in seconds
       default: 60
-      arg-name: save_interval_secs
+      arg-name: save_summaries_secs
 
 - config: train-flags
   # Flag defs associated with training - use via $include
