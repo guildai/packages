@@ -326,7 +326,6 @@
 # ===================================================================
 
 - config: slim-mobilenet-v1
-  # Mixin for mobilenet-v1 support
   extends:
     - slim-model-base
   params:
@@ -342,4 +341,22 @@
       sources:
         - url: http://download.tensorflow.org/models/mobilenet_v1_2018_02_22/mobilenet_v1_1.0_224.tgz
           sha256: 1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b
+          select: .+\.ckpt\..+
+
+- config: slim-mobilenet-v2-1.4
+  extends:
+    - slim-model-base
+  params:
+    model-name: mobilenet_v2_140
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/mobilenet_v2_1.4_224.ckpt
+    transfer-learn-train-layer: MobilenetV2/Logits
+    input-layer: input
+    output-layer: MobilenetV2/Predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: https://storage.googleapis.com/mobilenet_v2/checkpoints/mobilenet_v2_1.4_224.tgz
+          sha256: a20d0c8d698502dc6a620528871c97a588885df7737556243a3412b39fce85e0
           select: .+\.ckpt\..+
