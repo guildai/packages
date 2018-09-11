@@ -56,6 +56,9 @@
       description: Number of examples in each training batch
       default: 32
       arg-name: batch_size
+    steps:
+      description: Number of steps to train (default is to train indefinitely)
+      arg-name: max_number_of_steps
     optimizer:
       description: Optimizer used to train
       default: rmsprop
@@ -99,13 +102,6 @@
       description: Frequency of model saves (checkpoints) in seconds
       default: 600
       arg-name: save_interval_secs
-
-- config: finetune-flags
-  # Adjusted train flags for fine tuning
-  extends: train-flags
-  flags:
-    learning-rate:
-      default: 0.0001
 
 # ===================================================================
 # Shared slim resources
@@ -191,8 +187,10 @@
       label-template: lr=${learning-rate}
       flags:
         $include:
-          - finetune-flags
+          - train-flags
           - log-flags
+        learning-rate:
+          default: 0.0001
     evaluate:
       description: Evaluate a trained model
       main:
