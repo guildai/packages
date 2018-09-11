@@ -17,13 +17,15 @@
 # ===================================================================
 
 - package: slim
-  version: 0.0.1
+  version: 0.5.0.dev1
   description: TF-Slim models library
   url: https://github.com/guildai/index/tree/master/slim
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
   tags: [slim]
+  requires:
+    - mnist
 
 - config: slim-models-support
   resources:
