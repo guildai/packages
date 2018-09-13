@@ -22,9 +22,15 @@ import re
 
 import tensorflow as tf
 
+from datasets import dataset_factory
 from datasets import dataset_utils
 
 import _util
+
+def patch_dataset_factory():
+    dataset_factory.datasets_map = {
+        "custom": __import__(__name__)
+    }
 
 def get_split(split_name, dataset_dir, file_pattern=None, reader=None):
     assert file_pattern is None, file_pattern

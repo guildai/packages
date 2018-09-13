@@ -23,8 +23,6 @@ import tensorflow as tf
 
 sys.path.insert(0, "slim")
 
-from datasets import dataset_factory
-
 import _custom_dataset
 import _util
 
@@ -34,9 +32,7 @@ def main(argv):
     if "--model_name" not in argv:
         _util.error("--model_name is required")
     cmd_args, rest_args = _init_args(argv)
-    dataset_factory.datasets_map = {
-        "custom": _custom_dataset
-    }
+    _custom_dataset.patch_dataset_factory()
     _eval(cmd_args, rest_args)
 
 def _init_args(argv):

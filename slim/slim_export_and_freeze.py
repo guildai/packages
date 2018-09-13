@@ -26,8 +26,6 @@ from tensorflow.python.tools import freeze_graph
 
 sys.path.insert(0, "slim")
 
-from datasets import dataset_factory
-
 import _custom_dataset
 import _util
 
@@ -36,9 +34,7 @@ def main(argv):
         _util.error("--dataset_name is not supported")
     if "--model_name" not in argv:
         _util.error("--model_name is required")
-    dataset_factory.datasets_map = {
-        "custom": _custom_dataset
-    }
+    _custom_dataset.patch_dataset_factory()
     args, rest_args = _init_args()
     _export_graph(args, rest_args)
     _freeze_graph(args)
