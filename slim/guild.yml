@@ -197,7 +197,7 @@
         - models-lib
         - prepared-data
         - trained-model
-      label-template: ${trained-model}:${step|default:latest}
+      label-template: ${trained-model}
       flags:
         step:
           description: Checkpoint step to evaluate (default is latest)
@@ -224,7 +224,7 @@
         - models-lib
         - prepared-data
         - trained-model
-      label-template: ${trained-model}:${step|default:latest}
+      label-template: ${trained-model}
       flags:
         step:
           description:
