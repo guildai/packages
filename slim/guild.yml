@@ -19,13 +19,11 @@
 - package: gpkg.slim
   version: 0.5.0.dev1
   description: TF-Slim models library
-  url: https://github.com/guildai/index/tree/master/slim
+  url: https://github.com/guildai/packages/tree/master/slim
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
   tags: [slim]
-  requires:
-    - mnist
 
 # ===================================================================
 # Shared flag defs
@@ -199,7 +197,7 @@
         - models-lib
         - prepared-data
         - trained-model
-      label-template: model=${trained-model} step=${step|default:latest}
+      label-template: ${trained-model}:${step|default:latest}
       flags:
         step:
           description: Checkpoint step to evaluate (default is latest)
@@ -226,7 +224,7 @@
         - models-lib
         - prepared-data
         - trained-model
-      label-template: model=${trained-model} step=${step|default:latest}
+      label-template: ${trained-model}:${step|default:latest}
       flags:
         step:
           description:
@@ -242,7 +240,7 @@
           --output_arrays {{output-layer}}
       requires:
         - frozen-graph
-      label-template: graph=${frozen-graph}
+      label-template: ${frozen-graph}
     label:
       description: Classify an image using a trained model
       main:
@@ -258,7 +256,7 @@
         - label-image-script
         - frozen-graph
         - labels
-      label-template: image=${image|basename}
+      label-template: ${image|basename}
       flags:
         image:
           description: Path to image to classify
