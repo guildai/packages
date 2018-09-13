@@ -16,7 +16,7 @@
 # Package def
 # ===================================================================
 
-- package: slim
+- package: gpkg.slim
   version: 0.5.0.dev1
   description: TF-Slim models library
   url: https://github.com/guildai/index/tree/master/slim
@@ -26,14 +26,6 @@
   tags: [slim]
   requires:
     - mnist
-
-- config: slim-models-support
-  resources:
-    slim-models:
-      sources:
-        - url: https://github.com/tensorflow/models/archive/2aec950cf5670a86eb0681e3a0348570c4a4638c.zip
-          sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
-          select: models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim
 
 # ===================================================================
 # Shared flag defs
@@ -106,26 +98,25 @@
       arg-name: save_interval_secs
 
 # ===================================================================
-# Shared slim resources
+# Shared resources
 # ===================================================================
 
-- config: slim-models-support
-  # Mixin to define slim-models library resource
+- config: models-lib-support
   resources:
-    slim-models:
+    models-lib:
       sources:
         - url: https://github.com/tensorflow/models/archive/2aec950cf5670a86eb0681e3a0348570c4a4638c.zip
           sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
           select: models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim
 
 # ===================================================================
-# Model base config
+# Model base
 # ===================================================================
 
-- config: slim-model-base
+- config: model-base
   # Model base config defining core operations and resources
   extends:
-    - slim-models-support
+    - models-lib-support
   # Ensure that all params below are defined by extending
   # models.
   params:
@@ -148,7 +139,7 @@
           --train_dir train
           --train_image_size {{image-size}}
       requires:
-        - slim-models
+        - models-lib
         - prepared-data
       flags:
         $include:
@@ -166,7 +157,7 @@
           --checkpoint_exclude_scopes {{transfer-learn-train-layer}}
           --trainable_scopes {{transfer-learn-train-layer}}
       requires:
-        - slim-models
+        - models-lib
         - prepared-data
         - transfer-learn-checkpoint
       flags:
@@ -183,7 +174,7 @@
           --train_image_size {{image-size}}
           --checkpoint_path model
       requires:
-        - slim-models
+        - models-lib
         - prepared-data
         - trained-model
       label-template: lr=${learning-rate}
@@ -205,7 +196,7 @@
           --eval_image_size {{image-size}}
           --eval_dir .
       requires:
-        - slim-models
+        - models-lib
         - prepared-data
         - trained-model
       label-template: model=${trained-model} step=${step|default:latest}
@@ -232,7 +223,7 @@
           --output_dir .
           --output_node_names {{output-layer}}
       requires:
-        - slim-models
+        - models-lib
         - prepared-data
         - trained-model
       label-template: model=${trained-model} step=${step|default:latest}
@@ -302,7 +293,7 @@
 - config: slim-images-dataset-base
   # Images dataset base config defining prepare operation
   extends:
-    - slim-models-support
+    - models-lib-support
   params:
     images-path: DEFINE-images-path
     dataset-path: DEFINE-dataset-path
@@ -314,7 +305,7 @@
           -o {{dataset-path}}
           -s ${val-split}
       requires:
-        - slim-models
+        - models-lib
         - images
       flags:
         val-split:
@@ -322,12 +313,12 @@
           default: 30
 
 # ===================================================================
-# Architecture specific model config
+# Architecture specific models
 # ===================================================================
 
-- config: slim-mobilenet-v1
+- config: mobilenet-v1
   extends:
-    - slim-model-base
+    - model-base
   params:
     model-name: mobilenet_v1
     image-size: 224
@@ -343,9 +334,9 @@
           sha256: 1ccb74dbd9c5f7aea879120614e91617db9534bdfaa53dfea54b7c14162e126b
           select: .+\.ckpt\..+
 
-- config: slim-mobilenet-v2-1.4
+- config: mobilenet-v2-1.4
   extends:
-    - slim-model-base
+    - model-base
   params:
     model-name: mobilenet_v2_140
     image-size: 224
