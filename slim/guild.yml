@@ -48,7 +48,7 @@
       description: Number of examples in each training batch
       default: 32
       arg-name: batch_size
-    steps:
+    max-steps:
       description: Number of steps to train (default is to train indefinitely)
       arg-name: max_number_of_steps
     optimizer:
@@ -206,7 +206,7 @@
           description: Number of examples in each evaluated batch
           default: 100
           arg-name: batch_size
-        eval-batches:
+        max-batches:
           description: Maximum number of batches to evaluate (default is all)
           arg-name: max_num_batches
     export-and-freeze:
