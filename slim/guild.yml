@@ -311,7 +311,7 @@
           default: 30
 
 # ===================================================================
-# Architecture specific models
+# Mobilenet
 # ===================================================================
 
 - config: mobilenet-v1
@@ -348,4 +348,48 @@
       sources:
         - url: https://storage.googleapis.com/mobilenet_v2/checkpoints/mobilenet_v2_1.4_224.tgz
           sha256: a20d0c8d698502dc6a620528871c97a588885df7737556243a3412b39fce85e0
+          select: .+\.ckpt\..+
+
+# ===================================================================
+# NASNet
+# ===================================================================
+
+- config: nasnet-large
+  extends:
+    - model-base
+  params:
+    model-name: nasnet_large
+    image-size: 331
+    transfer-learn-checkpoint-path: checkpoint/model.ckpt
+    transfer-learn-train-layer: final_layer,aux_7
+    input-layer: xxx
+    output-layer: xxx
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: https://storage.googleapis.com/download.tensorflow.org/models/nasnet-a_large_04_10_2017.tar.gz
+          sha256: 385a9aa44f1554e1e6cedf19b4e1bfe9b14b704b32acbf8f9f4f8327d72ad3fb
+          select: .+\.ckpt\..+
+
+# ===================================================================
+# PNASNet
+# ===================================================================
+
+- config: pnasnet-large
+  extends:
+    - model-base
+  params:
+    model-name: pnasnet_large
+    image-size: 331
+    transfer-learn-checkpoint-path: checkpoint/model.ckpt
+    transfer-learn-train-layer: final_layer,aux_7
+    input-layer: xxx
+    output-layer: xxx
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: https://storage.googleapis.com/download.tensorflow.org/models/nasnet-a_large_04_10_2017.tar.gz
+          sha256: ce5fa64421d5285ae0a434b51d9ab142c88b3d7e542558e6c91bd4f6533d17e3
           select: .+\.ckpt\..+
