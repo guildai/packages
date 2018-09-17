@@ -16,6 +16,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import argparse
 import sys
 
 import tensorflow as tf
@@ -30,13 +31,26 @@ def main(argv):
         _util.error("--dataset_name is not supported")
     if "--model_name" not in argv:
         _util.error("--model_name is required")
+    cmd_args, rest_args = _init_args(argv)
     _custom_dataset.patch_dataset_factory()
-    _train(argv)
+    _train(cmd_args, rest_args)
 
-def _train(argv):
+def _init_args(argv):
+    p = argparse.ArgumentParser()
+    p.add_argument(
+        "--num_clones",
+        type=int,
+        help="Number of clones to deploy model to.")
+    p.add_argument(
+        "--optimize-defaults",
+        default="yes",
+        help="Whether or not to provide optimized default values (yes)")
+    return p.parse_known_args(argv)
+
+def _train(cmd_args, rest_args):
     # train_image_classifier ignores args to main so we need to hack
     # sys.argv prior to importing module.
-    with _util.argv(_train_argv(argv)):
+    with _util.argv(_train_argv(cmd_args, rest_args)):
         import train_image_classifier
         try:
             tf.app.run(train_image_classifier.main)
@@ -44,8 +58,32 @@ def _train(argv):
             if e.code:
                 raise
 
-def _train_argv(argv):
-    return argv + ["--dataset_name", "custom"]
+def _train_argv(cmd_args, rest_args):
+    import pdb;pdb.set_trace()
+    optimize = _use_optimized_defaults(cmd_args)
+    rest_args += _num_clones_args(cmd_args, optimize)
+    return rest_args + [
+        "--dataset_name", "custom"
+    ]
+
+def _use_optimized_defaults(cmd_args):
+    return cmd_args.optimize_defaults in ("yes", "true", "1")
+
+def _num_clones_args(cmd_args, optimize):
+    if cmd_args.num_clones is not None:
+        return ["--num_clones", str(cmd_args.num_clones)]
+    elif optimize:
+        gpus = _gpu_count()
+        if gpus > 0:
+            return ["--num_clones", str(gpus)]
+    return []
+
+
+def _gpu_count():
+    from tensorflow.python.client import device_lib
+    return sum([
+        dev.device_type == "GPU"
+        for dev in device_lib.list_local_devices()])
 
 if __name__ == "__main__":
     main(sys.argv)

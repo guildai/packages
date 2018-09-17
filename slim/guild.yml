@@ -97,6 +97,23 @@
       description: Frequency of model saves (checkpoints) in seconds.
       default: 600
       arg-name: save_interval_secs
+    clones:
+      description: >
+        Number of model clones.
+
+        This value can be increased from 1 to train the model in
+        parallel on multiple GPUs.
+      default: 1
+    optimize-defaults:
+      description: >
+        Set to 'no' to skip  optimized flag values.
+
+        By default, optimized flag values are generated for some
+        unspecified flags. See below for details.
+
+        `clones` - If `clones` is not specified, the optimized value
+        is the number of GPUs on the system.
+      default: 'yes'
 
 # ===================================================================
 # Shared resources
