@@ -19,6 +19,8 @@ from __future__ import print_function
 import argparse
 import sys
 
+import yaml
+
 import tensorflow as tf
 
 sys.path.insert(0, "slim")
@@ -67,7 +69,7 @@ def _train_argv(cmd_args, rest_args):
     ]
 
 def _use_optimized_defaults(cmd_args):
-    return cmd_args.optimize_defaults in ("yes", "true", "1")
+    return bool(yaml.safe_loads(cmd_args.optimize_defaults))
 
 def _num_clones_args(cmd_args, optimize):
     if cmd_args.num_clones is not None:
