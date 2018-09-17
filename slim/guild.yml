@@ -33,11 +33,11 @@
   # Flag defs associated with logging - use via $include
   flags:
     log-steps:
-      description: Frequency of summary logs in steps
+      description: Frequency of summary logs in steps.
       default: 100
       arg-name: log_every_n_steps
     log-save-seconds:
-      description: Frequency of log summary saves in seconds
+      description: Frequency of log summary saves in seconds.
       default: 60
       arg-name: save_summaries_secs
 
@@ -45,17 +45,17 @@
   # Flag defs associated with training - use via $include
   flags:
     preprocessing:
-      description: Preprocessing to use
+      description: Preprocessing to use.
       arg-name: preprocessing_name
     batch-size:
-      description: Number of examples in each training batch
+      description: Number of examples in each training batch.
       default: 32
       arg-name: batch_size
     max-steps:
-      description: Number of steps to train (default is to train indefinitely)
+      description: Number of steps to train (default is to train indefinitely).
       arg-name: max_number_of_steps
     optimizer:
-      description: Optimizer used to train
+      description: Optimizer used to train.
       default: rmsprop
       choices:
         - adadelta
@@ -66,7 +66,7 @@
         - rmsprop
         - sgd
     learning-rate-decay-type:
-      description: Method used to decay the learning rate
+      description: Method used to decay the learning rate.
       default: exponential
       choices:
         - exponential
@@ -74,27 +74,27 @@
         - polynomial
       arg-name: learning_rate_decay_type
     learning-rate:
-      description: Initial learning rate
+      description: Initial learning rate.
       default: 0.001
       arg-name: learning_rate
     learning-rate-decay-factor:
-      description: Learning rate decay factor
+      description: Learning rate decay factor.
       default: 0.94
       arg-name: learning_rate_decay_factor
     learning-rate-decay-epochs:
-      description: Number of epochs after which learning rate decays
+      description: Number of epochs after which learning rate decays.
       default: 2.0
       arg-name: num_epochs_per_decay
     learning-rate-end:
-      description: Minimal learning rate used by polynomial learning rate decay
+      description: Minimal learning rate used by polynomial learning rate decay.
       default: 0.0001
       arg-name: learning_rate_end
     weight-decay:
-      description: Decay on the model weights
+      description: Decay on the model weights.
       default: 0.00004
       arg-name: weight_decay
     model-save-seconds:
-      description: Frequency of model saves (checkpoints) in seconds
+      description: Frequency of model saves (checkpoints) in seconds.
       default: 600
       arg-name: save_interval_secs
 
