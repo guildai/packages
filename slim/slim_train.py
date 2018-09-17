@@ -61,7 +61,6 @@ def _train(cmd_args, rest_args):
                 raise
 
 def _train_argv(cmd_args, rest_args):
-    import pdb;pdb.set_trace()
     optimize = _use_optimized_defaults(cmd_args)
     rest_args += _num_clones_args(cmd_args, optimize)
     return rest_args + [
