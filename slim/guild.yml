@@ -44,6 +44,9 @@
 - config: train-flags
   # Flag defs associated with training - use via $include
   flags:
+    preprocessing:
+      description: Preprocessing to use
+      arg-name: preprocessing_name
     batch-size:
       description: Number of examples in each training batch
       default: 32
