@@ -25,6 +25,8 @@ import yaml
 
 import tensorflow as tf
 
+slim = tf.contrib.slim
+
 sys.path.insert(0, "slim")
 
 import _custom_dataset
@@ -39,10 +41,57 @@ def main(argv):
         _util.error("--model_name is required")
     cmd_args, rest_args = _init_args(argv)
     _custom_dataset.patch_dataset_factory()
+    _patch_tensorflow(cmd_args)
     _train(cmd_args, rest_args)
+
+def _patch_tensorflow(cmd_args):
+    if not cmd_args.no_class_weights:
+        _patch_cross_entropy_weights(cmd_args)
+
+def _patch_cross_entropy_weights(cmd_args):
+    weights_path = os.path.join(cmd_args.dataset_dir, "train-weights.txt")
+    if not os.path.exists(weights_path):
+        log.warning(
+            "class weights %s does not exist - cannot weight cross entropy",
+            weights_path)
+        return
+    weights = _load_class_weights(weights_path)
+    slim.losses.softmax_cross_entropy = _patched_softmax_cross_entropy(
+        slim.losses.softmax_cross_entropy,
+        weights)
+
+def _load_class_weights(path):
+    weights = []
+    with open(path, "r") as f:
+        for line in f.readlines():
+            parts = line.split(":")
+            assert len(parts) == 2, (line, path)
+            weights.append(float(parts[1]))
+    return weights
+
+def _patched_softmax_cross_entropy(f0, class_weights):
+    def f(onehot_labels,
+          logits,
+          weights=1.0,
+          label_smoothing=0,
+          scope=None):
+        # Patching only if weights is default
+        if weights == 1.0:
+            log.info("Using class weights for softmax_cross_entropy")
+            indices = tf.argmax(logits, axis=1)
+            weights = tf.gather(tf.constant(class_weights), indices)
+        return f0(onehot_labels, logits, weights=weights, scope=scope)
+    return f
 
 def _init_args(argv):
     p = argparse.ArgumentParser()
+    p.add_argument(
+        "--dataset_dir", required=True,
+        help="Directory containing prepared tfrecords.")
+    p.add_argument(
+        "--no-class-weights",
+        action="store_true",
+        help="Don't balance classes in loss calculation.")
     p.add_argument(
         "--auto-scale",
         default="yes",
@@ -89,7 +138,10 @@ def _train_argv(cmd_args, rest_args):
     argv.extend(_learning_rate_args(cmd_args, auto_scale))
     argv.extend(_num_readers_args(cmd_args, auto_scale))
     argv.extend(_num_preprocessing_threads_args(cmd_args, auto_scale))
-    argv.extend(["--dataset_name", "custom"])
+    argv.extend([
+        "--dataset_name", "custom",
+        "--dataset_dir", cmd_args.dataset_dir,
+    ])
     return argv
 
 def _auto_scale(cmd_args):
