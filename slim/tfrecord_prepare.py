@@ -17,6 +17,7 @@ from __future__ import division
 from __future__ import print_function
 
 import argparse
+import collections
 import glob
 import io
 import logging
@@ -126,7 +127,7 @@ def main(argv):
         len(train) + len(val), len(label_ids))
     _ensure_output_dir(args)
     _write_labels(label_ids, args)
-    _write_records("train", "train", train, label_ids, args)
+    _write_records("train", "train", train, label_ids, args, True)
     _write_records("validation", "val", val, label_ids, args)
 
 def _init_logging(args):
@@ -212,12 +213,14 @@ def _write_labels(label_ids, args):
     id_to_name_map = {label_ids[name]: name for name in label_ids}
     dataset_utils.write_label_file(id_to_name_map, args.output_dir, labels_name)
 
-def _write_records(type_desc, basename, examples, labels, args):
+def _write_records(type_desc, basename, examples, labels, args,
+                   write_weights=False):
     writer = Writer(
         args.output_dir,
         args.output_prefix + basename,
         len(examples),
         args.max_file_size)
+    label_counts = collections.Counter()
     with writer:
         log.info(
             "Writing %i %s records %s",
@@ -228,9 +231,31 @@ def _write_records(type_desc, basename, examples, labels, args):
             for label, path in examples:
                 example = _image_tf_example(path, labels[label])
                 writer.write(example)
+                if write_weights:
+                    label_counts.update([label])
                 if not quiet:
                     bar.update(1)
             _progress_finish(bar)
+    if write_weights:
+        _write_weights(basename, label_counts, args)
+
+def _write_weights(basename, label_counts, args):
+    weights = _balanced_label_weights(label_counts)
+    weights_file = os.path.join(
+        args.output_dir,
+        args.output_prefix + basename + "-weights.txt")
+    log.info("Writing class weights %s", weights_file)
+    with open(weights_file, "w") as f:
+        for name in sorted(weights):
+            f.write("%s:%f\n" % (name, weights[name]))
+
+def _balanced_label_weights(counts):
+    class_count = len(counts)
+    total_count = sum(counts.values())
+    return {
+        name: total_count / (class_count * counts[name])
+        for name in counts
+    }
 
 def _filename_pattern(basename, args):
     return os.path.join(
