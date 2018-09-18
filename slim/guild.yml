@@ -33,73 +33,20 @@
   # Flag defs associated with logging - use via $include
   flags:
     log-steps:
-      description: Frequency of summary logs in steps.
+      description: Frequency of summary logs in steps
       default: 100
       arg-name: log_every_n_steps
     log-save-seconds:
-      description: Frequency of log summary saves in seconds.
+      description: Frequency of log summary saves in seconds
       default: 60
       arg-name: save_summaries_secs
 
 - config: train-flags
   # Flag defs associated with training - use via $include
   flags:
-    preprocessing:
-      description: Preprocessing to use.
-      arg-name: preprocessing_name
-    batch-size:
-      description: Number of examples in each training batch.
-      default: 32
-      arg-name: batch_size
-    max-steps:
-      description: Number of steps to train (default is to train indefinitely).
-      arg-name: max_number_of_steps
-    optimizer:
-      description: Optimizer used to train.
-      default: rmsprop
-      choices:
-        - adadelta
-        - adagrad
-        - adam
-        - ftrl
-        - momentum
-        - rmsprop
-        - sgd
-    learning-rate-decay-type:
-      description: Method used to decay the learning rate.
-      default: exponential
-      choices:
-        - exponential
-        - fixed
-        - polynomial
-      arg-name: learning_rate_decay_type
-    learning-rate:
-      description: Initial learning rate.
-      default: 0.001
-      arg-name: learning_rate
-    learning-rate-decay-factor:
-      description: Learning rate decay factor.
-      default: 0.94
-      arg-name: learning_rate_decay_factor
-    learning-rate-decay-epochs:
-      description: Number of epochs after which learning rate decays.
-      default: 2.0
-      arg-name: num_epochs_per_decay
-    learning-rate-end:
-      description: Minimal learning rate used by polynomial learning rate decay.
-      default: 0.0001
-      arg-name: learning_rate_end
-    weight-decay:
-      description: Decay on the model weights.
-      default: 0.00004
-      arg-name: weight_decay
-    model-save-seconds:
-      description: Frequency of model saves (checkpoints) in seconds.
-      default: 600
-      arg-name: save_interval_secs
     auto-scale:
       description: >
-        Adjust applicable flags for multi-GPU systems.
+        Adjust applicable flags for multi-GPU systems
 
         Set to 'no' to disable any flag value adjustments.
 
@@ -116,36 +63,94 @@
 
         Flags are not adjusted on single GPU or CPU only systems.
       default: yes
+    batch-size:
+      description: Number of examples in each training batch
+      default: 32
+      arg-name: batch_size
     clones:
       description: >
-        Number of model clones.
+        Number of model clones
 
         This value is automatically set to the number of available
-        GPUs if `auto-scale` is 'yes' (default).
+        GPUs if `auto-scale` is 'yes'.
 
         When `auto-scale` is 'no' this value can be increased from 1
         to train the model in parallel on multiple GPUs.
       arg-name: num_clones
-    readers:
-      description: >
-        Number of parallel data readers.
-
-        This value is automatically set to logical CPU count / 2 if
-        `auto-scale` is 'yes' (default).
-
-        When `auto-scale` is 'no' this value can be set to optimize
-        data reader performance for the system.
-      arg-name: num_readers
+      no-value-label: calculated
+    learning-rate-decay-type:
+      description: Method used to decay the learning rate
+      default: exponential
+      choices:
+        - exponential
+        - fixed
+        - polynomial
+      arg-name: learning_rate_decay_type
+    learning-rate:
+      description: Initial learning rate
+      default: 0.001
+      arg-name: learning_rate
+    learning-rate-decay-epochs:
+      description: Number of epochs after which learning rate decays
+      default: 2.0
+      arg-name: num_epochs_per_decay
+    learning-rate-decay-factor:
+      description: Learning rate decay factor
+      default: 0.94
+      arg-name: learning_rate_decay_factor
+    learning-rate-end:
+      description: Minimal learning rate used by polynomial learning rate decay
+      default: 0.0001
+      arg-name: learning_rate_end
+    model-save-seconds:
+      description: Frequency of model saves (checkpoints) in seconds
+      default: 600
+      arg-name: save_interval_secs
+    optimizer:
+      description: Optimizer used to train
+      default: rmsprop
+      choices:
+        - adadelta
+        - adagrad
+        - adam
+        - ftrl
+        - momentum
+        - rmsprop
+        - sgd
+    preprocessing:
+      description: Preprocessing to use
+      arg-name: preprocessing_name
+      no-value-label: default for model
     preprocessors:
       description: >
-        Number of preprocessing threads.
+        Number of preprocessing threads
 
         This value is automatically set to logical CPU count / 2 if
-        `auto-scale` is 'yes' (default).
+        `auto-scale` is 'yes'.
 
         When `auto-scale` is 'no' this value can be set to optimize
         the preprocessor thread count for the system.
       arg-name: num_preprocessing_threads
+      no-value-label: calculated
+    readers:
+      description: >
+        Number of parallel data readers
+
+        This value is automatically set to logical CPU count / 2 if
+        `auto-scale` is 'yes'.
+
+        When `auto-scale` is 'no' this value can be set to optimize
+        data reader performance for the system.
+      arg-name: num_readers
+      no-value-label: calculated
+    train-steps:
+      description: Number of steps to train
+      arg-name: max_number_of_steps
+      no-value-label: train indefinitely
+    weight-decay:
+      description: Decay on the model weights
+      default: 0.00004
+      arg-name: weight_decay
 
 # ===================================================================
 # Shared resources
@@ -252,15 +257,17 @@
       label-template: ${trained-model}
       flags:
         step:
-          description: Checkpoint step to evaluate (default is latest)
+          description: Checkpoint step to evaluate
           arg-name: checkpoint_step
+          no-value-label: latest
         batch-size:
           description: Number of examples in each evaluated batch
           default: 100
           arg-name: batch_size
         max-batches:
-          description: Maximum number of batches to evaluate (default is all)
+          description: Maximum number of batches to evaluate
           arg-name: max_num_batches
+          no-value-label: all
     export-and-freeze:
       description:
         Export an inference graph with and without checkpoint weights
@@ -280,8 +287,9 @@
       flags:
         step:
           description:
-            Checkpoint step to use for the frozen graph (default is latest)
+            Checkpoint step to use for the frozen graph
           arg-name: checkpoint_step
+          no-value-label: latest
     tflite:
       description: Generate a TFLite file from a frozen graph
       main:
