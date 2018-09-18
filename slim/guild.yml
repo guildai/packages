@@ -196,6 +196,7 @@
       requires:
         - models-lib
         - prepared-data
+      label-template: data=${prepared-data}
       flags:
         $include:
           - train-flags
@@ -215,6 +216,7 @@
         - models-lib
         - prepared-data
         - transfer-learn-checkpoint
+      label-template: data=${prepared-data}
       flags:
         $include:
           - train-flags
@@ -232,7 +234,7 @@
         - models-lib
         - prepared-data
         - trained-model
-      label-template: lr=${learning-rate}
+      label-template: model=${trained-model} data=${prepared-data}
       flags:
         $include:
           - train-flags
@@ -254,7 +256,7 @@
         - models-lib
         - prepared-data
         - trained-model
-      label-template: ${trained-model}
+      label-template: model=${trained-model} data=${prepared-data}
       flags:
         step:
           description: Checkpoint step to evaluate
@@ -283,7 +285,7 @@
         - models-lib
         - prepared-data
         - trained-model
-      label-template: ${trained-model}
+      label-template: model=${trained-model} data=${prepared-data}
       flags:
         step:
           description:
@@ -300,7 +302,7 @@
           --output_arrays {{output-layer}}
       requires:
         - frozen-graph
-      label-template: ${frozen-graph}
+      label-template: graph=${frozen-graph}
     label:
       description: Classify an image using a trained model
       main:
@@ -316,7 +318,7 @@
         - label-image-script
         - frozen-graph
         - labels
-      label-template: ${image|basename}
+      label-template: image=${image|basename}
       flags:
         image:
           description: Path to image to classify
