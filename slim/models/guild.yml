@@ -128,6 +128,16 @@
     - image-classifier
     - gpkg.slim/resnet-v2-152
 
+- model: vgg-16
+  extends:
+    - image-classifier
+    - gpkg.slim/vgg-16
+
+- model: vgg-19
+  extends:
+    - image-classifier
+    - gpkg.slim/vgg-19
+
 - model: mobilenet-v1
   extends:
     - image-classifier
@@ -138,10 +148,20 @@
     - image-classifier
     - gpkg.slim/mobilenet-v2-1.4
 
+- model: nasnet-mobile
+  extends:
+    - image-classifier
+    - gpkg.slim/nasnet-mobile
+
 - model: nasnet-large
   extends:
     - image-classifier
     - gpkg.slim/nasnet-large
+
+- model: pnasnet-mobile
+  extends:
+    - image-classifier
+    - gpkg.slim/pnasnet-mobile
 
 - model: pnasnet-large
   extends:

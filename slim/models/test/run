@@ -3,21 +3,25 @@
 root=../..
 
 models=(
-    #inception-v1
-    #inception-v2
-    #inception-v3
-    #inception-v4
-    #inception-resnet-v2
-    #resnet-v1-50
-    #resnet-v1-101
-    #resnet-v1-152
-    #resnet-v2-50
-    #resnet-v2-101
-    #resnet-v2-152
-    #mobilenet-v1
-    #mobilenet-v2-1.4
-    #nasnet-large
-    #pnasnet-large
+    inception-v1
+    inception-v2
+    inception-v3
+    inception-v4
+    inception-resnet-v2
+    resnet-v1-50
+    resnet-v1-101
+    resnet-v1-152
+    resnet-v2-50
+    resnet-v2-101
+    resnet-v2-152
+    mobilenet-v1
+    mobilenet-v2-1.4
+    nasnet-large
+    nasnet-mobile
+    pnasnet-large
+    pnasnet-mobile
+    vgg-16
+    vgg-19
 )
 
 # Init

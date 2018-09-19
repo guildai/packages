@@ -583,6 +583,46 @@
           select: .+\.ckpt
 
 # ===================================================================
+# VGG
+# ===================================================================
+
+- config: vgg-16
+  extends:
+    - model-base
+  params:
+    model-name: vgg_16
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/vgg_16.ckpt
+    transfer-learn-train-layers: vgg_16/fc8
+    input-layers: input
+    output-layers: vgg_16/fc8/squeezed
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz
+          sha256: de44460bf79d3da5d843946bbee82a9a872a8bf020787922914aa9a4b125126e
+          select: .+\.ckpt
+
+- config: vgg-19
+  extends:
+    - model-base
+  params:
+    model-name: vgg_19
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/vgg_19.ckpt
+    transfer-learn-train-layers: vgg_19/fc8
+    input-layers: input
+    output-layers: vgg_19/fc8/squeezed
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/vgg_19_2016_08_28.tar.gz
+          sha256: 9071fd96f91e261c62378cd073897cf038a278a1fbd6c763a8f9eecf311a3cf8
+          select: .+\.ckpt
+
+# ===================================================================
 # Mobilenet
 # ===================================================================
 
@@ -626,6 +666,24 @@
 # NASNet
 # ===================================================================
 
+- config: nasnet-mobile
+  extends:
+    - model-base
+  params:
+    model-name: nasnet_mobile
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/model.ckpt
+    transfer-learn-train-layers: final_layer,aux_7
+    input-layers: input
+    output-layers: final_layer/predictions
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: https://storage.googleapis.com/download.tensorflow.org/models/nasnet-a_mobile_04_10_2017.tar.gz
+          sha256: aafa7066c238f02776da34b12fd6560e8d6784f73687ec5519d863a531335f38
+          select: .+\.ckpt\..+
+
 - config: nasnet-large
   extends:
     - model-base
@@ -647,6 +705,24 @@
 # ===================================================================
 # PNASNet
 # ===================================================================
+
+- config: pnasnet-mobile
+  extends:
+    - model-base
+  params:
+    model-name: pnasnet_mobile
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/model.ckpt
+    transfer-learn-train-layers: final_layer,aux_5
+    input-layers: input
+    output-layers: final_layer/predictions
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: https://storage.googleapis.com/download.tensorflow.org/models/pnasnet-5_mobile_2017_12_13.tar.gz
+          sha256: 06ce8bf80d7711e820d6d1266c5b23c4820c8cabf827c65b1cfed2e4b16b5b93
+          select: .+\.ckpt\..+
 
 - config: pnasnet-large
   extends:
