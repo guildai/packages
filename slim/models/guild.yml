@@ -1,0 +1,114 @@
+# Copyright 2018 TensorHub, Inc. and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# ===================================================================
+# Package def
+# ===================================================================
+
+- package: gpkg.slim.models
+  version: 0.5.0.dev1
+  description: TF-Slim models
+  url: https://github.com/guildai/packages/tree/master/slim/models
+  author: Guild AI
+  author-email: packages@guild.ai
+  license: Apache 2.0
+  tags: [slim]
+  requires:
+    - Pillow
+
+# ===================================================================
+# Generic images support
+# ===================================================================
+
+- model: images
+  description: Generic images dataset
+  extends:
+    - gpkg.slim/models-lib-support
+  operations:
+    prepare:
+      description: Prepare images for training
+      main: tfrecord_prepare ${images} -o data
+      requires:
+        - models-lib
+      flags:
+        images:
+          description: Directory containing images to prepare
+          required: yes
+          arg-skip: yes
+        val-split:
+          description: Percentage of images reserved for validation
+          default: 30
+      label-template: images=${images|basename}
+
+# ===================================================================
+# Model base config
+# ===================================================================
+
+- config: image-classifier
+  description: TF-Slim {{model-name}} image classifier
+  params:
+    data-path: data
+  resources:
+    prepared-data:
+      description: Images dataset generated with images:prepare
+      sources:
+        - operation: images:prepare
+    labels:
+      sources:
+        - operation: images:prepare
+          select: data/labels.txt
+
+# ===================================================================
+# Image classifiers
+# ===================================================================
+
+- model: inception-v1
+  extends:
+    - image-classifier
+    - gpkg.slim/inception-v1
+
+- model: inception-v2
+  extends:
+    - image-classifier
+    - gpkg.slim/inception-v2
+
+- model: inception-v3
+  extends:
+    - image-classifier
+    - gpkg.slim/inception-v3
+
+- model: inception-v4
+  extends:
+    - image-classifier
+    - gpkg.slim/inception-v4
+
+- model: mobilenet-v1
+  extends:
+    - image-classifier
+    - gpkg.slim/mobilenet-v1
+
+- model: mobilenet-v2-1.4
+  extends:
+    - image-classifier
+    - gpkg.slim/mobilenet-v2-1.4
+
+- model: nasnet-large
+  extends:
+    - image-classifier
+    - gpkg.slim/nasnet-large
+
+- model: pnasnet-large
+  extends:
+    - image-classifier
+    - gpkg.slim/pnasnet-large

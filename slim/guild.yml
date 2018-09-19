@@ -181,9 +181,9 @@
     image-size: DEFINE-image-size
     dataset-path: DEFINE-dataset-path
     transfer-learn-checkpoint-path: DEFINE-transfer-learn-checkpoint-path
-    transfer-learn-train-layer: DEFINE-transfer-learn-train-layer
-    input-layer: DEFINE-input-layer
-    output-layer: DEFINE-output-layer
+    transfer-learn-train-layers: DEFINE-transfer-learn-train-layers
+    input-layers: DEFINE-input-layers
+    output-layers: DEFINE-output-layers
   operations:
     train:
       description: Train model from scratch
@@ -210,8 +210,8 @@
           --train_dir train
           --train_image_size {{image-size}}
           --checkpoint_path {{transfer-learn-checkpoint-path}}
-          --checkpoint_exclude_scopes {{transfer-learn-train-layer}}
-          --trainable_scopes {{transfer-learn-train-layer}}
+          --checkpoint_exclude_scopes {{transfer-learn-train-layers}}
+          --trainable_scopes {{transfer-learn-train-layers}}
       requires:
         - models-lib
         - prepared-data
@@ -269,7 +269,7 @@
         max-batches:
           description: Maximum number of batches to evaluate
           arg-name: max_num_batches
-          no-value-label: all
+          no-value-label: all available
     export-and-freeze:
       description:
         Export an inference graph with and without checkpoint weights
@@ -280,7 +280,7 @@
           --image_size {{image-size}}
           --dataset_dir {{data-path}}
           --output_dir .
-          --output_node_names {{output-layer}}
+          --output_node_names {{output-layers}}
       requires:
         - models-lib
         - prepared-data
@@ -298,8 +298,8 @@
         tensorflow/contrib/lite/python/tflite_convert
           --graph_def_file frozen_graph.pb
           --output_file model.tflite
-          --input_arrays {{input-layer}}
-          --output_arrays {{output-layer}}
+          --input_arrays {{input-layers}}
+          --output_arrays {{output-layers}}
       requires:
         - frozen-graph
       label-template: graph=${frozen-graph}
@@ -311,8 +311,8 @@
           --image ${image}
           --input_width {{image-size}}
           --input_height {{image-size}}
-          --input_layer {{input-layer}}
-          --output_layer {{output-layer}}
+          --input_layer {{input-layers}}
+          --output_layer {{output-layers}}
           --labels labels.txt
       requires:
         - label-image-script
@@ -373,6 +373,82 @@
           default: 30
 
 # ===================================================================
+# Inception
+# ===================================================================
+
+- config: inception-v1
+  extends:
+    - model-base
+  params:
+    model-name: inception_v1
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/inception_v1.ckpt
+    transfer-learn-train-layers: InceptionV1/Logits
+    input-layers: input
+    output-layers: InceptionV1/Logits/Predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/inception_v1_2016_08_28.tar.gz
+          sha256: 7a620c430fcaba8f8f716241f5148c4c47c035cce4e49ef02cfbe6cd1adf96a6
+          select: .+\.ckpt
+
+- config: inception-v2
+  extends:
+    - model-base
+  params:
+    model-name: inception_v2
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/inception_v2.ckpt
+    transfer-learn-train-layers: InceptionV2/Logits
+    input-layers: input
+    output-layers: InceptionV2/Predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/inception_v2_2016_08_28.tar.gz
+          sha256: 3b9d269984402003d8330affc4e1463c0b4cfd536339ad12446a48d72477480a
+          select: .+\.ckpt
+
+- config: inception-v3
+  extends:
+    - model-base
+  params:
+    model-name: inception_v3
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/inception_v3.ckpt
+    transfer-learn-train-layers: InceptionV3/Logits,InceptionV3/AuxLogits
+    input-layers: input
+    output-layers: InceptionV3/Predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/inception_v3_2016_08_28.tar.gz
+          sha256: 9430692d3002277fa1e1a94fb82331fe5da68b9afd725c2679c21a0319933228
+          select: .+\.ckpt
+
+- config: inception-v4
+  extends:
+    - model-base
+  params:
+    model-name: inception_v4
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/inception_v4.ckpt
+    transfer-learn-train-layers: InceptionV4/Logits,InceptionV4/AuxLogits
+    input-layers: input
+    output-layers: InceptionV4/Logits/Predictions
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/inception_v4_2016_09_09.tar.gz
+          sha256: 272a2b24f68b2e51f3081479df075dd62b019ccda630e998fb7f6cf314c0f304
+          select: .+\.ckpt
+
+# ===================================================================
 # Mobilenet
 # ===================================================================
 
@@ -383,9 +459,9 @@
     model-name: mobilenet_v1
     image-size: 224
     transfer-learn-checkpoint-path: checkpoint/mobilenet_v1_1.0_224.ckpt
-    transfer-learn-train-layer: MobilenetV1/Logits
-    input-layer: input
-    output-layer: MobilenetV1/Predictions/Reshape_1
+    transfer-learn-train-layers: MobilenetV1/Logits
+    input-layers: input
+    output-layers: MobilenetV1/Predictions/Reshape_1
   resources:
     transfer-learn-checkpoint:
       path: checkpoint
@@ -401,9 +477,9 @@
     model-name: mobilenet_v2_140
     image-size: 224
     transfer-learn-checkpoint-path: checkpoint/mobilenet_v2_1.4_224.ckpt
-    transfer-learn-train-layer: MobilenetV2/Logits
-    input-layer: input
-    output-layer: MobilenetV2/Predictions/Reshape_1
+    transfer-learn-train-layers: MobilenetV2/Logits
+    input-layers: input
+    output-layers: MobilenetV2/Predictions/Reshape_1
   resources:
     transfer-learn-checkpoint:
       path: checkpoint
@@ -423,9 +499,9 @@
     model-name: nasnet_large
     image-size: 331
     transfer-learn-checkpoint-path: checkpoint/model.ckpt
-    transfer-learn-train-layer: final_layer,aux_7
-    input-layer: xxx
-    output-layer: xxx
+    transfer-learn-train-layers: final_layer,aux_11
+    input-layers: input
+    output-layers: final_layer/predictions
   resources:
     transfer-learn-checkpoint:
       path: checkpoint
@@ -445,13 +521,13 @@
     model-name: pnasnet_large
     image-size: 331
     transfer-learn-checkpoint-path: checkpoint/model.ckpt
-    transfer-learn-train-layer: final_layer,aux_7
-    input-layer: xxx
-    output-layer: xxx
+    transfer-learn-train-layers: final_layer,aux_7
+    input-layers: input
+    output-layers: final_layer/predictions
   resources:
     transfer-learn-checkpoint:
       path: checkpoint
       sources:
-        - url: https://storage.googleapis.com/download.tensorflow.org/models/nasnet-a_large_04_10_2017.tar.gz
+        - url: https://storage.googleapis.com/download.tensorflow.org/models/pnasnet-5_large_2017_12_13.tar.gz
           sha256: ce5fa64421d5285ae0a434b51d9ab142c88b3d7e542558e6c91bd4f6533d17e3
           select: .+\.ckpt\..+

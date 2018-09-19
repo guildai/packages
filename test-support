@@ -1,0 +1,26 @@
+#-*-shell-script-*-
+
+test-help() {
+    echo -n "Testing package help..."
+    local tmp_help=`mktemp --tmpdir guild-help-XXXXXXXXXX`
+    guild help > $tmp_help
+    diff test/help $tmp_help
+    echo " OK"
+}
+
+_assert_root() {
+    if [ -z "$root" ]; then
+        echo "root is not defined, quitting"
+        exit 1
+    fi
+}
+
+init-env() {
+    _assert_root
+    test -e env || PYTHONPATH=$root guild init -y -p $root
+    QUIET=1 source guild-env
+}
+
+latest-run-dir() {
+    echo env/.guild/runs/`ls -t env/.guild/runs | head -1`
+}

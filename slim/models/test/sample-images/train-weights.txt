@@ -1,0 +1,5 @@
+daisy:0.950000
+dandelion:0.950000
+roses:1.900000
+sunflowers:0.760000
+tulips:0.950000
