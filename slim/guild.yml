@@ -449,6 +449,140 @@
           select: .+\.ckpt
 
 # ===================================================================
+# Inception-ResNet
+# ===================================================================
+
+- config: inception-resnet-v2
+  extends:
+    - model-base
+  params:
+    model-name: inception_resnet_v2
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/inception_resnet_v2_2016_08_30.ckpt
+    transfer-learn-train-layers: InceptionResnetV2/Logits,InceptionResnetV2/AuxLogits
+    input-layers: input
+    output-layers: InceptionResnetV2/Logits/Predictions
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/inception_resnet_v2_2016_08_30.tar.gz
+          sha256: 3471bf35c5322271081346a0bdfae0aee706561b8243ec3ba2249aea2dcb8506
+          select: .+\.ckpt
+
+# ===================================================================
+# ResNet
+# ===================================================================
+
+- config: resnet-v1-50
+  extends:
+    - model-base
+  params:
+    model-name: resnet_v1_50
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/resnet_v1_50.ckpt
+    transfer-learn-train-layers: resnet_v1_50/logits
+    input-layers: input
+    output-layers: resnet_v1_50/predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/resnet_v1_50_2016_08_28.tar.gz
+          sha256: 91a0dc25289e7ef648df304b15f06c43ce6f4446d08eb0168479dd2295101c73
+          select: .+\.ckpt
+
+- config: resnet-v1-101
+  extends:
+    - model-base
+  params:
+    model-name: resnet_v1_101
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/resnet_v1_101.ckpt
+    transfer-learn-train-layers: resnet_v1_101/logits
+    input-layers: input
+    output-layers: resnet_v1_101/predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/resnet_v1_101_2016_08_28.tar.gz
+          sha256: 5d813fcf5e56e7c9c2483d73b46644394cdbb31f9f4bf7140fb2809f7aa11a19
+          select: .+\.ckpt
+
+- config: resnet-v1-152
+  extends:
+    - model-base
+  params:
+    model-name: resnet_v1_152
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/resnet_v1_152.ckpt
+    transfer-learn-train-layers: resnet_v1_152/logits
+    input-layers: input
+    output-layers: resnet_v1_152/predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/resnet_v1_152_2016_08_28.tar.gz
+          sha256: c89b549ada486d9c0db6d90e874a1a652d899f9b541ae9c430fee8251572181d
+          select: .+\.ckpt
+
+- config: resnet-v2-50
+  extends:
+    - model-base
+  params:
+    model-name: resnet_v2_50
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/resnet_v2_50.ckpt
+    transfer-learn-train-layers: resnet_v2_50/logits
+    input-layers: input
+    output-layers: resnet_v2_50/predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/resnet_v2_50_2017_04_14.tar.gz
+          sha256: 2c5c3a852526d0d6e8a35829d4e50533468baaed834a0046ba430e80982ed57c
+          select: .+\.ckpt
+
+- config: resnet-v2-101
+  extends:
+    - model-base
+  params:
+    model-name: resnet_v2_101
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/resnet_v2_101.ckpt
+    transfer-learn-train-layers: resnet_v2_101/logits
+    input-layers: input
+    output-layers: resnet_v2_101/predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/resnet_v2_101_2017_04_14.tar.gz
+          sha256: b324d02f28839d11f382785bdf4444ec3bdccb28e1b691a4f45b8f04370e4191
+          select: .+\.ckpt
+
+- config: resnet-v2-152
+  extends:
+    - model-base
+  params:
+    model-name: resnet_v2_152
+    image-size: 224
+    transfer-learn-checkpoint-path: checkpoint/resnet_v2_152.ckpt
+    transfer-learn-train-layers: resnet_v2_152/logits
+    input-layers: input
+    output-layers: resnet_v2_152/predictions/Reshape_1
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/resnet_v2_152_2017_04_14.tar.gz
+          sha256: c3ec824f19b4919fc7d069dc3a2a9d0f045f35e843c563c4eeeefbedf4852867
+          select: .+\.ckpt
+
+# ===================================================================
 # Mobilenet
 # ===================================================================
 

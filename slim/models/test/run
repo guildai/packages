@@ -3,14 +3,21 @@
 root=../..
 
 models=(
-    inception-v1
-    inception-v2
-    inception-v3
-    inception-v4
-    mobilenet-v1
-    mobilenet-v2-1.4
-    nasnet-large
-    pnasnet-large
+    #inception-v1
+    #inception-v2
+    #inception-v3
+    #inception-v4
+    #inception-resnet-v2
+    #resnet-v1-50
+    #resnet-v1-101
+    #resnet-v1-152
+    #resnet-v2-50
+    #resnet-v2-101
+    #resnet-v2-152
+    #mobilenet-v1
+    #mobilenet-v2-1.4
+    #nasnet-large
+    #pnasnet-large
 )
 
 # Init
@@ -35,6 +42,8 @@ quick-train() {
           auto-scale=no \
           clone_on_cpu=True \
           train-steps=1
+    assert-run-file train/checkpoint
+    assert-run-file train/graph.pbtxt
 }
 
 quick-eval() {
@@ -45,6 +54,8 @@ quick-eval() {
 
 export-and-freeze() {
     guild run -y --no-gpus $1:export-and-freeze
+    assert-run-file graph.pb
+    assert-run-file frozen_graph.pb
 }
 
 test-model() {

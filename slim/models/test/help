@@ -30,6 +30,311 @@ MODELS
             val-split  Percentage of images reserved for validation (30)
 
 
+    inception-resnet-v2
+
+      TF-Slim inception_resnet_v2 image classifier
+
+      Operations:
+
+        evaluate
+
+          Evaluate a trained model
+
+          Flags:
+
+            batch-size   Number of examples in each evaluated batch (100)
+            max-batches  Maximum number of batches to evaluate (all available)
+            step         Checkpoint step to evaluate (latest)
+
+        export-and-freeze
+
+          Export an inference graph with and without checkpoint
+          weights
+
+          Flags:
+
+            step  Checkpoint step to use for the frozen graph (latest)
+
+        finetune
+
+          Finetune a trained model
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.0001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        label
+
+          Classify an image using a trained model
+
+          Flags:
+
+            image  Path to image to classify (required)
+
+        tflite
+
+          Generate a TFLite file from a frozen graph
+
+        train
+
+          Train model from scratch
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        transfer-learn
+
+          Train model using transfer learning
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+
     inception-v1
 
       TF-Slim inception_v1 image classifier
@@ -2168,6 +2473,1836 @@ MODELS
     pnasnet-large
 
       TF-Slim pnasnet_large image classifier
+
+      Operations:
+
+        evaluate
+
+          Evaluate a trained model
+
+          Flags:
+
+            batch-size   Number of examples in each evaluated batch (100)
+            max-batches  Maximum number of batches to evaluate (all available)
+            step         Checkpoint step to evaluate (latest)
+
+        export-and-freeze
+
+          Export an inference graph with and without checkpoint
+          weights
+
+          Flags:
+
+            step  Checkpoint step to use for the frozen graph (latest)
+
+        finetune
+
+          Finetune a trained model
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.0001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        label
+
+          Classify an image using a trained model
+
+          Flags:
+
+            image  Path to image to classify (required)
+
+        tflite
+
+          Generate a TFLite file from a frozen graph
+
+        train
+
+          Train model from scratch
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        transfer-learn
+
+          Train model using transfer learning
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+
+    resnet-v1-101
+
+      TF-Slim resnet_v1_101 image classifier
+
+      Operations:
+
+        evaluate
+
+          Evaluate a trained model
+
+          Flags:
+
+            batch-size   Number of examples in each evaluated batch (100)
+            max-batches  Maximum number of batches to evaluate (all available)
+            step         Checkpoint step to evaluate (latest)
+
+        export-and-freeze
+
+          Export an inference graph with and without checkpoint
+          weights
+
+          Flags:
+
+            step  Checkpoint step to use for the frozen graph (latest)
+
+        finetune
+
+          Finetune a trained model
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.0001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        label
+
+          Classify an image using a trained model
+
+          Flags:
+
+            image  Path to image to classify (required)
+
+        tflite
+
+          Generate a TFLite file from a frozen graph
+
+        train
+
+          Train model from scratch
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        transfer-learn
+
+          Train model using transfer learning
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+
+    resnet-v1-152
+
+      TF-Slim resnet_v1_152 image classifier
+
+      Operations:
+
+        evaluate
+
+          Evaluate a trained model
+
+          Flags:
+
+            batch-size   Number of examples in each evaluated batch (100)
+            max-batches  Maximum number of batches to evaluate (all available)
+            step         Checkpoint step to evaluate (latest)
+
+        export-and-freeze
+
+          Export an inference graph with and without checkpoint
+          weights
+
+          Flags:
+
+            step  Checkpoint step to use for the frozen graph (latest)
+
+        finetune
+
+          Finetune a trained model
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.0001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        label
+
+          Classify an image using a trained model
+
+          Flags:
+
+            image  Path to image to classify (required)
+
+        tflite
+
+          Generate a TFLite file from a frozen graph
+
+        train
+
+          Train model from scratch
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        transfer-learn
+
+          Train model using transfer learning
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+
+    resnet-v1-50
+
+      TF-Slim resnet_v1_50 image classifier
+
+      Operations:
+
+        evaluate
+
+          Evaluate a trained model
+
+          Flags:
+
+            batch-size   Number of examples in each evaluated batch (100)
+            max-batches  Maximum number of batches to evaluate (all available)
+            step         Checkpoint step to evaluate (latest)
+
+        export-and-freeze
+
+          Export an inference graph with and without checkpoint
+          weights
+
+          Flags:
+
+            step  Checkpoint step to use for the frozen graph (latest)
+
+        finetune
+
+          Finetune a trained model
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.0001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        label
+
+          Classify an image using a trained model
+
+          Flags:
+
+            image  Path to image to classify (required)
+
+        tflite
+
+          Generate a TFLite file from a frozen graph
+
+        train
+
+          Train model from scratch
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        transfer-learn
+
+          Train model using transfer learning
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+
+    resnet-v2-101
+
+      TF-Slim resnet_v2_101 image classifier
+
+      Operations:
+
+        evaluate
+
+          Evaluate a trained model
+
+          Flags:
+
+            batch-size   Number of examples in each evaluated batch (100)
+            max-batches  Maximum number of batches to evaluate (all available)
+            step         Checkpoint step to evaluate (latest)
+
+        export-and-freeze
+
+          Export an inference graph with and without checkpoint
+          weights
+
+          Flags:
+
+            step  Checkpoint step to use for the frozen graph (latest)
+
+        finetune
+
+          Finetune a trained model
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.0001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        label
+
+          Classify an image using a trained model
+
+          Flags:
+
+            image  Path to image to classify (required)
+
+        tflite
+
+          Generate a TFLite file from a frozen graph
+
+        train
+
+          Train model from scratch
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        transfer-learn
+
+          Train model using transfer learning
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+
+    resnet-v2-152
+
+      TF-Slim resnet_v2_152 image classifier
+
+      Operations:
+
+        evaluate
+
+          Evaluate a trained model
+
+          Flags:
+
+            batch-size   Number of examples in each evaluated batch (100)
+            max-batches  Maximum number of batches to evaluate (all available)
+            step         Checkpoint step to evaluate (latest)
+
+        export-and-freeze
+
+          Export an inference graph with and without checkpoint
+          weights
+
+          Flags:
+
+            step  Checkpoint step to use for the frozen graph (latest)
+
+        finetune
+
+          Finetune a trained model
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.0001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        label
+
+          Classify an image using a trained model
+
+          Flags:
+
+            image  Path to image to classify (required)
+
+        tflite
+
+          Generate a TFLite file from a frozen graph
+
+        train
+
+          Train model from scratch
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+        transfer-learn
+
+          Train model using transfer learning
+
+          Flags:
+
+            auto-scale                  Adjust applicable flags for multi-GPU systems
+                                        (yes)
+                                        
+                                        Set to 'no' to disable any flag value
+                                        adjustments.
+                                        
+                                        When this value is 'yes' (the default) the
+                                        following flags are adjusted on multi-GPU
+                                        systems:
+                                        
+                                          - clones
+                                        
+                                          - learning-rate
+                                        
+                                        `clones` is set to the number of available GPUs.
+                                        
+                                        `learning-rate` is adjusted by multiplying its
+                                        specified value by the number of GPUs.
+                                        
+                                        Flags are not adjusted on single GPU or CPU only
+                                        systems.
+                                        
+            batch-size                  Number of examples in each training batch (32)
+            clones                      Number of model clones (calculated)
+                                        
+                                        This value is automatically set to the number of
+                                        available GPUs if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be
+                                        increased from 1 to train the model in parallel
+                                        on multiple GPUs.
+                                        
+            learning-rate               Initial learning rate (0.001)
+            learning-rate-decay-epochs  Number of epochs after which learning rate
+                                        decays (2.0)
+            learning-rate-decay-factor  Learning rate decay factor (0.94)
+            learning-rate-decay-type    Method used to decay the learning rate
+                                        ('exponential')
+                                        
+                                        Choices:
+                                          exponential
+                                          fixed
+                                          polynomial
+                                        
+            learning-rate-end           Minimal learning rate used by polynomial
+                                        learning rate decay (0.0001)
+            log-save-seconds            Frequency of log summary saves in seconds (60)
+            log-steps                   Frequency of summary logs in steps (100)
+            model-save-seconds          Frequency of model saves (checkpoints) in
+                                        seconds (600)
+            optimizer                   Optimizer used to train ('rmsprop')
+                                        
+                                        Choices:
+                                          adadelta
+                                          adagrad
+                                          adam
+                                          ftrl
+                                          momentum
+                                          rmsprop
+                                          sgd
+                                        
+            preprocessing               Preprocessing to use (default for model)
+            preprocessors               Number of preprocessing threads (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize the preprocessor thread count for
+                                        the system.
+                                        
+            readers                     Number of parallel data readers (calculated)
+                                        
+                                        This value is automatically set to logical CPU
+                                        count / 2 if `auto-scale` is 'yes'.
+                                        
+                                        When `auto-scale` is 'no' this value can be set
+                                        to optimize data reader performance for the
+                                        system.
+                                        
+            train-steps                 Number of steps to train (train indefinitely)
+            weight-decay                Decay on the model weights (4e-05)
+
+
+    resnet-v2-50
+
+      TF-Slim resnet_v2_50 image classifier
 
       Operations:
 

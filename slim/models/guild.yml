@@ -93,6 +93,41 @@
     - image-classifier
     - gpkg.slim/inception-v4
 
+- model: inception-resnet-v2
+  extends:
+    - image-classifier
+    - gpkg.slim/inception-resnet-v2
+
+- model: resnet-v1-50
+  extends:
+    - image-classifier
+    - gpkg.slim/resnet-v1-50
+
+- model: resnet-v1-101
+  extends:
+    - image-classifier
+    - gpkg.slim/resnet-v1-101
+
+- model: resnet-v1-152
+  extends:
+    - image-classifier
+    - gpkg.slim/resnet-v1-152
+
+- model: resnet-v2-50
+  extends:
+    - image-classifier
+    - gpkg.slim/resnet-v2-50
+
+- model: resnet-v2-101
+  extends:
+    - image-classifier
+    - gpkg.slim/resnet-v2-101
+
+- model: resnet-v2-152
+  extends:
+    - image-classifier
+    - gpkg.slim/resnet-v2-152
+
 - model: mobilenet-v1
   extends:
     - image-classifier

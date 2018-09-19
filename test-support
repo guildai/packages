@@ -11,7 +11,7 @@ test-help() {
 _assert_root() {
     if [ -z "$root" ]; then
         echo "root is not defined, quitting"
-        exit 1
+        return 1
     fi
 }
 
@@ -23,4 +23,12 @@ init-env() {
 
 latest-run-dir() {
     echo env/.guild/runs/`ls -t env/.guild/runs | head -1`
+}
+
+assert-run-file() {
+    local _run_dir=$(latest-run-dir)
+    if [ ! -e $_run_dir/$1 ]; then
+        echo "missing $1 in run $_run_dir"
+        return 1
+    fi
 }
