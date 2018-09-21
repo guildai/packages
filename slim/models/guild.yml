@@ -34,136 +34,122 @@
 - model: images
   description: Generic images dataset
   extends:
-    - gpkg.slim/models-lib-support
-  operations:
-    prepare:
-      description: Prepare images for training
-      main: tfrecord_prepare ${images} -o data
-      requires:
-        - models-lib
-      flags:
-        images:
-          description: Directory containing images to prepare
-          required: yes
-          arg-skip: yes
-        val-split:
-          description: Percentage of images reserved for validation
-          default: 30
-      label-template: images=${images|basename}
-
-# ===================================================================
-# Model base config
-# ===================================================================
-
-- config: image-classifier
-  description: TF-Slim {{model-name}} image classifier
-  params:
-    data-path: data
-  resources:
-    prepared-data:
-      description: Images dataset generated with images:prepare
-      sources:
-        - operation: images:prepare
-    labels:
-      sources:
-        - operation: images:prepare
-          select: data/labels.txt
+    - gpkg.slim/prepare-images-op-support
 
 # ===================================================================
 # Image classifiers
 # ===================================================================
 
 - model: inception-v1
+  description: TF-Slim Inception v1 classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/inception-v1
 
 - model: inception-v2
+  description: TF-Slim Inception v2 classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/inception-v2
 
 - model: inception-v3
+  description: TF-Slim Inception v3 classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/inception-v3
 
 - model: inception-v4
+  description: TF-Slim Inception v4 classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/inception-v4
 
 - model: inception-resnet-v2
+  description: TF-Slim Inception ResNet v2 classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/inception-resnet-v2
 
 - model: resnet-v1-50
+  description: TF-Slim ResNet v1 50 layer classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/resnet-v1-50
 
 - model: resnet-v1-101
+  description: TF-Slim ResNet v1 101 layer classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/resnet-v1-101
 
 - model: resnet-v1-152
+  description: TF-Slim ResNet v1 152 layer classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/resnet-v1-152
 
 - model: resnet-v2-50
+  description: TF-Slim ResNet v2 50 layer classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/resnet-v2-50
 
 - model: resnet-v2-101
+  description: TF-Slim ResNet v2 101 layer classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/resnet-v2-101
 
 - model: resnet-v2-152
+  description: TF-Slim ResNet v2 152 layer classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/resnet-v2-152
 
 - model: vgg-16
+  description: TF-Slim VGG 16 classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/vgg-16
 
 - model: vgg-19
+  description: TF-Slim VGG 19 classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/vgg-19
 
 - model: mobilenet-v1
+  description: TF-Slim Mobilenet v1 classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/mobilenet-v1
 
 - model: mobilenet-v2-1.4
+  description: TF-Slim Mobilenet v2 classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/mobilenet-v2-1.4
 
 - model: nasnet-mobile
+  description: TF-Slim NASNet mobile classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/nasnet-mobile
 
 - model: nasnet-large
+  description: TF-Slim NASNet large classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/nasnet-large
 
 - model: pnasnet-mobile
+  description: TF-Slim PNASNet mobile classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/pnasnet-mobile
 
 - model: pnasnet-large
+  description: TF-Slim PNASNet classifier
   extends:
-    - image-classifier
+    - gpkg.slim/prepared-images-resource-support
     - gpkg.slim/pnasnet-large

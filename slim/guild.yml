@@ -23,7 +23,6 @@
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
-  tags: [slim]
 
 # ===================================================================
 # Shared flag defs
@@ -347,30 +346,43 @@
           select: frozen_graph\.pb
 
 # ===================================================================
-# Images dataset base
+# Images support
 # ===================================================================
 
-- config: slim-images-dataset-base
-  # Images dataset base config defining prepare operation
+- config: prepare-images-op-support
   extends:
     - models-lib-support
   params:
-    images-path: DEFINE-images-path
-    dataset-path: DEFINE-dataset-path
+    data-path: data
   operations:
     prepare:
       description: Prepare images for training
-      main:
-        tfrecord_prepare {{images-path}}
-          -o {{dataset-path}}
-          -s ${val-split}
+      main: tfrecord_prepare ${images} -o {{data-path}}
       requires:
         - models-lib
-        - images
       flags:
+        images:
+          description: Directory containing images to prepare
+          required: yes
+          arg-skip: yes
         val-split:
           description: Percentage of images reserved for validation
           default: 30
+      label-template: images=${images|basename}
+
+- config: prepared-images-resource-support
+  params:
+    prepare-op: images:prepare
+    data-path: data
+  resources:
+    prepared-data:
+      description: Images dataset generated with {{prepare-op}}
+      sources:
+        - operation: '{{prepare-op}}'
+    labels:
+      sources:
+        - operation: '{{prepare-op}}'
+          select: '{{data-path}}/labels.txt'
 
 # ===================================================================
 # Inception

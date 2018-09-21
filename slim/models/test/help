@@ -32,7 +32,7 @@ MODELS
 
     inception-resnet-v2
 
-      TF-Slim inception_resnet_v2 image classifier
+      TF-Slim Inception ResNet v2 classifier
 
       Operations:
 
@@ -337,7 +337,7 @@ MODELS
 
     inception-v1
 
-      TF-Slim inception_v1 image classifier
+      TF-Slim Inception v1 classifier
 
       Operations:
 
@@ -642,7 +642,7 @@ MODELS
 
     inception-v2
 
-      TF-Slim inception_v2 image classifier
+      TF-Slim Inception v2 classifier
 
       Operations:
 
@@ -947,7 +947,7 @@ MODELS
 
     inception-v3
 
-      TF-Slim inception_v3 image classifier
+      TF-Slim Inception v3 classifier
 
       Operations:
 
@@ -1252,7 +1252,7 @@ MODELS
 
     inception-v4
 
-      TF-Slim inception_v4 image classifier
+      TF-Slim Inception v4 classifier
 
       Operations:
 
@@ -1557,7 +1557,7 @@ MODELS
 
     mobilenet-v1
 
-      TF-Slim mobilenet_v1 image classifier
+      TF-Slim Mobilenet v1 classifier
 
       Operations:
 
@@ -1862,7 +1862,7 @@ MODELS
 
     mobilenet-v2-1.4
 
-      TF-Slim mobilenet_v2_140 image classifier
+      TF-Slim Mobilenet v2 classifier
 
       Operations:
 
@@ -2167,7 +2167,7 @@ MODELS
 
     nasnet-large
 
-      TF-Slim nasnet_large image classifier
+      TF-Slim NASNet large classifier
 
       Operations:
 
@@ -2472,7 +2472,7 @@ MODELS
 
     nasnet-mobile
 
-      TF-Slim nasnet_mobile image classifier
+      TF-Slim NASNet mobile classifier
 
       Operations:
 
@@ -2777,7 +2777,7 @@ MODELS
 
     pnasnet-large
 
-      TF-Slim pnasnet_large image classifier
+      TF-Slim PNASNet classifier
 
       Operations:
 
@@ -3082,7 +3082,7 @@ MODELS
 
     pnasnet-mobile
 
-      TF-Slim pnasnet_mobile image classifier
+      TF-Slim PNASNet mobile classifier
 
       Operations:
 
@@ -3387,7 +3387,7 @@ MODELS
 
     resnet-v1-101
 
-      TF-Slim resnet_v1_101 image classifier
+      TF-Slim ResNet v1 101 layer classifier
 
       Operations:
 
@@ -3692,7 +3692,7 @@ MODELS
 
     resnet-v1-152
 
-      TF-Slim resnet_v1_152 image classifier
+      TF-Slim ResNet v1 152 layer classifier
 
       Operations:
 
@@ -3997,7 +3997,7 @@ MODELS
 
     resnet-v1-50
 
-      TF-Slim resnet_v1_50 image classifier
+      TF-Slim ResNet v1 50 layer classifier
 
       Operations:
 
@@ -4302,7 +4302,7 @@ MODELS
 
     resnet-v2-101
 
-      TF-Slim resnet_v2_101 image classifier
+      TF-Slim ResNet v2 101 layer classifier
 
       Operations:
 
@@ -4607,7 +4607,7 @@ MODELS
 
     resnet-v2-152
 
-      TF-Slim resnet_v2_152 image classifier
+      TF-Slim ResNet v2 152 layer classifier
 
       Operations:
 
@@ -4912,7 +4912,7 @@ MODELS
 
     resnet-v2-50
 
-      TF-Slim resnet_v2_50 image classifier
+      TF-Slim ResNet v2 50 layer classifier
 
       Operations:
 
@@ -5217,7 +5217,7 @@ MODELS
 
     vgg-16
 
-      TF-Slim vgg_16 image classifier
+      TF-Slim VGG 16 classifier
 
       Operations:
 
@@ -5522,7 +5522,7 @@ MODELS
 
     vgg-19
 
-      TF-Slim vgg_19 image classifier
+      TF-Slim VGG 19 classifier
 
       Operations:
 
