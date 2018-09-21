@@ -23,7 +23,6 @@
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
-  tags: [example, model]
   data-files:
     - msg.txt
 
