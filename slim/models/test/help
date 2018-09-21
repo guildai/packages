@@ -43,9 +43,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -348,9 +348,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -653,9 +653,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -958,9 +958,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -1263,9 +1263,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -1568,9 +1568,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -1873,9 +1873,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -2178,9 +2178,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -2483,9 +2483,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -2788,9 +2788,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -3093,9 +3093,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -3398,9 +3398,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -3703,9 +3703,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -4008,9 +4008,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -4313,9 +4313,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -4618,9 +4618,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -4923,9 +4923,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -5228,9 +5228,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 
@@ -5533,9 +5533,9 @@ MODELS
 
           Flags:
 
-            batch-size   Number of examples in each evaluated batch (100)
-            max-batches  Maximum number of batches to evaluate (all available)
-            step         Checkpoint step to evaluate (latest)
+            batch-size    Number of examples in each evaluated batch (100)
+            eval-batches  Number of batches to evaluate (all available)
+            step          Checkpoint step to evaluate (latest)
 
         export-and-freeze
 

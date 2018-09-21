@@ -54,7 +54,7 @@ quick-train() {
 
 quick-eval() {
     guild run -y --no-gpus $1:evaluate \
-          max-batches=1 \
+          eval-batches=1 \
           batch-size=5
 }
 

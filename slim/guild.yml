@@ -265,8 +265,8 @@
           description: Number of examples in each evaluated batch
           default: 100
           arg-name: batch_size
-        max-batches:
-          description: Maximum number of batches to evaluate
+        eval-batches:
+          description: Number of batches to evaluate
           arg-name: max_num_batches
           null-label: all available
     export-and-freeze:
