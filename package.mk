@@ -12,4 +12,6 @@ upload: clean
 .PHONY: test
 
 test:
-	@test ! -e test/run && echo "No tests found" || test/run
+	@test ! -e test/run && \
+	  echo "No tests found (create test/run to run tests for " \
+               "this package)" || test/run
