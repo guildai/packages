@@ -45,7 +45,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -54,7 +54,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -350,7 +350,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -359,7 +359,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -655,7 +655,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -664,7 +664,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -960,7 +960,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -969,7 +969,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -1265,7 +1265,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -1274,7 +1274,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -1570,7 +1570,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -1579,7 +1579,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -1875,7 +1875,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -1884,7 +1884,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -2180,7 +2180,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -2189,7 +2189,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -2485,7 +2485,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -2494,7 +2494,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -2790,7 +2790,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -2799,7 +2799,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -3095,7 +3095,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -3104,7 +3104,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -3400,7 +3400,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -3409,7 +3409,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -3705,7 +3705,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -3714,7 +3714,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -4010,7 +4010,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -4019,7 +4019,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -4315,7 +4315,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -4324,7 +4324,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -4620,7 +4620,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -4629,7 +4629,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -4925,7 +4925,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -4934,7 +4934,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -5230,7 +5230,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -5239,7 +5239,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
@@ -5535,7 +5535,7 @@ MODELS
 
             batch-size    Number of examples in each evaluated batch (100)
             eval-batches  Number of batches to evaluate (all available)
-            step          Checkpoint step to evaluate (latest)
+            step          Checkpoint step to evaluate (latest checkpoint)
 
         export-and-freeze
 
@@ -5544,7 +5544,7 @@ MODELS
 
           Flags:
 
-            step  Checkpoint step to use for the frozen graph (latest)
+            step  Checkpoint step to use for the frozen graph (latest checkpoint)
 
         finetune
 
