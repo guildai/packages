@@ -153,3 +153,58 @@
   extends:
     - gpkg.slim/directory-images-resources
     - gpkg.slim/pnasnet-large
+
+# ===================================================================
+# Tests
+# ===================================================================
+
+- test: all
+  env-dir: test/env
+  models:
+    - inception-v1
+    - inception-v2
+    - inception-v3
+    - inception-v4
+    - inception-resnet-v2
+    - resnet-v1-50
+    - resnet-v1-101
+    - resnet-v1-152
+    - resnet-v2-50
+    - resnet-v2-101
+    - resnet-v2-152
+    - mobilenet-v1
+    - mobilenet-v2-1.4
+    - nasnet-large
+    - nasnet-mobile
+    - pnasnet-large
+    - pnasnet-mobile
+    - vgg-16
+    - vgg-19
+  tests:
+    - help:
+        compare-to: test/help
+    - op: images:prepare
+      flags:
+        images: test/sample-images
+        random-seed: 801
+      expected:
+        - file: data/train-weights.txt
+          compare-to: test/train-weights.txt
+    - model-op: transfer-learn
+      flags:
+        auto-scale: no
+        clone_on_cpu: 'True'
+        train-steps: 1
+      expected:
+        - file: train/checkpoint
+        - file: train/graph.pbtxt
+    - model-op: evaluate
+      flags:
+        max-batches: 1
+        batch-size: 5
+      expected:
+        - output: eval/Accuracy\[.+\]eval/Recall_5[1]
+    - model-op: export-and-freeze
+      expected:
+        - file: graph.pb
+        - file: frozen_graph.pb
