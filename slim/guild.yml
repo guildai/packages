@@ -349,7 +349,7 @@
 # Images support
 # ===================================================================
 
-- config: prepare-images-op-support
+- config: directory-images
   extends:
     - models-lib-support
   params:
@@ -370,19 +370,21 @@
           default: 30
       label-template: images=${images|basename}
 
-- config: prepared-images-resource-support
+- config: directory-images-resources
   params:
     prepare-op: images:prepare
     data-path: data
+    labels-path: data/labels.txt
   resources:
     prepared-data:
       description: Images dataset generated with {{prepare-op}}
       sources:
         - operation: '{{prepare-op}}'
+          select: '{{data-path}}'
     labels:
       sources:
         - operation: '{{prepare-op}}'
-          select: '{{data-path}}/labels.txt'
+          select: '{{labels-path}}'
 
 # ===================================================================
 # Inception
