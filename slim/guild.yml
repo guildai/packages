@@ -76,7 +76,7 @@
         When `auto-scale` is 'no' this value can be increased from 1
         to train the model in parallel on multiple GPUs.
       arg-name: num_clones
-      no-value-label: calculated
+      null-label: calculated
     learning-rate-decay-type:
       description: Method used to decay the learning rate
       default: exponential
@@ -119,7 +119,7 @@
     preprocessing:
       description: Preprocessing to use
       arg-name: preprocessing_name
-      no-value-label: default for model
+      null-label: default for model
     preprocessors:
       description: >
         Number of preprocessing threads
@@ -130,7 +130,7 @@
         When `auto-scale` is 'no' this value can be set to optimize
         the preprocessor thread count for the system.
       arg-name: num_preprocessing_threads
-      no-value-label: calculated
+      null-label: calculated
     readers:
       description: >
         Number of parallel data readers
@@ -141,11 +141,11 @@
         When `auto-scale` is 'no' this value can be set to optimize
         data reader performance for the system.
       arg-name: num_readers
-      no-value-label: calculated
+      null-label: calculated
     train-steps:
       description: Number of steps to train
       arg-name: max_number_of_steps
-      no-value-label: train indefinitely
+      null-label: train indefinitely
     weight-decay:
       description: Decay on the model weights
       default: 0.00004
@@ -260,7 +260,7 @@
         step:
           description: Checkpoint step to evaluate
           arg-name: checkpoint_step
-          no-value-label: latest
+          null-label: latest
         batch-size:
           description: Number of examples in each evaluated batch
           default: 100
@@ -268,7 +268,7 @@
         max-batches:
           description: Maximum number of batches to evaluate
           arg-name: max_num_batches
-          no-value-label: all available
+          null-label: all available
     export-and-freeze:
       description:
         Export an inference graph with and without checkpoint weights
@@ -290,7 +290,7 @@
           description:
             Checkpoint step to use for the frozen graph
           arg-name: checkpoint_step
-          no-value-label: latest
+          null-label: latest
     tflite:
       description: Generate a TFLite file from a frozen graph
       main:
