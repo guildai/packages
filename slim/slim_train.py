@@ -75,13 +75,21 @@ def _patched_softmax_cross_entropy(f0, class_weights):
           weights=1.0,
           label_smoothing=0,
           scope=None):
-        # Patching only if weights is default
+        # Use class weights only if weights == 1.0 (unmodified default)
         if weights == 1.0:
             log.info("Using class weights for softmax_cross_entropy")
-            indices = tf.argmax(logits, axis=1)
-            weights = tf.gather(tf.constant(class_weights), indices)
-        return f0(onehot_labels, logits, weights=weights, scope=scope)
+            weights = _weights_for_batch(logits, class_weights)
+        return f0(
+            onehot_labels,
+            logits,
+            weights=weights,
+            label_smoothing=label_smoothing,
+            scope=scope)
     return f
+
+def _weights_for_batch(logits, class_weights):
+    indices = tf.argmax(logits, axis=1)
+    return tf.gather(tf.constant(class_weights), indices)
 
 def _init_args(argv):
     p = argparse.ArgumentParser()

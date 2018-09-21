@@ -155,8 +155,9 @@ def _check_existing_output(args):
 
 def _init_examples(args):
     log.info("Reading examples from %s", args.images_dir)
-    label_ids, filenames = _list_images(args.images_dir)
-    random.seed(args.random_seed)
+    label_ids, filenames = _ordered_images(args.images_dir)
+    if args.random_seed is not None:
+        random.seed(args.random_seed)
     random.shuffle(filenames)
     train, val = _split_examples(filenames, args)
     if not train or not val:
@@ -165,18 +166,18 @@ def _init_examples(args):
             "and validation datasets")
     return label_ids, train, val
 
-def _list_images(root):
+def _ordered_images(root):
     labels = set()
     filenames = []
-    for name in os.listdir(root):
+    for name in sorted(os.listdir(root)):
         label_dir = os.path.join(root, name)
         if os.path.isdir(label_dir):
             labels.add(name)
-            _apply_filenames(label_dir, name, filenames)
+            _apply_ordered_filenames(label_dir, name, filenames)
     return _label_map(labels), filenames
 
-def _apply_filenames(root, label, acc):
-    for name in os.listdir(root):
+def _apply_ordered_filenames(root, label, acc):
+    for name in sorted(os.listdir(root)):
         path = os.path.join(root, name)
         if os.path.isdir(path):
             log.warning("ignoring directory %s in %s", name, root)
@@ -320,7 +321,6 @@ def _parse_args(argv):
             "(default is current directory)"))
     p.add_argument(
         "-r", "--random-seed", metavar="N",
-        default=829, # arbitrary constant
         type=int,
         help="seed used to randomly split training and validation images")
     p.add_argument(

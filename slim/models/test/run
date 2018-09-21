@@ -35,7 +35,9 @@ test-help
 
 # Prepare sample images
 
-guild run images:prepare images=test/sample-images -y
+guild run -y images:prepare \
+      images=test/sample-images \
+      random-seed=801
 diff $(latest-run-dir)/data/train-weights.txt \
      test/sample-images/train-weights.txt
 
