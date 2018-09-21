@@ -26,8 +26,9 @@ MODELS
 
           Flags:
 
-            images     Directory containing images to prepare (required)
-            val-split  Percentage of images reserved for validation (30)
+            images       Directory containing images to prepare (required)
+            random-seed  Seed used for train/validation split (randomly generated)
+            val-split    Percentage of images reserved for validation (30)
 
 
     inception-resnet-v2
