@@ -357,7 +357,7 @@
   operations:
     prepare:
       description: Prepare images for training
-      main: tfrecord_prepare ${images} -o {{data-path}}
+      main: images_prepare ${images} -o {{data-path}}
       requires:
         - models-lib
       flags:
