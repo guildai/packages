@@ -1,3 +1,5 @@
+test_env_dir := test-env
+
 pkg: clean
 	guild package
 
@@ -12,9 +14,7 @@ upload: clean
 .PHONY: test
 
 test:
-	@test ! -e test/run && \
-	  echo "No tests found (create test/run to run tests for " \
-               "this package)" || test/run
+	$(root)/test-package "$(root)" "$(test_env_dir)"
 
-clean-test-env:
-	rm -rf test/env
+clean-test:
+	rm -rf $(test_env_dir)

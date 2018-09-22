@@ -2,5 +2,6 @@
 build
 dist
 env
+test-env
 *.egg-info
 README.html
