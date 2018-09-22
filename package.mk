@@ -15,3 +15,6 @@ test:
 	@test ! -e test/run && \
 	  echo "No tests found (create test/run to run tests for " \
                "this package)" || test/run
+
+clean-test-env:
+	rm -rf test/env

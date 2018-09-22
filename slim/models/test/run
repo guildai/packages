@@ -1,75 +1,7 @@
-#!/bin/bash -ex
+#!/bin/bash
 
 root=../..
-
-models=(
-    inception-v1
-    inception-v2
-    inception-v3
-    inception-v4
-    inception-resnet-v2
-    resnet-v1-50
-    resnet-v1-101
-    resnet-v1-152
-    resnet-v2-50
-    resnet-v2-101
-    resnet-v2-152
-    mobilenet-v1
-    mobilenet-v2-1.4
-    nasnet-large
-    nasnet-mobile
-    pnasnet-large
-    pnasnet-mobile
-    vgg-16
-    vgg-19
-)
-
-# Init
-
 . $root/test-support
-init-env
 
-# Test package help
-
-test-help
-
-# Prepare sample images
-
-guild run -y images:prepare \
-      images=test/sample-images \
-      random-seed=801
-diff $(latest-run-dir)/data/train-weights.txt \
-     test/sample-images/train-weights.txt
-
-# Test models
-
-quick-train() {
-    guild run -y --no-gpus $1:transfer-learn \
-          auto-scale=no \
-          clone_on_cpu=True \
-          train-steps=1
-    assert-run-file train/checkpoint
-    assert-run-file train/graph.pbtxt
-}
-
-quick-eval() {
-    guild run -y --no-gpus $1:evaluate \
-          eval-batches=1 \
-          batch-size=5
-}
-
-export-and-freeze() {
-    guild run -y --no-gpus $1:export-and-freeze
-    assert-run-file graph.pb
-    assert-run-file frozen_graph.pb
-}
-
-test-model() {
-    quick-train $1
-    quick-eval $1
-    export-and-freeze $1
-}
-
-for model in ${models[@]}; do
-    test-model $model
-done
+init-test-env
+guild test -y

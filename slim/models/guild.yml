@@ -158,53 +158,44 @@
 # Tests
 # ===================================================================
 
-- test: all
-  env-dir: test/env
-  models:
-    - inception-v1
-    - inception-v2
-    - inception-v3
-    - inception-v4
-    - inception-resnet-v2
-    - resnet-v1-50
-    - resnet-v1-101
-    - resnet-v1-152
-    - resnet-v2-50
-    - resnet-v2-101
-    - resnet-v2-152
-    - mobilenet-v1
-    - mobilenet-v2-1.4
-    - nasnet-large
-    - nasnet-mobile
-    - pnasnet-large
-    - pnasnet-mobile
-    - vgg-16
-    - vgg-19
-  tests:
-    - help:
-        compare-to: test/help
-    - op: images:prepare
+- test: package-help
+  description: Check package help
+  steps:
+    - compare-help: test/help
+
+- test: all-models
+  description: Basic test of package models
+  steps:
+    - run-op: images:prepare
       flags:
         images: test/sample-images
         random-seed: 801
       expected:
         - file: data/train-weights.txt
-          compare-to: test/train-weights.txt
-    - model-op: transfer-learn
-      flags:
-        auto-scale: no
-        clone_on_cpu: 'True'
-        train-steps: 1
-      expected:
-        - file: train/checkpoint
-        - file: train/graph.pbtxt
-    - model-op: evaluate
-      flags:
-        max-batches: 1
-        batch-size: 5
-      expected:
-        - output: eval/Accuracy\[.+\]eval/Recall_5[1]
-    - model-op: export-and-freeze
-      expected:
-        - file: graph.pb
-        - file: frozen_graph.pb
+          compare: test/sample-images/train-weights.txt
+    - for-each-model:
+        except:
+          - images
+        steps:
+          - run-op: transfer-learn
+            no-gpus: yes
+            flags:
+              auto-scale: no
+              clone_on_cpu: 'True'
+              train-steps: 1
+            expect:
+              - file: train/checkpoint
+              - file: train/graph.pbtxt
+          - run-op: evaluate
+            no-gpus: yes
+            flags:
+              max-batches: 1
+              batch-size: 5
+            expect:
+              - output: eval/Accuracy\[.+\]
+              - output: eval/Recall_5\[1\]
+          - run-op: export-and-freeze
+            no-gpus: yes
+            expect:
+              - file: graph.pb
+              - file: frozen_graph.pb

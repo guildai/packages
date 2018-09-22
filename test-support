@@ -1,12 +1,6 @@
 #-*-shell-script-*-
 
-test-help() {
-    echo -n "Testing package help..."
-    local tmp_help=`mktemp --tmpdir guild-help-XXXXXXXXXX`
-    guild help > $tmp_help
-    diff test/help $tmp_help
-    echo " OK"
-}
+set -e
 
 _assert_root() {
     if [ -z "$root" ]; then
@@ -15,20 +9,8 @@ _assert_root() {
     fi
 }
 
-init-env() {
+init-test-env() {
     _assert_root
-    test -e env || PYTHONPATH=$root guild init -y -p $root
-    QUIET=1 source guild-env
-}
-
-latest-run-dir() {
-    echo env/.guild/runs/`ls -t env/.guild/runs | head -1`
-}
-
-assert-run-file() {
-    local _run_dir=$(latest-run-dir)
-    if [ ! -e $_run_dir/$1 ]; then
-        echo "missing $1 in run $_run_dir"
-        return 1
-    fi
+    test -e test/env || PYTHONPATH=$root guild init -y -p $root test/env
+    QUIET=1 source guild-env test/env
 }
