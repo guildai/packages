@@ -1,0 +1,7 @@
+#!/bin/bash
+
+root=..
+. $root/test-support
+
+init-test-env
+guild test -y

@@ -89,3 +89,27 @@
       sources:
         - operation: hello:from-file
           select: output
+
+# ===================================================================
+# Tests
+# ===================================================================
+
+- test: hello
+  description: Test the hello model
+  steps:
+    - run-op: default
+      expect:
+        - output: Hello Guild!
+    - run-op: from-flag
+      flags:
+        message: test msg
+      expect:
+        - output: test msg
+    - run-op: from-file
+      expect:
+        - file: msg.txt
+          compare: msg.txt
+    - run-op: from-file-output
+      expect:
+        - file: output
+          compare: msg.txt
