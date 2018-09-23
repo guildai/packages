@@ -17,12 +17,14 @@
 # ===================================================================
 
 - package: gpkg.slim
-  version: 0.5.0.dev3
+  version: 0.5.0.dev4
   description: TF-Slim models library
   url: https://github.com/guildai/packages/tree/master/slim
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
+  requires:
+    - Pillow
 
 # ===================================================================
 # Shared flag defs
@@ -187,7 +189,7 @@
     train:
       description: Train model from scratch
       main:
-        slim_train
+        train
           --model_name {{model-name}}
           --dataset_dir {{data-path}}
           --train_dir train
@@ -203,7 +205,7 @@
     transfer-learn:
       description: Train model using transfer learning
       main:
-        slim_train
+        train
           --model_name {{model-name}}
           --dataset_dir {{data-path}}
           --train_dir train
@@ -223,7 +225,7 @@
     finetune:
       description: Finetune a trained model
       main:
-        slim_train
+        train
           --model_name {{model-name}}
           --dataset_dir {{data-path}}
           --train_dir train
@@ -243,7 +245,7 @@
     evaluate:
       description: Evaluate a trained model
       main:
-        slim_eval
+        eval
           --alsologtostderr
           --model_name {{model-name}}
           --checkpoint_path model
@@ -273,7 +275,7 @@
       description:
         Export an inference graph with and without checkpoint weights
       main:
-        slim_export_and_freeze
+        export_and_freeze
           --input_checkpoint model
           --model_name {{model-name}}
           --image_size {{image-size}}
@@ -333,7 +335,9 @@
       path: model
       sources:
         - operation: train,transfer-learn,finetune
-          select: train/*.*
+          select:
+            - train/model\.ckpt-.+
+            - train/checkpoint
     exported-graph:
       description: Exported inference graph
       sources:
@@ -349,7 +353,7 @@
 # Images support
 # ===================================================================
 
-- config: directory-images
+- config: images-base
   extends:
     - models-lib-support
   params:
@@ -357,7 +361,7 @@
   operations:
     prepare:
       description: Prepare images for training
-      main: images_prepare ${images} -o {{data-path}}
+      main: prepare_images ${images} -o {{data-path}}
       requires:
         - models-lib
       flags:
@@ -374,7 +378,7 @@
           null-label: randomly generated
       label-template: images=${images|basename}
 
-- config: directory-images-resources
+- config: prepared-images-support
   params:
     prepare-op: images:prepare
     data-path: data
