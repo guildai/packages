@@ -1,0 +1,153 @@
+# Copyright 2018 TensorHub, Inc. and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# To do
+#
+# - Move previous implementation in, with review
+#
+# Notes
+#
+# - Docs don't provide a tutorial for running locally, just on Cloud ML!
+
+
+# ===================================================================
+# Package def
+# ===================================================================
+
+- package: gpkg.object-detection
+  version: 0.5.0.dev
+  description: Object detection library
+  url: https://github.com/guildai/packages/tree/master/object-detection
+  author: Guild AI
+  author-email: packages@guild.ai
+  license: Apache 2.0
+  requires:
+    - contextlib2
+    - lxml
+    - matplotlib
+    - pillow
+    - pycocotools
+
+# ===================================================================
+# Shared resources
+# ===================================================================
+
+- config: models-lib-support
+  resources:
+    models-lib:
+      description: Object detection Python libraries
+      private: yes
+      sources:
+        - url: https://github.com/tensorflow/models/archive/2aec950cf5670a86eb0681e3a0348570c4a4638c.zip
+          sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
+          select:
+            - models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/object_detection
+            - models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim/deployment
+            - models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/slim/nets
+          post-process: >
+            cd models-2aec950cf5670a86eb0681e3a0348570c4a4638c
+            && cd research
+            && protoc object_detection/protos/*.proto --python_out .
+
+# ===================================================================
+# Model base
+# ===================================================================
+
+- config: model-base
+  extends:
+    - models-lib-support
+  params:
+    pipeline-config: ''
+    dataset-config: ''
+    model-config: ''
+    train-config: ''
+    eval-config: ''
+    extra-config: ''
+  operations:
+    transfer-learn:
+      description: Train model using transfer learning
+      main:
+        train
+          --pipeline-config '{{pipeline-config}}'
+          --dataset-config '{{dataset-config}}'
+          --model-config '{{model-config}}'
+          --train-config '{{train-config}}'
+          --eval-config '{{eval-config}}'
+          --extra-config '{{extra-config}}'
+      env:
+        PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
+      flags:
+        train-steps:
+          description:
+            Number of training steps (default trains indefinitely)
+      stoppable: yes
+      requires:
+        - models-lib
+        - prepared-data
+        - transfer-learn-checkpoint
+        - dataset-config
+        - transfer-learn-config
+    evaluate:
+      description: Evaluate a trained model
+      main:
+        eval
+          --checkpoint-dir checkpoint
+          --pipeline-config '{{pipeline-config}}'
+          --dataset-config '{{dataset-config}}'
+          --model-config '{{model-config}}'
+          --train-config '{{train-config}}'
+          --eval-config '{{eval-config}}'
+      env:
+        PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
+      flags:
+        eval-examples:
+          description: Number of examples to evaluate
+          null-label: model specific
+      requires:
+        - detection-lib
+        - prepared-data
+        - trained-model
+  resources:
+    trained-model:
+      description: Trained model from transfer-learn
+      path: model
+      sources:
+        - operation: finetune
+          select:
+            - train/model\.ckpt.*
+            - train/checkpoint
+
+# ===================================================================
+# Faster RCNN - ResNet
+# ===================================================================
+
+- config: faster-rcnn-resnet-101
+  extends:
+    - model-base
+  params:
+    model-config: faster-rcnn-resnet-101.yml
+    train-config: rcnn-train-default.yml
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet101_coco_2018_01_28.tar.gz
+          sha256: ef3b36b3bc3c4057362a62e40b89dbdbef3dbb0c91f2f7df43967920d24821e5
+          select:
+            - faster_rcnn_resnet101_coco_2018_01_28/model\.ckpt.*
+            - faster_rcnn_resnet101_coco_2018_01_28/checkpoint
+    transfer-learn-config:
+      sources:
+        - config/models/faster-rcnn-resnet-101.yml
+        - config/train/rcnn-train-default.yml

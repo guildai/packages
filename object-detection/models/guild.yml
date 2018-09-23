@@ -1,0 +1,83 @@
+# Copyright 2018 TensorHub, Inc. and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# ===================================================================
+# Package def
+# ===================================================================
+
+- package: gpkg.object-detection
+  version: 0.5.0.dev
+  description: Object detection library
+  url: https://github.com/guildai/packages/tree/master/object-detection
+  author: Guild AI
+  author-email: packages@guild.ai
+  license: Apache 2.0
+  requires:
+    - gpkg.object-detection
+
+# ===================================================================
+# Sample datasets
+# ===================================================================
+
+- model: pet-dataset
+  description: Annotated images from Oxford-IIIT pet dataset
+  extends: gpkg.object-detection/models-lib-support
+  operations:
+    prepare:
+      description: Prepares dataset for training and evaluation
+      main:
+        object_detection.dataset_tools.create_pet_tf_record
+          --label_map_path=object_detection/data/pet_label_map.pbtxt
+          --data_dir=data
+          --output_dir=.
+      requires:
+        - models-lib
+        - pets-data
+        - dataset-config
+  resources:
+    pets-data:
+      path: data
+      sources:
+        - url: http://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz
+          sha256: 67195c5e1c01f1ab5f9b6a5d22b8c27a580d896ece458917e61d459337fa318d
+        - url: http://www.robots.ox.ac.uk/~vgg/data/pets/data/annotations.tar.gz
+          sha256: 52425fb6de5c424942b7626b428656fcbd798db970a937df61750c0f1d358e91
+    dataset-config:
+      sources:
+        - file: config/datasets/pet.yml
+          rename: pet\.yml dataset.yml
+
+- config: prepared-dataset-support
+  params:
+    dataset-config: dataset.yml
+  resources:
+    prepared-data:
+      path: data
+      sources:
+        - operation: .*dataset:prepare
+          select: .*\.record.*
+    dataset-config:
+      sources:
+        - operation: .*dataset:prepare
+          select: dataset.yml
+
+# ===================================================================
+# Models
+# ===================================================================
+
+- model: faster-rcnn-resnet-101
+  description: Faster RCCN with ResNet 101
+  extends:
+    - prepared-dataset-support
+    - gpkg.object-detection/faster-rcnn-resnet-101
