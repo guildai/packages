@@ -21,9 +21,6 @@ import logging
 import os
 import sys
 
-# Ensure proper encoding of floats in protobuf
-os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
-
 # Ensure matplotlib backend doesn't use tkinter
 import matplotlib
 matplotlib.use('Agg')

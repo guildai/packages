@@ -24,6 +24,7 @@
   author-email: packages@guild.ai
   license: Apache 2.0
   requires:
+    - gpkg.slim
     - contextlib2
     - lxml
     - matplotlib
@@ -66,7 +67,7 @@
   extends:
     - models-lib-support
   params:
-    pipeline-config: ''
+    pipeline-config-proto: ''
     dataset-config: ''
     model-config: ''
     train-config: ''
@@ -79,12 +80,19 @@
       description: Train model using transfer learning
       main:
         train
-          --pipeline-config '{{pipeline-config}}'
+          --pipeline-config-proto '{{pipeline-config-proto}}'
           --dataset-config '{{dataset-config}}'
           --model-config '{{model-config}}'
           --train-config '{{train-config}}'
           --eval-config '{{eval-config}}'
           --extra-config '{{extra-config}}'
+      requires:
+        - models-lib
+        - dataset-config
+        - model-config
+        - transfer-learn-config
+        - prepared-data
+        - transfer-learn-checkpoint
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
       flags:
@@ -94,13 +102,7 @@
         eval-examples:
           description: Number of examples to evaluate after training
           null-label: all available
-      stoppable: yes
-      requires:
-        - models-lib
-        - dataset-config
-        - transfer-learn-config
-        - prepared-data
-        - transfer-learn-checkpoint
+
 
 
     evaluate:
@@ -108,41 +110,48 @@
       main:
         eval
           --checkpoint-dir checkpoint
-          --pipeline-config '{{pipeline-config}}'
+          --pipeline-config-proto '{{pipeline-config-proto}}'
           --dataset-config '{{dataset-config}}'
           --model-config '{{model-config}}'
           --train-config '{{train-config}}'
           --eval-config '{{eval-config}}'
+          --extra-config '{{extra-config}}'
+      requires:
+        - models-lib
+        - dataset-config
+        - model-config
+        - eval-config
+        - prepared-data
+        - trained-model
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
       flags:
         eval-examples:
           description: Number of examples to evaluate
           null-label: all available
-      requires:
-        - models-lib
-        - dataset-config
-        - eval-config
-        - prepared-data
-        - trained-model
 
 
     export-and-freeze:
       description: Export a detection graph with and without checkpoint weights
       main:
-        object_detection.export_inference_graph
-          --input_type image_tensor
-          --pipeline_config_path {{pipeline-config}}
-          --trained_checkpoint_prefix model/model.ckpt-${checkpoint-step}
-          --output_directory export
-      flags:
-        checkpoint-step:
-          description: Step of checkpoint to export
-          required: yes
+        export_and_freeze
+          --checkpoint model
+          --dataset-config '{{dataset-config}}'
+          --model-config '{{model-config}}'
       requires:
         - models-lib
-        - pipeline-config
+        - dataset-config
+        - model-config
         - trained-model
+
+      env:
+        PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
+      flags:
+        step:
+          description:
+            Checkpoint step to use for the frozen graph
+          null-label: latest checkpoint
+
 
 
     detect:
@@ -174,6 +183,31 @@
 # Faster RCNN - ResNet
 # ===================================================================
 
+- config: faster-rcnn-resnet-50
+  extends:
+    - model-base
+  params:
+    model-config: faster-rcnn-resnet-50.yml
+    train-config: rcnn-train-default.yml
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/object_detection/faster_rcnn_resnet50_coco_2018_01_28.tar.gz
+          sha256: 0f898f96d6c416de192c516fb6fa773ae9f5ee253eb2ab4015445fbd6eb0ab76
+          select:
+            - faster_rcnn_resnet50_coco_2018_01_28/model\.ckpt.*
+            - faster_rcnn_resnet50_coco_2018_01_28/checkpoint
+    model-config:
+      sources:
+        - config/models/faster-rcnn-resnet-50.yml
+    transfer-learn-config:
+      sources:
+        - config/train/rcnn-train-default.yml
+    eval-config:
+      sources:
+        - config/train/rcnn-train-default.yml
+
 - config: faster-rcnn-resnet-101
   extends:
     - model-base
@@ -189,11 +223,12 @@
           select:
             - faster_rcnn_resnet101_coco_2018_01_28/model\.ckpt.*
             - faster_rcnn_resnet101_coco_2018_01_28/checkpoint
-    transfer-learn-config:
+    model-config:
       sources:
         - config/models/faster-rcnn-resnet-101.yml
+    transfer-learn-config:
+      sources:
         - config/train/rcnn-train-default.yml
     eval-config:
       sources:
-        - config/models/faster-rcnn-resnet-101.yml
         - config/train/rcnn-train-default.yml

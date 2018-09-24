@@ -80,6 +80,12 @@
 # Models
 # ===================================================================
 
+- model: faster-rcnn-resnet-50
+  description: Faster RCCN with ResNet 50
+  extends:
+    - prepared-dataset-support
+    - gpkg.object-detection/faster-rcnn-resnet-50
+
 - model: faster-rcnn-resnet-101
   description: Faster RCCN with ResNet 101
   extends:

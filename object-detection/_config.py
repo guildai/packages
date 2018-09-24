@@ -35,7 +35,7 @@ class ConfigError(Exception):
 
 def add_config_args(p):
     p.add_argument(
-        "--pipeline-config", metavar="PATH",
+        "--pipeline-config-proto", metavar="PATH",
         help=("path to pbtxt formatted detection config - "
               "overrides all other config"))
     p.add_argument(
@@ -55,18 +55,18 @@ def add_config_args(p):
         help="path to YAML formatted extra config")
 
 def validate_config_args(args):
-    if args.pipeline_config and (
+    if args.pipeline_config_proto and (
             args.model_config or
             args.train_config or
             args.eval_config or
             args.dataset_config):
         log.warning(
-            "--pipeline-config specified, ignoring all "
+            "--pipline-config-proto specified, ignoring all "
             "other config options")
 
 def init_config(args):
-    if args.pipeline_config:
-        return args.pipeline_config
+    if args.pipeline_config_proto:
+        return args.pipeline_config_proto
     config = pipeline_pb2.TrainEvalPipelineConfig()
     _apply_model_config(args, config)
     _apply_train_config(args, config)
