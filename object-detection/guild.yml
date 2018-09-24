@@ -64,6 +64,12 @@
 # Model base
 # ===================================================================
 
+# TODO:
+#
+# -
+# - train op
+# - finetune op
+
 - config: model-base
   extends:
     - models-lib-support
@@ -75,6 +81,8 @@
     eval-config: ''
     extra-config: ''
   operations:
+
+
     transfer-learn:
       description: Train model using transfer learning
       main:
@@ -94,10 +102,12 @@
       stoppable: yes
       requires:
         - models-lib
-        - prepared-data
-        - transfer-learn-checkpoint
         - dataset-config
         - transfer-learn-config
+        - prepared-data
+        - transfer-learn-checkpoint
+
+
     evaluate:
       description: Evaluate a trained model
       main:
@@ -115,9 +125,44 @@
           description: Number of examples to evaluate
           null-label: model specific
       requires:
-        - detection-lib
+        - models-lib
         - prepared-data
         - trained-model
+
+
+    export-and-freeze:
+      description: Export a detection graph with and without checkpoint weights
+      main:
+        object_detection.export_inference_graph
+          --input_type image_tensor
+          --pipeline_config_path {{pipeline-config}}
+          --trained_checkpoint_prefix model/model.ckpt-${checkpoint-step}
+          --output_directory export
+      flags:
+        checkpoint-step:
+          description: Step of checkpoint to export
+          required: yes
+      requires:
+        - models-lib
+        - pipeline-config
+        - trained-model
+
+
+    detect:
+      description: Detect images using a trained model
+      main:
+        detect
+          --images-dir images
+          --labels {{class-labels}}
+          --graph frozen_inference_graph.pb
+          --output-dir detected
+      requires:
+        - models-lib
+        - images
+        - frozen-model
+        - class-labels
+
+
   resources:
     trained-model:
       description: Trained model from transfer-learn

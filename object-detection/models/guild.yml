@@ -58,6 +58,10 @@
         - file: config/datasets/pet.yml
           rename: pet\.yml dataset.yml
 
+# ===================================================================
+# Dataset support
+# ===================================================================
+
 - config: prepared-dataset-support
   params:
     dataset-config: dataset.yml
