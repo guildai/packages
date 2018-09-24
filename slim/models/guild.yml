@@ -163,7 +163,7 @@
   steps:
     - compare-help: test/help
 
-- test: all-models
+- test: models
   description: Basic test of package models
   steps:
     - run-op: images:prepare
@@ -189,7 +189,7 @@
           - run-op: evaluate
             no-gpus: yes
             flags:
-              max-batches: 1
+              eval-batches: 1
               batch-size: 5
             expect:
               - output: eval/Accuracy\[.+\]
