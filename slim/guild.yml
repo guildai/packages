@@ -273,7 +273,7 @@
           null-label: all available
     export-and-freeze:
       description:
-        Export an inference graph with and without checkpoint weights
+        Export an inference graph with checkpoint weights
       main:
         export_and_freeze
           --input_checkpoint model
