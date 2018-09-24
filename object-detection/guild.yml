@@ -12,15 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# To do
-#
-# - Move previous implementation in, with review
-#
-# Notes
-#
-# - Docs don't provide a tutorial for running locally, just on Cloud ML!
-
-
 # ===================================================================
 # Package def
 # ===================================================================
@@ -69,6 +60,7 @@
 # -
 # - train op
 # - finetune op
+# - multi GPU support
 
 - config: model-base
   extends:
@@ -97,8 +89,11 @@
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
       flags:
         train-steps:
-          description:
-            Number of training steps (default trains indefinitely)
+          description: Number of training steps
+          null-label: train indefinitely
+        eval-examples:
+          description: Number of examples to evaluate after training
+          null-label: all available
       stoppable: yes
       requires:
         - models-lib
@@ -123,9 +118,11 @@
       flags:
         eval-examples:
           description: Number of examples to evaluate
-          null-label: model specific
+          null-label: all available
       requires:
         - models-lib
+        - dataset-config
+        - eval-config
         - prepared-data
         - trained-model
 
@@ -168,7 +165,7 @@
       description: Trained model from transfer-learn
       path: model
       sources:
-        - operation: finetune
+        - operation: transfer-learn
           select:
             - train/model\.ckpt.*
             - train/checkpoint
@@ -193,6 +190,10 @@
             - faster_rcnn_resnet101_coco_2018_01_28/model\.ckpt.*
             - faster_rcnn_resnet101_coco_2018_01_28/checkpoint
     transfer-learn-config:
+      sources:
+        - config/models/faster-rcnn-resnet-101.yml
+        - config/train/rcnn-train-default.yml
+    eval-config:
       sources:
         - config/models/faster-rcnn-resnet-101.yml
         - config/train/rcnn-train-default.yml
