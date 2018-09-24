@@ -91,3 +91,19 @@
   extends:
     - prepared-dataset-support
     - gpkg.object-detection/faster-rcnn-resnet-101
+
+# ===================================================================
+# Tests
+# ===================================================================
+
+- test: one-model
+  steps:
+    - run-op: pet-dataset:prepare
+    - run-op: faster-rcnn-resnet-50:transfer-learn
+      flags:
+        train-steps: 1
+        eval-examples: 1
+    - run-op: faster-rcnn-resnet-50:evaluate
+      flags:
+        eval-examples: 1
+    - run-op: faster-rcnn-resnet-50:export-and-freeze

@@ -32,6 +32,19 @@
     - pycocotools
 
 # ===================================================================
+# Shared flag defs
+# ===================================================================
+
+- config: train-flags
+  flags:
+    train-steps:
+      description: Number of training steps
+      null-label: train indefinitely
+    eval-examples:
+      description: Number of examples to evaluate after training
+      null-label: all available
+
+# ===================================================================
 # Shared resources
 # ===================================================================
 
@@ -58,9 +71,8 @@
 
 # TODO:
 #
-# -
-# - train op
 # - finetune op
+# - detect op
 # - multi GPU support
 
 - config: model-base
@@ -71,20 +83,38 @@
     dataset-config: ''
     model-config: ''
     train-config: ''
-    eval-config: ''
+    transfer-learn-config: ''
     extra-config: ''
   operations:
 
-
-    transfer-learn:
-      description: Train model using transfer learning
+    train:
+      description: Train detector from scratch
       main:
         train
           --pipeline-config-proto '{{pipeline-config-proto}}'
           --dataset-config '{{dataset-config}}'
           --model-config '{{model-config}}'
           --train-config '{{train-config}}'
-          --eval-config '{{eval-config}}'
+          --extra-config '{{extra-config}}'
+      requires:
+        - models-lib
+        - dataset-config
+        - model-config
+        - train-config
+        - prepared-data
+      env:
+        PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
+      flags:
+        $include: train-flags
+
+    transfer-learn:
+      description: Train detector using transfer learning
+      main:
+        train
+          --pipeline-config-proto '{{pipeline-config-proto}}'
+          --dataset-config '{{dataset-config}}'
+          --model-config '{{model-config}}'
+          --train-config '{{transfer-learn-config}}'
           --extra-config '{{extra-config}}'
       requires:
         - models-lib
@@ -96,17 +126,16 @@
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
       flags:
-        train-steps:
-          description: Number of training steps
-          null-label: train indefinitely
-        eval-examples:
-          description: Number of examples to evaluate after training
-          null-label: all available
-
-
+        $include: train-flags
 
     evaluate:
-      description: Evaluate a trained model
+      description: Evaluate a trained detector
+      # Note that 'train-config' is used below because
+      # object_detection combines train and eval fn creation in the
+      # same function and even through the eval operation doesn't use
+      # train config, it needs it here to spoof object_detection to
+      # generate the eval fn. In fact any valid train config will work
+      # so we use 'train-config'.
       main:
         eval
           --checkpoint-dir checkpoint
@@ -114,13 +143,12 @@
           --dataset-config '{{dataset-config}}'
           --model-config '{{model-config}}'
           --train-config '{{train-config}}'
-          --eval-config '{{eval-config}}'
           --extra-config '{{extra-config}}'
       requires:
         - models-lib
         - dataset-config
         - model-config
-        - eval-config
+        - train-config
         - prepared-data
         - trained-model
       env:
@@ -130,9 +158,8 @@
           description: Number of examples to evaluate
           null-label: all available
 
-
     export-and-freeze:
-      description: Export a detection graph with and without checkpoint weights
+      description: Export a detection graph with checkpoint weights
       main:
         export_and_freeze
           --checkpoint model
@@ -143,7 +170,6 @@
         - dataset-config
         - model-config
         - trained-model
-
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
       flags:
@@ -152,10 +178,9 @@
             Checkpoint step to use for the frozen graph
           null-label: latest checkpoint
 
-
-
+    # TODO
     detect:
-      description: Detect images using a trained model
+      description: Detect images using a trained detector
       main:
         detect
           --images-dir images
@@ -168,16 +193,33 @@
         - frozen-model
         - class-labels
 
-
   resources:
     trained-model:
-      description: Trained model from transfer-learn
+      description: Trained model from train or transfer-learn
       path: model
       sources:
-        - operation: transfer-learn
+        - operation: train,transfer-learn
           select:
             - train/model\.ckpt.*
             - train/checkpoint
+
+# ===================================================================
+# Faster RCNN base
+# ===================================================================
+
+- config: faster-rcnn
+  extends:
+    - model-base
+  params:
+    train-config: rcnn-train-default.yml
+    transfer-learn-config: rcnn-transfer-learn-default.yml
+  resources:
+    train-config:
+      sources:
+        - config/train/rcnn-train-default.yml
+    transfer-learn-config:
+      sources:
+        - config/train/rcnn-transfer-learn-default.yml
 
 # ===================================================================
 # Faster RCNN - ResNet
@@ -185,7 +227,7 @@
 
 - config: faster-rcnn-resnet-50
   extends:
-    - model-base
+    - faster-rcnn
   params:
     model-config: faster-rcnn-resnet-50.yml
     train-config: rcnn-train-default.yml
@@ -201,16 +243,10 @@
     model-config:
       sources:
         - config/models/faster-rcnn-resnet-50.yml
-    transfer-learn-config:
-      sources:
-        - config/train/rcnn-train-default.yml
-    eval-config:
-      sources:
-        - config/train/rcnn-train-default.yml
 
 - config: faster-rcnn-resnet-101
   extends:
-    - model-base
+    - faster-rcnn
   params:
     model-config: faster-rcnn-resnet-101.yml
     train-config: rcnn-train-default.yml
@@ -226,9 +262,3 @@
     model-config:
       sources:
         - config/models/faster-rcnn-resnet-101.yml
-    transfer-learn-config:
-      sources:
-        - config/train/rcnn-train-default.yml
-    eval-config:
-      sources:
-        - config/train/rcnn-train-default.yml
