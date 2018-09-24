@@ -18,3 +18,6 @@ test:
 
 clean-test:
 	rm -rf $(test_env_dir)
+
+lint:
+	PYTHONPATH=.:$(root)/../guild pylint -rn -f parseable *.py
