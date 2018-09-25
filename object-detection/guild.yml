@@ -12,6 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# TODO:
+#
+# - finetune op
+# - detect op
+# - auto-scale flag ala slim (auto set clones, etc.)
+# - custom image dataset support
+
 # ===================================================================
 # Package def
 # ===================================================================
@@ -41,8 +48,37 @@
       description: Number of training steps
       null-label: train indefinitely
     eval-examples:
-      description: Number of examples to evaluate after training
+      description: >
+        Number of examples to evaluate after training
+
+        This flag has no effect if `legacy` is `yes`.
       null-label: all available
+    legacy:
+      description: >
+        Use legacy training for object detection
+
+        Multi GPU support is only available with legacy training.
+
+        Unlike default training, legacy training does not perform an
+        evaluation after training.
+      choices:
+        - value: yes
+          description: Use legacy training (select for multi GPU support)
+        - value: no
+          description: Use default training (doesn't support multiple GPUs)
+      default: no
+      arg-value: yes
+    batch-size:
+      description: Number of examples in each training batch
+    clones:
+      description: >
+        Number of model clones.
+
+        This flag has no effect unless `legacy` is `yes`.
+
+        Set this value to the number of available GPUs for multi-GPU
+        training.
+      default: 1
 
 # ===================================================================
 # Shared resources
@@ -69,12 +105,6 @@
 # Model base
 # ===================================================================
 
-# TODO:
-#
-# - finetune op
-# - detect op
-# - multi GPU support
-
 - config: model-base
   extends:
     - models-lib-support
@@ -85,6 +115,7 @@
     train-config: ''
     transfer-learn-config: ''
     extra-config: ''
+    labels: DEFINE-labels
   operations:
 
     train:
@@ -178,20 +209,22 @@
             Checkpoint step to use for the frozen graph
           null-label: latest checkpoint
 
-    # TODO
     detect:
       description: Detect images using a trained detector
       main:
         detect
-          --images-dir images
-          --labels {{class-labels}}
+          --images-dir ${images}
+          --labels {{labels}}
           --graph frozen_inference_graph.pb
           --output-dir detected
       requires:
         - models-lib
-        - images
-        - frozen-model
-        - class-labels
+        - frozen-graph
+        - labels
+      flags:
+        images:
+          description: Directory containing images to detect
+          required: yes
 
   resources:
     trained-model:
@@ -202,6 +235,11 @@
           select:
             - train/model\.ckpt.*
             - train/checkpoint
+    frozen-graph:
+      description: Frozen inference graph from export-and-freeze
+      sources:
+        - operation: export-and-freeze
+          select: graph/frozen_inference_graph\.pb
 
 # ===================================================================
 # Faster RCNN base

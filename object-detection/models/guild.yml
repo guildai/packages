@@ -38,13 +38,14 @@
       description: Prepares dataset for training and evaluation
       main:
         object_detection.dataset_tools.create_pet_tf_record
-          --label_map_path=object_detection/data/pet_label_map.pbtxt
+          --label_map_path=labels.pbtxt
           --data_dir=data
           --output_dir=.
       requires:
         - models-lib
         - pets-data
         - dataset-config
+        - labels-proto
   resources:
     pets-data:
       path: data
@@ -57,6 +58,13 @@
       sources:
         - file: config/datasets/pet.yml
           rename: pet\.yml dataset.yml
+    labels:
+      sources:
+        - url: https://github.com/tensorflow/models/archive/2aec950cf5670a86eb0681e3a0348570c4a4638c.zip
+          sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
+          select:
+            - models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/object_detection/data/pet_label_map.pbtxt
+          rename: pet_label_map\.pbtxt labels.pbtxt
 
 # ===================================================================
 # Dataset support
@@ -65,6 +73,7 @@
 - config: prepared-dataset-support
   params:
     dataset-config: dataset.yml
+    labels: labels.pbtxt
   resources:
     prepared-data:
       path: data
@@ -75,6 +84,10 @@
       sources:
         - operation: .*dataset:prepare
           select: dataset.yml
+    labels:
+      sources:
+        - operation: .*dataset:prepare
+          select: labels.pbtxt
 
 # ===================================================================
 # Models

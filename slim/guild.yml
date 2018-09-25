@@ -338,11 +338,6 @@
           select:
             - train/model\.ckpt-.+
             - train/checkpoint
-    exported-graph:
-      description: Exported inference graph
-      sources:
-        - operation: export
-          select: graph\.pb
     frozen-graph:
       description: Frozen inference graph
       sources:

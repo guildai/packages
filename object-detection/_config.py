@@ -64,17 +64,19 @@ def validate_config_args(args):
             "--pipline-config-proto specified, ignoring all "
             "other config options")
 
-def init_config(args):
+def init_config(args, args_config=None):
+    args_config = args_config or {}
     if args.pipeline_config_proto:
         return args.pipeline_config_proto
-    config = pipeline_pb2.TrainEvalPipelineConfig()
-    _apply_model_config(args, config)
-    _apply_train_config(args, config)
-    _apply_eval_config(args, config)
-    _apply_dataset_config(args, config)
-    _apply_extra_config(args, config)
-    _apply_arg_config(args, config)
-    _write_config(config, CONFIG_FILENAME)
+    msg = pipeline_pb2.TrainEvalPipelineConfig()
+    _apply_model_config(args, msg)
+    _apply_train_config(args, msg)
+    _apply_eval_config(args, msg)
+    _apply_dataset_config(args, msg)
+    _apply_extra_config(args, msg)
+    _apply_arg_config(args, msg)
+    _apply_dict(args_config, msg)
+    _write_config(msg, CONFIG_FILENAME)
     return CONFIG_FILENAME
 
 def _apply_model_config(args, config):
@@ -132,13 +134,13 @@ def _apply_arg_config(args, config):
         args, "eval_examples",
         config.eval_config, ["num_examples"])
 
-def _apply_config(src, desc, x):
+def _apply_config(src, desc, msg):
     data = _load_config(src, desc)
     if not isinstance(data, dict):
         raise ConfigError(
             "invalid configuration in %s: expected dict, got %s"
             % (src, type(data)))
-    _apply_dict(data, x)
+    _apply_dict(data, msg)
 
 def _load_config(src, desc):
     resolved = op_util.find_file(src)

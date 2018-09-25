@@ -18,7 +18,6 @@ from __future__ import print_function
 
 import argparse
 import logging
-import os
 import sys
 
 # Ensure matplotlib backend doesn't use tkinter
@@ -35,13 +34,14 @@ import _patch
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger()
 
+_patch.patch_all()
+
 def main():
     args = _parse_args()
     _validate_args(args)
     config_path = _init_config(args)
     sys.argv = _model_main_argv(config_path, args)
     log.info("Running model_main with %s", sys.argv[1:])
-    _patch.patch_all()
     tf.app.run(model_main.main)
 
 def _parse_args():

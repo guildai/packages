@@ -50,8 +50,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -100,7 +99,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -113,7 +112,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -201,7 +200,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -214,7 +213,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -290,7 +289,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -303,7 +302,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -355,8 +354,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -405,7 +403,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -418,7 +416,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -506,7 +504,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -519,7 +517,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -595,7 +593,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -608,7 +606,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -660,8 +658,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -710,7 +707,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -723,7 +720,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -811,7 +808,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -824,7 +821,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -900,7 +897,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -913,7 +910,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -965,8 +962,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -1015,7 +1011,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1028,7 +1024,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -1116,7 +1112,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1129,7 +1125,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -1205,7 +1201,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1218,7 +1214,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -1270,8 +1266,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -1320,7 +1315,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1333,7 +1328,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -1421,7 +1416,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1434,7 +1429,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -1510,7 +1505,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1523,7 +1518,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -1575,8 +1570,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -1625,7 +1619,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1638,7 +1632,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -1726,7 +1720,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1739,7 +1733,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -1815,7 +1809,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1828,7 +1822,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -1880,8 +1874,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -1930,7 +1923,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -1943,7 +1936,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2031,7 +2024,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2044,7 +2037,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2120,7 +2113,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2133,7 +2126,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2185,8 +2178,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -2235,7 +2227,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2248,7 +2240,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2336,7 +2328,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2349,7 +2341,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2425,7 +2417,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2438,7 +2430,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2490,8 +2482,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -2540,7 +2531,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2553,7 +2544,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2641,7 +2632,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2654,7 +2645,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2730,7 +2721,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2743,7 +2734,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2795,8 +2786,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -2845,7 +2835,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2858,7 +2848,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -2946,7 +2936,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -2959,7 +2949,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3035,7 +3025,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3048,7 +3038,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3100,8 +3090,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -3150,7 +3139,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3163,7 +3152,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3251,7 +3240,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3264,7 +3253,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3340,7 +3329,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3353,7 +3342,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3405,8 +3394,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -3455,7 +3443,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3468,7 +3456,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3556,7 +3544,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3569,7 +3557,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3645,7 +3633,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3658,7 +3646,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3710,8 +3698,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -3760,7 +3747,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3773,7 +3760,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3861,7 +3848,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3874,7 +3861,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -3950,7 +3937,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -3963,7 +3950,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4015,8 +4002,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -4065,7 +4051,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4078,7 +4064,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4166,7 +4152,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4179,7 +4165,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4255,7 +4241,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4268,7 +4254,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4320,8 +4306,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -4370,7 +4355,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4383,7 +4368,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4471,7 +4456,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4484,7 +4469,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4560,7 +4545,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4573,7 +4558,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4625,8 +4610,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -4675,7 +4659,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4688,7 +4672,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4776,7 +4760,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4789,7 +4773,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4865,7 +4849,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4878,7 +4862,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -4930,8 +4914,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -4980,7 +4963,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -4993,7 +4976,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -5081,7 +5064,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -5094,7 +5077,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -5170,7 +5153,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -5183,7 +5166,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -5235,8 +5218,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -5285,7 +5267,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -5298,7 +5280,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -5386,7 +5368,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -5399,7 +5381,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -5475,7 +5457,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -5488,7 +5470,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -5540,8 +5522,7 @@ MODELS
 
         export-and-freeze
 
-          Export an inference graph with and without checkpoint
-          weights
+          Export an inference graph with checkpoint weights
 
           Flags:
 
@@ -5590,7 +5571,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -5603,7 +5584,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -5691,7 +5672,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -5704,7 +5685,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta
@@ -5780,7 +5761,7 @@ MODELS
                                         decays (2.0)
             learning-rate-decay-factor  Learning rate decay factor (0.94)
             learning-rate-decay-type    Method used to decay the learning rate
-                                        ('exponential')
+                                        (exponential)
                                         
                                         Choices:
                                           exponential
@@ -5793,7 +5774,7 @@ MODELS
             log-steps                   Frequency of summary logs in steps (100)
             model-save-seconds          Frequency of model saves (checkpoints) in
                                         seconds (600)
-            optimizer                   Optimizer used to train ('rmsprop')
+            optimizer                   Optimizer used to train (rmsprop)
                                         
                                         Choices:
                                           adadelta

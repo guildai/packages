@@ -18,7 +18,6 @@ from __future__ import print_function
 
 import argparse
 import logging
-import os
 import sys
 
 # Ensure matplotlib backend doesn't use tkinter
@@ -27,27 +26,21 @@ matplotlib.use('Agg')
 
 import tensorflow as tf
 
-from object_detection import model_main
-
 import _config
 import _patch
 
 log = logging.getLogger()
 
+_patch.patch_all()
+
 def main():
     args = _init_args()
     _validate_args(args)
     config_path = _init_config(args)
-    if os.getenv("SKIP_TRAIN") == "1":
-        log.info("SKIP_TRAIN set, skipping train")
-        return
-    sys.argv = _model_main_argv(config_path, args)
-    log.info("Running model_main with %s", sys.argv[1:])
-    _patch.patch_all()
-    try:
-        tf.app.run(model_main.main)
-    except KeyboardInterrupt:
-        sys.stderr.write("Operation stopped by user\n")
+    if args.legacy:
+        _legacy_train(config_path, args)
+    else:
+        _train(config_path, args)
 
 def _init_args():
     p = argparse.ArgumentParser()
@@ -60,6 +53,15 @@ def _init_args():
     p.add_argument(
         "--eval-examples", metavar="N", type=int,
         help="eval examples count")
+    p.add_argument(
+        "--legacy", action="store_true",
+        help="use legacy train in object_detection")
+    p.add_argument(
+        "--clones", default=1, type=int,
+        help="number of model clones")
+    p.add_argument(
+        "--batch-size", type=int,
+        help="batch size")
     _config.add_config_args(p)
     return p.parse_args()
 
@@ -68,10 +70,41 @@ def _validate_args(args):
 
 def _init_config(args):
     try:
-        return _config.init_config(args)
+        return _config.init_config(args, _args_config(args))
     except _config.ConfigError as e:
         sys.stderr.write("%s\n" % e)
         sys.exit(1)
+
+def _args_config(args):
+    config = {}
+    if args.batch_size is not None:
+        config["train_config"] = {"batch_size": args.batch_size}
+    return config
+
+def _legacy_train(config_path, args):
+    from object_detection.legacy import train as legacy_train
+    sys.argv = _legacy_train_argv(config_path, args)
+    log.info("Running model_main with %s", sys.argv[1:])
+    try:
+        tf.app.run(legacy_train.main)
+    except KeyboardInterrupt:
+        sys.stderr.write("Operation stopped by user\n")
+
+def _legacy_train_argv(config_path, args):
+    argv = [sys.argv[0]]
+    argv.extend(["--pipeline_config_path", config_path])
+    argv.extend(["--train_dir", args.model_dir])
+    argv.extend(["--num_clones", str(args.clones)])
+    return argv
+
+def _train(config_path, args):
+    from object_detection import model_main
+    sys.argv = _model_main_argv(config_path, args)
+    log.info("Running model_main with %s", sys.argv[1:])
+    try:
+        tf.app.run(model_main.main)
+    except KeyboardInterrupt:
+        sys.stderr.write("Operation stopped by user\n")
 
 def _model_main_argv(config_path, args):
     argv = [sys.argv[0]]
