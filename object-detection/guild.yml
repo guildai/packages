@@ -65,7 +65,7 @@
         - value: yes
           description: Use legacy training (select for multi GPU support)
         - value: no
-          description: Use default training (doesn't support multiple GPUs)
+          description: Use default training (doesn\'t support multiple GPUs)
       default: no
       arg-value: yes
     batch-size:
