@@ -45,7 +45,7 @@
 - config: train-flags
   flags:
     train-steps:
-      description: Number of training steps
+      description: Number of steps to train
       null-label: train indefinitely
     eval-examples:
       description: >
