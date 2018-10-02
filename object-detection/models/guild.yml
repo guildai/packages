@@ -16,8 +16,8 @@
 # Package def
 # ===================================================================
 
-- package: gpkg.object-detection
-  version: 0.5.0.dev
+- package: gpkg.object-detection.models
+  version: 0.5.0.dev1
   description: Object detection library
   url: https://github.com/guildai/packages/tree/master/object-detection
   author: Guild AI
@@ -25,6 +25,7 @@
   license: Apache 2.0
   requires:
     - gpkg.object-detection
+
 
 # ===================================================================
 # Sample datasets
