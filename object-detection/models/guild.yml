@@ -110,7 +110,7 @@
 # Tests
 # ===================================================================
 
-- test: one-model
+- test: quick
   steps:
     - run-op: pet-dataset:prepare
     - run-op: faster-rcnn-resnet-50:transfer-learn
