@@ -46,7 +46,7 @@
         - models-lib
         - pets-data
         - dataset-config
-        - labels-proto
+        - labels
   resources:
     pets-data:
       path: data
