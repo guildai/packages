@@ -18,6 +18,7 @@
 # - detect op
 # - auto-scale flag ala slim (auto set clones, etc.)
 # - custom image dataset support
+# - mask prediction (set predict_instance_masks to true under MaskRCNNBoxPredictor)
 
 # ===================================================================
 # Package def
@@ -161,12 +162,12 @@
 
     evaluate:
       description: Evaluate a trained detector
-      # Note that 'train-config' is used below because
-      # object_detection combines train and eval fn creation in the
-      # same function and even through the eval operation doesn't use
-      # train config, it needs it here to spoof object_detection to
-      # generate the eval fn. In fact any valid train config will work
-      # so we use 'train-config'.
+      # 'train-config' is provided below because object_detection
+      # combines train and eval fn creation in the same function and
+      # even through the eval operation doesn't use train config, it
+      # needs it here to spoof object_detection to generate the eval
+      # fn. In fact any valid train config will work so we use tge
+      # train-config resource.
       main:
         eval
           --checkpoint-dir checkpoint
