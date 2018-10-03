@@ -345,7 +345,7 @@
           select: frozen_graph\.pb
 
 # ===================================================================
-# Dataset support
+# Images support
 # ===================================================================
 
 - config: images-base
@@ -356,7 +356,7 @@
   operations:
     prepare:
       description: Prepare images for training
-      main: prepare_images ${images} -o {{data-path}}
+      main: images_prepare ${images} -o {{data-path}}
       requires:
         - models-lib
       flags:

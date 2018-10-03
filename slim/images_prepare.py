@@ -118,7 +118,7 @@ class Writer(object):
         self.close(exc_type is None)
 
 def main(argv):
-    args = _parse_args(argv)
+    args = _init_args(argv)
     _init_logging(args)
     _check_existing_output(args)
     label_ids, train, val = _init_examples(args)
@@ -129,6 +129,42 @@ def main(argv):
     _write_labels(label_ids, args)
     _write_records("train", "train", train, label_ids, args, True)
     _write_records("validation", "val", val, label_ids, args)
+
+def _init_args(argv):
+    p = argparse.ArgumentParser(argv)
+    p.add_argument(
+        "images_dir", metavar="IMAGES-DIR",
+        help="directory containing images to prepare")
+    p.add_argument(
+        "-s", "--val-split", metavar="N",
+        default=30,
+        type=int,
+        help="percent of examples reserved for validation (default is 30)")
+    p.add_argument(
+        "-p", "--output-prefix", metavar="PREFIX",
+        default="",
+        help="optional prefix to use for generated database files")
+    p.add_argument(
+        "-o", "--output-dir", metavar="DIR",
+        default=".",
+        help=(
+            "directory to write generated dataset files info "
+            "(default is current directory)"))
+    p.add_argument(
+        "-r", "--random-seed", metavar="N",
+        type=int,
+        help="seed used to randomly split training and validation images")
+    p.add_argument(
+        "-m", "--max-file-size", metavar="MB",
+        default=100,
+        type=int,
+        help=(
+            "max size per TF record file in MB; use 0 to disable "
+            "(default is 100)"))
+    p.add_argument(
+        "--debug", action="store_true",
+        help="show debug info")
+    return p.parse_args()
 
 def _init_logging(args):
     if args.debug:
@@ -298,42 +334,6 @@ def _load_image(path):
 def _error(msg):
     sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
     sys.exit(1)
-
-def _parse_args(argv):
-    p = argparse.ArgumentParser(argv)
-    p.add_argument(
-        "images_dir", metavar="IMAGES-DIR",
-        help="directory containing images to prepare")
-    p.add_argument(
-        "-s", "--val-split", metavar="N",
-        default=30,
-        type=int,
-        help="percent of examples reserved for validation (default is 30)")
-    p.add_argument(
-        "-p", "--output-prefix", metavar="PREFIX",
-        default="",
-        help="optional prefix to use for generated database files")
-    p.add_argument(
-        "-o", "--output-dir", metavar="DIR",
-        default=".",
-        help=(
-            "directory to write generated dataset files info "
-            "(default is current directory)"))
-    p.add_argument(
-        "-r", "--random-seed", metavar="N",
-        type=int,
-        help="seed used to randomly split training and validation images")
-    p.add_argument(
-        "-m", "--max-file-size", metavar="MB",
-        default=100,
-        type=int,
-        help=(
-            "max size per TF record file in MB; use 0 to disable "
-            "(default is 100)"))
-    p.add_argument(
-        "--debug", action="store_true",
-        help="show debug info")
-    return p.parse_args()
 
 if __name__ == "__main__":
     main(sys.argv)
