@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.object-detection.models
-  version: 0.5.0.dev1
+  version: 0.5.0.dev2
   description: Object detection library
   url: https://github.com/guildai/packages/tree/master/object-detection
   author: Guild AI
@@ -26,17 +26,17 @@
   requires:
     - gpkg.object-detection
 
-
 # ===================================================================
 # Sample datasets
 # ===================================================================
 
-- model: pet-dataset
+- model: pet-images
   description: Annotated images from Oxford-IIIT pet dataset
-  extends: gpkg.object-detection/models-lib-support
+  extends:
+    - gpkg.object-detection/models-lib-support
   operations:
     prepare:
-      description: Prepares dataset for training and evaluation
+      description: Prepares pet images for training
       main:
         object_detection.dataset_tools.create_pet_tf_record
           --label_map_path=labels.pbtxt
@@ -68,27 +68,13 @@
           rename: pet_label_map\.pbtxt labels.pbtxt
 
 # ===================================================================
-# Dataset support
+# Generic dataset
 # ===================================================================
 
-- config: prepared-dataset-support
-  params:
-    dataset-config: dataset.yml
-    labels: labels.pbtxt
-  resources:
-    prepared-data:
-      path: data
-      sources:
-        - operation: .*dataset:prepare
-          select: .*\.record.*
-    dataset-config:
-      sources:
-        - operation: .*dataset:prepare
-          select: dataset.yml
-    labels:
-      sources:
-        - operation: .*dataset:prepare
-          select: labels.pbtxt
+- model: voc-images
+  description: VOC annotated images
+  extends:
+    - gpkg.object-detection/voc-images-base
 
 # ===================================================================
 # Models
@@ -97,27 +83,30 @@
 - model: faster-rcnn-resnet-50
   description: Faster RCCN with ResNet 50
   extends:
-    - prepared-dataset-support
+    - gpkg.object-detection/prepared-dataset-support
     - gpkg.object-detection/faster-rcnn-resnet-50
 
 - model: faster-rcnn-resnet-101
   description: Faster RCCN with ResNet 101
   extends:
-    - prepared-dataset-support
+    - gpkg.object-detection/prepared-dataset-support
     - gpkg.object-detection/faster-rcnn-resnet-101
 
 # ===================================================================
 # Tests
 # ===================================================================
 
-- test: quick
+- test: pet-resnet-50
   steps:
     - run-op: pet-dataset:prepare
     - run-op: faster-rcnn-resnet-50:transfer-learn
+      no-gpus: yes
       flags:
         train-steps: 1
         eval-examples: 1
     - run-op: faster-rcnn-resnet-50:evaluate
+      no-gpus: yes
       flags:
         eval-examples: 1
     - run-op: faster-rcnn-resnet-50:export-and-freeze
+      no-gpus: yes

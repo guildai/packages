@@ -155,7 +155,7 @@ def _apply_ordered_filenames(root, label, acc):
         acc.append((label, path))
 
 def _label_map(labels):
-    return {name: label_id for label_id, name in enumerate(sorted(labels))}
+    return {name: (i + 1) for i, name in enumerate(sorted(labels))}
 
 def _split_examples(examples, args):
     val = int(len(examples) * args.val_split / 100)
@@ -180,9 +180,9 @@ def _write_labels(label_ids, args):
 
 def _examples(label_paths, label_ids):
     for label, path in label_paths:
-        yield label, _image_tf_example(path, label_ids[label])
+        yield label, _tf_example(path, label_ids[label])
 
-def _image_tf_example(image_path, label_id):
+def _tf_example(image_path, label_id):
     image_bytes, image_format, image_h, image_w = _load_image(image_path)
     log.debug(
         "%s: format=%s size=%i height=%i width=%i",
