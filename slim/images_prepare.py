@@ -17,105 +17,22 @@ from __future__ import division
 from __future__ import print_function
 
 import argparse
-import collections
 import glob
 import io
 import logging
 import os
 import random
 import sys
-import time
-import warnings
 
-import click
 import PIL
 
-with warnings.catch_warnings():
-    warnings.filterwarnings("ignore", category=Warning)
-    import tensorflow as tf
-
 from slim.datasets import dataset_utils
+
+import _tfrecord
 
 log = logging.getLogger()
 
 IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".gif", ".bmp")
-
-class Writer(object):
-
-    def __init__(self, output_dir, basename, example_count, max_file_size_mb):
-        self.output_dir = output_dir
-        self.basename = basename
-        self.example_count = example_count
-        self.max_file_size = (max_file_size_mb - 1) * 1024 * 1024
-        self._writer = None
-        self._writer_path = None
-        self._cur_start = None
-        self._cur_size = 0
-        self._last_written = 0
-
-    def write(self, example):
-        example_bytes = example.SerializeToString()
-        writer = self._next_writer(len(example_bytes))
-        writer.write(example_bytes)
-        self._last_written += 1
-        self._cur_size += len(example_bytes)
-
-    def _next_writer(self, next_len):
-        if self._writer is None or self._next_too_big(next_len):
-            self._new_writer()
-        return self._writer
-
-    def _next_too_big(self, next_len):
-        return (
-            self.max_file_size > 0 and
-            self._cur_size + next_len > self.max_file_size)
-
-    def _new_writer(self):
-        self.close()
-        self._cur_start = self._last_written + 1
-        path = os.path.join(self.output_dir, self._tfrecord_name())
-        self._writer = tf.python_io.TFRecordWriter(path)
-        self._writer_path = path
-
-    def _tfrecord_name(self):
-        digits_needed = self._digits_needed(self.example_count)
-        digits_pattern = "%%0.%ii" % digits_needed
-        start = digits_pattern % self._cur_start
-        if self._last_written > 0:
-            end = digits_pattern % self._last_written
-        else:
-            end = "?" * digits_needed
-        return "%s-%s-%s.tfrecord" % (self.basename, start, end)
-
-    @staticmethod
-    def _digits_needed(n):
-        digits = 1
-        while n > 10:
-            digits += 1
-            n = n // 10
-        return digits
-
-    def close(self, rename=True):
-        if self._writer is not None:
-            self._writer.close()
-            if rename:
-                self._rename_writer()
-            self._writer = None
-            self._writer_path = None
-            self._cur_size = 0
-            self._writer_path = None
-
-    def _rename_writer(self):
-        assert self._writer is not None
-        new_path = os.path.join(self.output_dir, self._tfrecord_name())
-        assert new_path != self._writer_path, self._writer_path
-        os.rename(self._writer_path, new_path)
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, _value, _tb):
-        self.close(exc_type is None)
 
 def main(argv):
     args = _init_args(argv)
@@ -127,8 +44,18 @@ def main(argv):
         len(train) + len(val), len(label_ids))
     _ensure_output_dir(args)
     _write_labels(label_ids, args)
-    _write_records("train", "train", train, label_ids, args, True)
-    _write_records("validation", "val", val, label_ids, args)
+    _tfrecord.write_records(
+        "train",
+        _examples(train, label_ids),
+        len(train),
+        args.output_dir, args.output_prefix,
+        args.max_file_size, True, "train")
+    _tfrecord.write_records(
+        "val",
+        _examples(val, label_ids),
+        len(val),
+        args.output_dir, args.output_prefix,
+        args.max_file_size, False, "validation")
 
 def _init_args(argv):
     p = argparse.ArgumentParser(argv)
@@ -251,69 +178,9 @@ def _write_labels(label_ids, args):
     id_to_name_map = {label_ids[name]: name for name in label_ids}
     dataset_utils.write_label_file(id_to_name_map, args.output_dir, labels_name)
 
-def _write_records(type_desc, basename, examples, labels, args,
-                   write_weights=False):
-    writer = Writer(
-        args.output_dir,
-        args.output_prefix + basename,
-        len(examples),
-        args.max_file_size)
-    label_counts = collections.Counter()
-    with writer:
-        log.info(
-            "Writing %i %s records %s",
-            len(examples), type_desc, _filename_pattern(basename, args))
-        quiet = os.getenv("NO_PROGRESS") == "1"
-        with _progress(len(examples)) as bar:
-            _progress_start(bar)
-            for label, path in examples:
-                example = _image_tf_example(path, labels[label])
-                writer.write(example)
-                if write_weights:
-                    label_counts.update([label])
-                if not quiet:
-                    bar.update(1)
-            _progress_finish(bar)
-    if write_weights:
-        _write_weights(basename, label_counts, args)
-
-def _write_weights(basename, label_counts, args):
-    weights = _balanced_label_weights(label_counts)
-    weights_file = os.path.join(
-        args.output_dir,
-        args.output_prefix + basename + "-weights.txt")
-    log.info("Writing class weights %s", weights_file)
-    with open(weights_file, "w") as f:
-        for name in sorted(weights):
-            f.write("%s:%f\n" % (name, weights[name]))
-
-def _balanced_label_weights(counts):
-    class_count = len(counts)
-    total_count = sum(counts.values())
-    return {
-        name: total_count / (class_count * counts[name])
-        for name in counts
-    }
-
-def _filename_pattern(basename, args):
-    return os.path.join(
-        args.output_dir,
-        "%s%s-*.tfrecord" % (args.output_prefix, basename))
-
-def _progress(length):
-    bar = click.progressbar(length=length)
-    bar.is_hidden = False
-    return bar
-
-def _progress_start(_bar):
-    # Workaround progress not shown on small datasets - click progress
-    # bar apparently needs some time to setup.
-    time.sleep(0.5)
-
-def _progress_finish(_bar):
-    # Workaround stdout sync with other messages - click progress bar
-    # needs some time to stop writing.
-    time.sleep(0.1)
+def _examples(label_paths, label_ids):
+    for label, path in label_paths:
+        yield label, _image_tf_example(path, label_ids[label])
 
 def _image_tf_example(image_path, label_id):
     image_bytes, image_format, image_h, image_w = _load_image(image_path)
