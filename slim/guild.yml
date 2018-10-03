@@ -345,18 +345,18 @@
           select: frozen_graph\.pb
 
 # ===================================================================
-# Images support
+# Dataset support
 # ===================================================================
 
-- config: images-base
+- config: dataset-base
   extends:
     - models-lib-support
   params:
     data-path: data
   operations:
     prepare:
-      description: Prepare images for training
-      main: prepare_images ${images} -o {{data-path}}
+      description: Prepare dataset for training
+      main: prepare_dataset ${images} -o {{data-path}}
       requires:
         - models-lib
       flags:
@@ -373,14 +373,14 @@
           null-label: randomly generated
       label-template: images=${images|basename}
 
-- config: prepared-images-support
+- config: prepared-dataset-support
   params:
-    prepare-op: images:prepare
+    prepare-op: prepare
     data-path: data
     labels-path: data/labels.txt
   resources:
     prepared-data:
-      description: Images dataset generated with {{prepare-op}}
+      description: Dataset generated with {{prepare-op}}
       sources:
         - operation: '{{prepare-op}}'
           select: '{{data-path}}'
