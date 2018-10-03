@@ -356,14 +356,14 @@
   operations:
     prepare:
       description: Prepare images for training
-      main: images_prepare ${images} -o {{data-path}}
+      main: images_prepare -o {{data-path}}
       requires:
         - models-lib
       flags:
         images:
           description: Directory containing images to prepare
           required: yes
-          arg-skip: yes
+          arg-name: images-dir
         val-split:
           description: Percentage of images reserved for validation
           default: 30
