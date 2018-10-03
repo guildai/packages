@@ -348,15 +348,15 @@
 # Dataset support
 # ===================================================================
 
-- config: dataset-base
+- config: images-base
   extends:
     - models-lib-support
   params:
     data-path: data
   operations:
     prepare:
-      description: Prepare dataset for training
-      main: prepare_dataset ${images} -o {{data-path}}
+      description: Prepare images for training
+      main: prepare_images ${images} -o {{data-path}}
       requires:
         - models-lib
       flags:
