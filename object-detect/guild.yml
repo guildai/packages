@@ -52,7 +52,8 @@
       description: >
         Number of examples to evaluate after training
 
-        This flag has no effect if `legacy` is `yes`.
+        This flag has no effect if `legacy` is `yes` (legacy train
+        does not perform evaluation).
       null-label: all available
     legacy:
       description: >
