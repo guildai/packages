@@ -43,7 +43,6 @@ def main(argv):
         "Found %i examples of %i classes",
         len(train) + len(val), len(label_ids))
     _ensure_output_dir(args)
-    _write_labels(label_ids, args)
     _tfrecord.write_records(
         "train",
         _examples(train, label_ids),
@@ -56,6 +55,7 @@ def main(argv):
         len(val),
         args.output_dir, args.output_prefix,
         args.max_file_size, False, "validation")
+    _write_labels(label_ids, args)
 
 def _init_args(argv):
     p = argparse.ArgumentParser(argv)
@@ -170,14 +170,6 @@ def _ensure_output_dir(args):
     else:
         log.debug("Created %s", args.output_dir)
 
-def _write_labels(label_ids, args):
-    labels_name = args.output_prefix + "labels.txt"
-    log.info(
-        "Writing class labels %s",
-        os.path.join(args.output_dir, labels_name))
-    id_to_name_map = {label_ids[name]: name for name in label_ids}
-    dataset_utils.write_label_file(id_to_name_map, args.output_dir, labels_name)
-
 def _examples(label_paths, label_ids):
     for label, path in label_paths:
         yield label, _tf_example(path, label_ids[label])
@@ -198,6 +190,14 @@ def _load_image(path):
     image_bytes = open(path, "rb").read()
     image = PIL.Image.open(io.BytesIO(image_bytes))
     return image_bytes, image.format, image.height, image.width
+
+def _write_labels(label_ids, args):
+    labels_name = args.output_prefix + "labels.txt"
+    log.info(
+        "Writing class labels %s",
+        os.path.join(args.output_dir, labels_name))
+    id_to_name_map = {label_ids[name]: name for name in label_ids}
+    dataset_utils.write_label_file(id_to_name_map, args.output_dir, labels_name)
 
 def _error(msg):
     sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
