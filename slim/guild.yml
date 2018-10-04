@@ -176,7 +176,7 @@
   # Ensure that all params below are defined by extending
   # models.
   params:
-    prepare-data-op: DEFINE-prepare-data-op
+    prepare-examples-op: DEFINE-prepare-examples-op
     data-path: DEFINE-data-path
     model-name: DEFINE-model-name
     image-size: DEFINE-image-size
@@ -196,8 +196,8 @@
           --train_image_size {{image-size}}
       requires:
         - models-lib
-        - prepared-data
-      label-template: data=${prepared-data}
+        - examples
+      label-template: examples=${examples}
       flags:
         $include:
           - train-flags
@@ -215,9 +215,9 @@
           --trainable_scopes {{transfer-learn-train-layers}}
       requires:
         - models-lib
-        - prepared-data
+        - examples
         - transfer-learn-checkpoint
-      label-template: data=${prepared-data}
+      label-template: examples=${examples}
       flags:
         $include:
           - train-flags
@@ -233,9 +233,9 @@
           --checkpoint_path model
       requires:
         - models-lib
-        - prepared-data
+        - examples
         - trained-model
-      label-template: model=${trained-model} data=${prepared-data}
+      label-template: model=${trained-model} examples=${examples}
       flags:
         $include:
           - train-flags
@@ -255,9 +255,9 @@
           --eval_dir .
       requires:
         - models-lib
-        - prepared-data
+        - examples
         - trained-model
-      label-template: model=${trained-model} data=${prepared-data}
+      label-template: model=${trained-model} examples=${examples}
       flags:
         step:
           description: Checkpoint step to evaluate
@@ -284,9 +284,9 @@
           --output_node_names {{output-layers}}
       requires:
         - models-lib
-        - prepared-data
+        - examples
         - trained-model
-      label-template: model=${trained-model} data=${prepared-data}
+      label-template: model=${trained-model} examples=${examples}
       flags:
         step:
           description:
@@ -373,13 +373,13 @@
           null-label: randomly generated
       label-template: images=${images|basename}
 
-- config: prepared-dataset-support
+- config: examples-support
   params:
     prepare-op: prepare
     data-path: data
     labels-path: data/labels.txt
   resources:
-    prepared-data:
+    examples:
       description: Dataset generated with {{prepare-op}}
       sources:
         - operation: '{{prepare-op}}'

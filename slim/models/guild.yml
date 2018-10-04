@@ -42,7 +42,7 @@
 
 - config: classifier-base
   extends:
-    - gpkg.slim/prepared-dataset-support
+    - gpkg.slim/examples-support
   params:
     prepare-op: images:prepare
 
