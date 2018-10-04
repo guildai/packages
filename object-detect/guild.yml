@@ -24,10 +24,10 @@
 # Package def
 # ===================================================================
 
-- package: gpkg.object-detection
-  version: 0.5.0.dev2
+- package: gpkg.object-detect
+  version: 0.5.0.dev3
   description: Object detection library
-  url: https://github.com/guildai/packages/tree/master/object-detection
+  url: https://github.com/guildai/packages/tree/master/object-detect
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
@@ -131,7 +131,7 @@
         - dataset-config
         - model-config
         - train-config
-        - prepared-data
+        - examples
         - labels
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
@@ -151,7 +151,7 @@
         - dataset-config
         - model-config
         - transfer-learn-config
-        - prepared-data
+        - examples
         - labels
         - transfer-learn-checkpoint
       env:
@@ -179,7 +179,7 @@
         - dataset-config
         - model-config
         - train-config
-        - prepared-data
+        - examples
         - labels
         - trained-model
       env:
@@ -242,12 +242,12 @@
 # Images support
 # ===================================================================
 
-- config: prepared-dataset-support
+- config: examples-support
   params:
     dataset-config: dataset.yml
     labels: labels.pbtxt
   resources:
-    prepared-data:
+    examples:
       description: Prepared dataset
       path: data
       sources:
