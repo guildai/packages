@@ -88,8 +88,6 @@
 - config: models-lib-support
   resources:
     models-lib:
-      description: Object detection Python libraries
-      private: yes
       sources:
         - url: https://github.com/tensorflow/models/archive/2aec950cf5670a86eb0681e3a0348570c4a4638c.zip
           sha256: cc97bed49476a1984325561dcb29f88a26910689050d9112d02e371209455997
@@ -244,22 +242,13 @@
 # Images support
 # ===================================================================
 
-- config: voc-images-prepare-flags
-  flags:
-    val-split:
-      description: Percentage of images reserved for validation
-      default: 30
-    random-seed:
-      description: Seed used for train/validation split
-      default: null
-      null-label: randomly generated
-
 - config: prepared-dataset-support
   params:
     dataset-config: dataset.yml
     labels: labels.pbtxt
   resources:
     prepared-data:
+      description: Prepared dataset
       path: data
       sources:
         - operation: .*:prepare

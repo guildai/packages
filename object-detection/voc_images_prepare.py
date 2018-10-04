@@ -47,8 +47,6 @@ def main(argv):
         "Found %i examples of %i classes",
         len(train) + len(val), len(label_ids))
     _ensure_output_dir(args)
-    _write_labels(label_ids, args)
-    _write_dataset_config(label_ids, args)
     _tfrecord.write_records(
         "train",
         _examples(train, label_ids, args),
@@ -65,6 +63,8 @@ def main(argv):
         args.output_prefix,
         args.max_file_size,
         type_desc="validation")
+    _write_labels(label_ids, args)
+    _write_dataset_config(len(label_ids), len(val), args)
 
 def _init_args(argv):
     p = argparse.ArgumentParser(argv)
@@ -192,79 +192,6 @@ def _ensure_output_dir(args):
     else:
         log.debug("Created %s", args.output_dir)
 
-def _write_labels(label_ids, args):
-    labels_name = args.output_prefix + "labels.pbtxt"
-    labels_path = os.path.join(args.output_dir, labels_name)
-    log.info("Writing class labels %s", labels_path)
-    id_to_name_map = {label_ids[name]: name for name in label_ids}
-    with open(labels_path, "w") as f:
-        _write_labels_proto(id_to_name_map, f)
-
-def _write_labels_proto(names, f):
-    for id in sorted(names):
-        f.write(
-            "item {\n"
-            "  id: %s\n"
-            "  name: %r\n"
-            "}\n\n" % (id, names[id]))
-
-def _write_dataset_config(label_ids, args):
-    config = {
-        "num_classes": len(label_ids),
-        "train_input_reader": {
-            "tf_record_input_reader": {
-                "input_path": [
-                    "%s/%strain-*-*.tfrecord"
-                    % (args.config_data_path, args.output_prefix)
-                ]
-            },
-            "label_map_path": (
-                "%s/%slabels.pbtxt"
-                % (args.config_labels_path, args.output_prefix))
-        },
-        "eval_input_reader": {
-            "tf_record_input_reader": {
-                "input_path": [
-                    "%s/%sval-*-*.tfrecord"
-                    % (args.config_data_path, args.output_prefix)
-                ]
-            },
-            "label_map_path": (
-                "%s/%slabels.pbtxt"
-                % (args.config_labels_path, args.output_prefix)),
-            "shuffle": False
-        }
-    }
-    config_path = os.path.join(
-        args.output_dir,
-        args.output_prefix + "dataset.yml")
-    with open(config_path, "w") as f:
-        yaml.dump(config, f)
-
-"""
-num_classes: 37
-
-eval_config:
-  metrics_set:
-    - coco_detection_metrics
-  num_examples: 1101
-
-train_input_reader:
-  tf_record_input_reader:
-    input_path:
-      - data/pet_faces_train.record-?????-of-00010
-  label_map_path: object_detection/data/pet_label_map.pbtxt
-
-eval_input_reader:
-  tf_record_input_reader:
-    input_path:
-      - data/pet_faces_val.record-?????-of-00010
-  label_map_path: object_detection/data/pet_label_map.pbtxt
-  shuffle: no
-  num_readers: 1
-
-"""
-
 def _examples(ann_data, label_ids, args):
     for ann in ann_data:
         yield None, _tf_example(ann, label_ids, args)
@@ -321,6 +248,65 @@ def _ann_size(ann):
     except KeyError:
         size = ann["size_part"]
     return int(size["width"]), int(size["height"])
+
+def _write_labels(label_ids, args):
+    labels_name = args.output_prefix + "labels.pbtxt"
+    labels_path = os.path.join(args.output_dir, labels_name)
+    log.info("Writing class labels %s", labels_path)
+    id_to_name_map = {label_ids[name]: name for name in label_ids}
+    with open(labels_path, "w") as f:
+        _write_labels_proto(id_to_name_map, f)
+
+def _write_labels_proto(names, f):
+    for id in sorted(names):
+        f.write(
+            "item {\n"
+            "  id: %s\n"
+            "  name: %r\n"
+            "}\n\n" % (id, names[id]))
+
+def _write_dataset_config(labels, examples, args):
+    config_path = os.path.join(
+        args.output_dir,
+        args.output_prefix + "dataset.yml")
+    log.info("Writing dataset config %s", config_path)
+    config = _dataset_config(labels, examples, args)
+    with open(config_path, "w") as f:
+        yaml.dump(config, f)
+
+def _dataset_config(labels, examples, args):
+    return {
+        "num_classes": labels,
+        "eval_config": {
+            "metrics_set": [
+                "coco_detection_metrics",
+            ],
+            "num_examples": examples
+        },
+        "train_input_reader": {
+            "tf_record_input_reader": {
+                "input_path": [
+                    "%s/%strain-*-*.tfrecord"
+                    % (args.config_data_path, args.output_prefix)
+                ]
+            },
+            "label_map_path": (
+                "%s/%slabels.pbtxt"
+                % (args.config_labels_path, args.output_prefix))
+        },
+        "eval_input_reader": {
+            "tf_record_input_reader": {
+                "input_path": [
+                    "%s/%sval-*-*.tfrecord"
+                    % (args.config_data_path, args.output_prefix)
+                ]
+            },
+            "label_map_path": (
+                "%s/%slabels.pbtxt"
+                % (args.config_labels_path, args.output_prefix)),
+            "shuffle": False
+        }
+    }
 
 def _error(msg):
     sys.stderr.write("%s: %s\n" % (sys.argv[0], msg))
