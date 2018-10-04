@@ -27,7 +27,7 @@
     - gpkg.object-detection
 
 # ===================================================================
-# Sample datasets
+# Pet images
 # ===================================================================
 
 - model: pet-images
@@ -67,20 +67,60 @@
             - models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/object_detection/data/pet_label_map.pbtxt
           rename: pet_label_map\.pbtxt labels.pbtxt
 
+# ===================================================================
+# VOC 2008 images
+# ===================================================================
+
 - model: voc-2008-images
   description: Visual Object Classes Challenge 2008 images
+  extends:
+    - gpkg.object-detection/models-lib-support
   operations:
     prepare:
-      gpkg.object_detection
+      description: Prepare VOC 2008 images for training
+      main: >
+        gpkg/object-detection/voc_images_prepare
+          --annotations-dir Annotations
+          --images-dir JPEGImages
+      requires:
+        - models-lib
+        - voc-data
+      #flags:
+      #  $include: gpkg.object-detection/voc-images-prepare-flags
+  resources:
+    voc-data:
+      sources:
+        - url: http://host.robots.ox.ac.uk/pascal/VOC/voc2008/VOCtrainval_14-Jul-2008.tar
+          sha256: 7f0ca53c1b5a838fbe946965fc106c6e86832183240af5c88e3f6c306318d42e
+          select:
+            - VOCdevkit/VOC2008/Annotations
+            - VOCdevkit/VOC2008/JPEGImages
 
 # ===================================================================
-# Generic dataset
+# Generic annotated images (Pascal VOC format)
 # ===================================================================
 
-- model: voc-images
-  description: VOC annotated images
+- model: voc-annotated-images
+  description: Images annotated using Pascal VOC format
   extends:
-    - gpkg.object-detection/voc-images-base
+    - gpkg.object-detection/models-lib-support
+  operations:
+    prepare:
+      description: Prepare images annotated using Pascal VOC format for training
+      main: gpkg/object-detection/voc_images_prepare
+      requires:
+        - models-lib
+      flags:
+        #$include: gpkg.object-detection/voc-images-prepare-flags
+        annotations:
+          description: Directory containing image annotations
+          required: yes
+          arg-name: annotations-dir
+        images:
+          description: Directory containing images to prepare
+          required: yes
+          arg-name: images-dir
+      label-template: images=${images|basename}
 
 # ===================================================================
 # Models

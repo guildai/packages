@@ -244,32 +244,15 @@
 # Images support
 # ===================================================================
 
-- config: voc-images-base
-  extends:
-    - models-lib-support
-  operations:
-    prepare:
-      description: Prepare VOC annotated images for training
-      main: voc_images_prepare
-      requires:
-        - models-lib
-      flags:
-        annotations:
-          description: Directory containing image annotations
-          required: yes
-          arg-name: annotations-dir
-        images:
-          description: Directory containing images to prepare
-          required: yes
-          arg-name: images-dir
-        val-split:
-          description: Percentage of images reserved for validation
-          default: 30
-        random-seed:
-          description: Seed used for train/validation split
-          default: null
-          null-label: randomly generated
-      label-template: images=${images|basename}
+- config: voc-images-prepare-flags
+  flags:
+    val-split:
+      description: Percentage of images reserved for validation
+      default: 30
+    random-seed:
+      description: Seed used for train/validation split
+      default: null
+      null-label: randomly generated
 
 - config: prepared-dataset-support
   params:
