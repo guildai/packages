@@ -67,6 +67,12 @@
             - models-2aec950cf5670a86eb0681e3a0348570c4a4638c/research/object_detection/data/pet_label_map.pbtxt
           rename: pet_label_map\.pbtxt labels.pbtxt
 
+- model: voc-2008-images
+  description: Visual Object Classes Challenge 2008 images
+  operations:
+    prepare:
+      gpkg.object_detection
+
 # ===================================================================
 # Generic dataset
 # ===================================================================
