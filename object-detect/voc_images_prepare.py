@@ -304,7 +304,10 @@ def _dataset_config(labels, examples, args):
             "label_map_path": (
                 "%s/%slabels.pbtxt"
                 % (args.config_labels_path, args.output_prefix)),
-            "shuffle": False
+            "shuffle": False,
+            # If this is not set to 1, object_detection may re-read
+            # examples during eval.
+            "num_readers": 1,
         }
     }
 
