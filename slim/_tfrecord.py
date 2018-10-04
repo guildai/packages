@@ -32,10 +32,10 @@ log = logging.getLogger()
 
 class Writer(object):
 
-    def __init__(self, output_dir, basename, example_count, max_file_size_mb):
+    def __init__(self, output_dir, basename, examples_count, max_file_size_mb):
         self.output_dir = output_dir
         self.basename = basename
-        self.example_count = example_count
+        self.examples_count = examples_count
         self.max_file_size = (max_file_size_mb - 1) * 1024 * 1024
         self._writer = None
         self._writer_path = None
@@ -68,7 +68,7 @@ class Writer(object):
         self._writer_path = path
 
     def _tfrecord_name(self):
-        digits_needed = self._digits_needed(self.example_count)
+        digits_needed = self._digits_needed(self.examples_count)
         digits_pattern = "%%0.%ii" % digits_needed
         start = digits_pattern % self._cur_start
         if self._last_written > 0:
@@ -109,7 +109,7 @@ class Writer(object):
 
 def write_records(basename,
                   examples,
-                  len_examples,
+                  examples_count,
                   output_dir,
                   output_prefix,
                   max_file_size=100,
@@ -119,16 +119,16 @@ def write_records(basename,
     writer = Writer(
         output_dir,
         output_prefix + basename,
-        len_examples,
+        examples_count,
         max_file_size)
     label_counts = collections.Counter()
     with writer:
         pattern = _filename_pattern(basename, output_dir, output_prefix)
         log.info(
             "Writing %i %s records %s",
-            len_examples, type_desc, pattern)
+            examples_count, type_desc, pattern)
         quiet = os.getenv("NO_PROGRESS") == "1"
-        with _progress(len_examples) as bar:
+        with _progress(examples_count) as bar:
             _progress_start(bar)
             for label, example in examples:
                 writer.write(example)
