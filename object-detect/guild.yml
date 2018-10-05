@@ -103,6 +103,61 @@
             && protoc object_detection/protos/*.proto --python_out .
 
 # ===================================================================
+# Pascal VOC format annotated images support
+# ===================================================================
+
+- config: voc-annotated-images-base
+  description: Images annotated using Pascal VOC format
+  extends:
+    - models-lib-support
+  params:
+    annotations-dir: DEFINE-annotations-dir
+    images-dir: DEFINE-images-dir
+    examples-desc: images annotated using Pascal VOC format
+  operations:
+    prepare:
+      description: Prepare {{examples-desc}} for training
+      main: >
+        voc_images_prepare
+          --annotations-dir {{annotations-dir}}
+          --images-dir {{images-dir}}
+      requires:
+        - models-lib
+        - voc-annotated-examples
+      flags:
+        val-split:
+          description: Percentage of images reserved for validation
+          default: 30
+        random-seed:
+          description: Seed used for train/validation split
+          default: null
+          null-label: randomly generated
+
+# ===================================================================
+# Examples support
+# ===================================================================
+
+- config: examples-support
+  params:
+    dataset-config: dataset.yml
+    labels: labels.pbtxt
+  resources:
+    examples:
+      description: Prepared dataset
+      path: data
+      sources:
+        - operation: .*:prepare
+          select: .*record.*
+    dataset-config:
+      sources:
+        - operation: .*:prepare
+          select: dataset\.yml
+    labels:
+      sources:
+        - operation: .*:prepare
+          select: labels\.pbtxt
+
+# ===================================================================
 # Model base
 # ===================================================================
 
@@ -243,30 +298,6 @@
       sources:
         - operation: export-and-freeze
           select: graph/frozen_inference_graph\.pb
-
-# ===================================================================
-# Images support
-# ===================================================================
-
-- config: examples-support
-  params:
-    dataset-config: dataset.yml
-    labels: labels.pbtxt
-  resources:
-    examples:
-      description: Prepared dataset
-      path: data
-      sources:
-        - operation: .*:prepare
-          select: .*record.*
-    dataset-config:
-      sources:
-        - operation: .*:prepare
-          select: dataset\.yml
-    labels:
-      sources:
-        - operation: .*:prepare
-          select: labels\.pbtxt
 
 # ===================================================================
 # Faster RCNN base

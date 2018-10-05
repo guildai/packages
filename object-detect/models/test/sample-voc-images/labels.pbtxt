@@ -1,0 +1,40 @@
+item {
+  id: 1
+  name: 'aeroplane'
+}
+
+item {
+  id: 2
+  name: 'bird'
+}
+
+item {
+  id: 3
+  name: 'boat'
+}
+
+item {
+  id: 4
+  name: 'chair'
+}
+
+item {
+  id: 5
+  name: 'dog'
+}
+
+item {
+  id: 6
+  name: 'person'
+}
+
+item {
+  id: 7
+  name: 'train'
+}
+
+item {
+  id: 8
+  name: 'tvmonitor'
+}
+

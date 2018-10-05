@@ -1,0 +1,14 @@
+eval_config:
+  metrics_set: [coco_detection_metrics]
+  num_examples: 1528
+eval_input_reader:
+  label_map_path: ./labels.pbtxt
+  num_readers: 1
+  shuffle: false
+  tf_record_input_reader:
+    input_path: [data/val-*-*.tfrecord]
+num_classes: 20
+train_input_reader:
+  label_map_path: ./labels.pbtxt
+  tf_record_input_reader:
+    input_path: [data/train-*-*.tfrecord]

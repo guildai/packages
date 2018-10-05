@@ -27,6 +27,50 @@
     - gpkg.object-detect
 
 # ===================================================================
+# Generic annotated images (Pascal VOC format)
+# ===================================================================
+
+- model: voc-annotated-images
+  extends:
+    - gpkg.object-detect/voc-annotated-images-base
+  operations:
+    prepare:
+      main: voc_images_prepare
+      requires:
+        - models-lib
+      flags:
+        annotations:
+          description: Directory containing image annotations
+          required: yes
+          arg-name: annotations-dir
+        images:
+          description: Directory containing images to prepare
+          required: yes
+          arg-name: images-dir
+      label-template: images=${images|basename}
+
+# ===================================================================
+# VOC 2008 images
+# ===================================================================
+
+- model: voc-2008-images
+  description: Visual Object Classes Challenge 2008 images
+  extends:
+    - gpkg.object-detect/voc-annotated-images-base
+  params:
+    annotations-dir: Annotations
+    images-dir: JPEGImages
+    examples-desc: VOC 2008 images
+  resources:
+    voc-annotated-examples:
+      sources:
+        - url: http://host.robots.ox.ac.uk/pascal/VOC/voc2008/VOCtrainval_14-Jul-2008.tar
+          sha256: 7f0ca53c1b5a838fbe946965fc106c6e86832183240af5c88e3f6c306318d42e
+          select:
+            - VOCdevkit/VOC2008/Annotations
+            - VOCdevkit/VOC2008/JPEGImages
+
+# ===================================================================
 # Pet images
 # ===================================================================
 
@@ -68,79 +112,6 @@
           rename: pet_label_map\.pbtxt labels.pbtxt
 
 # ===================================================================
-# Shared VOC images prepare flags
-# ===================================================================
-
-# We need to delcare this locally because Guild doesn't currently
-# support config includes from packages.
-
-- config: voc-images-prepare-flags
-  extends: gpkg.object-detect/voc-images-prepare-flags
-  flags:
-    val-split:
-      description: Percentage of images reserved for validation
-      default: 30
-    random-seed:
-      description: Seed used for train/validation split
-      default: null
-      null-label: randomly generated
-
-# ===================================================================
-# VOC 2008 images
-# ===================================================================
-
-- model: voc-2008-images
-  description: Visual Object Classes Challenge 2008 images
-  extends:
-    - gpkg.object-detect/models-lib-support
-  operations:
-    prepare:
-      description: Prepare VOC 2008 images for training
-      main: >
-        gpkg/object-detect/voc_images_prepare
-          --annotations-dir Annotations
-          --images-dir JPEGImages
-      requires:
-        - models-lib
-        - voc-data
-      flags:
-        $include: voc-images-prepare-flags
-  resources:
-    voc-data:
-      sources:
-        - url: http://host.robots.ox.ac.uk/pascal/VOC/voc2008/VOCtrainval_14-Jul-2008.tar
-          sha256: 7f0ca53c1b5a838fbe946965fc106c6e86832183240af5c88e3f6c306318d42e
-          select:
-            - VOCdevkit/VOC2008/Annotations
-            - VOCdevkit/VOC2008/JPEGImages
-
-# ===================================================================
-# Generic annotated images (Pascal VOC format)
-# ===================================================================
-
-- model: voc-annotated-images
-  description: Images annotated using Pascal VOC format
-  extends:
-    - gpkg.object-detect/models-lib-support
-  operations:
-    prepare:
-      description: Prepare images annotated using Pascal VOC format for training
-      main: gpkg/object-detect/voc_images_prepare
-      requires:
-        - models-lib
-      flags:
-        $include: voc-images-prepare-flags
-        annotations:
-          description: Directory containing image annotations
-          required: yes
-          arg-name: annotations-dir
-        images:
-          description: Directory containing images to prepare
-          required: yes
-          arg-name: images-dir
-      label-template: images=${images|basename}
-
-# ===================================================================
 # Models
 # ===================================================================
 
@@ -178,14 +149,57 @@
         eval-examples: 1
     - run-op: faster-rcnn-resnet-50:export-and-freeze
 
-- test: voc-images-mobilenet-v2
+- test: pet-images
   steps:
     - run-op: pet-images:prepare
+      flags:
+        random-seed: 1144
+        expect:
+          - file: dataset.yml
+            compare: config/dataset/pet.yml
+          - file: labels.pbtxt
+            compare: test/pet-labels.pbtxt
+          - file: pet_faces_train.record-00009-of-00010
+          - file: pet_faces_val.record-00009-of-00010
     - run-op: faster-rcnn-resnet-50:transfer-learn
       flags:
         train-steps: 1
         eval-examples: 1
-    - run-op: faster-rcnn-resnet-50:evaluate
+
+- test: voc-2008-images
+  steps:
+    - run-op: voc-2008-images:prepare
       flags:
+        random-seed: 1132
+      expect:
+        - file: dataset.yml
+          compare: test/voc-2008-dataset.yml
+        - file: labels.pbtxt
+          compare: test/voc-2008-labels.pbtxt
+        - file: train-0001-0958.tfrecord
+        - file: train-0959-1915.tfrecord
+        - file: train-1916-2849.tfrecord
+        - file: train-2850-3568.tfrecord
+        - file: val-0001-0942.tfrecord
+        - file: val-0943-1528.tfrecord
+    - run-op: faster-rcnn-resnet-50:transfer-learn
+      flags:
+        train-steps: 1
         eval-examples: 1
-    - run-op: faster-rcnn-resnet-50:export-and-freeze
+
+- test: voc-annotated-images
+  steps:
+    - run-op: voc-annotated-images:prepare
+      flags:
+        random-seed: 1246
+        annotations: test/sample-voc-images/annotations
+        images: test/sample-voc-images/jpegs
+      expect:
+        - file: dataset.yml
+        - file: labels.pbtxt
+        - file: train-1-6.tfrecord
+        - file: val-1-2.tfrecord
+    - run-op: faster-rcnn-resnet-50:transfer-learn
+      flags:
+        train-steps: 1
+        eval-examples: 1
