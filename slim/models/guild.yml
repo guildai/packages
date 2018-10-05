@@ -188,7 +188,6 @@
           - images
         steps:
           - run-op: transfer-learn
-            no-gpus: yes
             flags:
               auto-scale: no
               clone_on_cpu: 'True'
@@ -197,7 +196,6 @@
               - file: train/checkpoint
               - file: train/graph.pbtxt
           - run-op: evaluate
-            no-gpus: yes
             flags:
               eval-batches: 1
               batch-size: 5
@@ -205,7 +203,6 @@
               - output: eval/Accuracy\[.+\]
               - output: eval/Recall_5\[1\]
           - run-op: export-and-freeze
-            no-gpus: yes
             expect:
               - file: graph.pb
               - file: frozen_graph.pb

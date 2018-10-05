@@ -286,7 +286,7 @@
         - models-lib
         - examples
         - trained-model
-      label-template: model=${trained-model} examples=${examples}
+      label-template: model=${trained-model}
       flags:
         step:
           description:
