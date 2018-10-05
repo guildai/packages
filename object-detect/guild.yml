@@ -165,7 +165,9 @@
   extends:
     - models-lib-support
   params:
-    pipeline-config-proto: ''
+    train-pipeline-config-proto: ''
+    transfer-learn-pipeline-config-proto: ''
+    eval-learn-pipeline-config-proto: ''
     dataset-config: ''
     model-config: ''
     train-config: ''
@@ -177,7 +179,7 @@
       description: Train detector from scratch
       main:
         train
-          --pipeline-config-proto '{{pipeline-config-proto}}'
+          --pipeline-config-proto '{{train-pipeline-config-proto}}'
           --dataset-config '{{dataset-config}}'
           --model-config '{{model-config}}'
           --train-config '{{train-config}}'
@@ -198,7 +200,7 @@
       description: Train detector using transfer learning
       main:
         train
-          --pipeline-config-proto '{{pipeline-config-proto}}'
+          --pipeline-config-proto '{{transfer-learn-pipeline-config-proto}}'
           --dataset-config '{{dataset-config}}'
           --model-config '{{model-config}}'
           --train-config '{{transfer-learn-config}}'
@@ -218,16 +220,10 @@
         $include: train-flags
     evaluate:
       description: Evaluate a trained detector
-      # 'train-config' is provided below because object_detection
-      # combines train and eval fn creation in the same function and
-      # even through the eval operation doesn't use train config, it
-      # needs it here to spoof object_detection to generate the eval
-      # fn. In fact any valid train config will work so we use tge
-      # train-config resource.
       main:
         eval
           --checkpoint-dir checkpoint
-          --pipeline-config-proto '{{pipeline-config-proto}}'
+          --pipeline-config-proto '{{eval-pipeline-config-proto}}'
           --dataset-config '{{dataset-config}}'
           --model-config '{{model-config}}'
           --train-config '{{train-config}}'
@@ -236,6 +232,12 @@
         - models-lib
         - dataset-config
         - model-config
+        # train-config is provided here because object_detection
+        # combines train and eval fn creation in the same function
+        # and, even through the eval operation doesn't use train
+        # config, eval needs it here to spoof object_detection to
+        # generate the eval fn. Any valid train config will work so we
+        # use the train-config resource.
         - train-config
         - examples
         - labels

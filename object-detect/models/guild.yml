@@ -35,7 +35,7 @@
     - gpkg.object-detect/voc-annotated-images-base
   operations:
     prepare:
-      main: voc_images_prepare
+      main: gpkg.object-detect/voc_images_prepare
       requires:
         - models-lib
       flags:
