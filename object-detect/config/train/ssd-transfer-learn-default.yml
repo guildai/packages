@@ -12,3 +12,6 @@ optimizer:
     momentum_optimizer_value: 0.9
     decay: 0.9
     epsilon: 1.0
+fine_tune_checkpoint_type: detection
+fine_tune_checkpoint: checkpoint/model.ckpt
+load_all_detection_checkpoint_vars: true

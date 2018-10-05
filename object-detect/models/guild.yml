@@ -44,11 +44,11 @@
           --output_dir=.
       requires:
         - models-lib
-        - pets-data
+        - pets-dataset
         - dataset-config
         - labels
   resources:
-    pets-data:
+    pets-dataset:
       path: data
       sources:
         - url: http://www.robots.ox.ac.uk/~vgg/data/pets/data/images.tar.gz
@@ -145,16 +145,22 @@
 # ===================================================================
 
 - model: faster-rcnn-resnet-50
-  description: Faster RCCN with ResNet 50
+  description: Faster RCNN with ResNet 50
   extends:
     - gpkg.object-detect/examples-support
     - gpkg.object-detect/faster-rcnn-resnet-50
 
 - model: faster-rcnn-resnet-101
-  description: Faster RCCN with ResNet 101
+  description: Faster RCNN with ResNet 101
   extends:
     - gpkg.object-detect/examples-support
     - gpkg.object-detect/faster-rcnn-resnet-101
+
+- model: ssd-mobilenet-v2
+  description: SSD with MobileNet v2
+  extends:
+    - gpkg.object-detect/examples-support
+    - gpkg.object-detect/ssd-mobilenet-v2
 
 # ===================================================================
 # Tests
@@ -164,13 +170,22 @@
   steps:
     - run-op: pet-images:prepare
     - run-op: faster-rcnn-resnet-50:transfer-learn
-      no-gpus: yes
       flags:
         train-steps: 1
         eval-examples: 1
     - run-op: faster-rcnn-resnet-50:evaluate
-      no-gpus: yes
       flags:
         eval-examples: 1
     - run-op: faster-rcnn-resnet-50:export-and-freeze
-      no-gpus: yes
+
+- test: voc-images-mobilenet-v2
+  steps:
+    - run-op: pet-images:prepare
+    - run-op: faster-rcnn-resnet-50:transfer-learn
+      flags:
+        train-steps: 1
+        eval-examples: 1
+    - run-op: faster-rcnn-resnet-50:evaluate
+      flags:
+        eval-examples: 1
+    - run-op: faster-rcnn-resnet-50:export-and-freeze

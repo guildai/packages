@@ -136,6 +136,7 @@
         - labels
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
+      label-template: examples=${examples}
       flags:
         $include: train-flags
     transfer-learn:
@@ -157,6 +158,7 @@
         - transfer-learn-checkpoint
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
+      label-template: examples=${examples}
       flags:
         $include: train-flags
     evaluate:
@@ -185,6 +187,7 @@
         - trained-model
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
+      label-template: model=${trained-model} examples=${examples}
       flags:
         eval-examples:
           description: Number of examples to evaluate
@@ -203,6 +206,7 @@
         - trained-model
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
+      label-template: model=${trained-model}
       flags:
         step:
           description:
@@ -220,6 +224,7 @@
         - models-lib
         - frozen-graph
         - labels
+      label-template: images=${images|basename}
       flags:
         images:
           description: Directory containing images to detect
@@ -267,7 +272,7 @@
 # Faster RCNN base
 # ===================================================================
 
-- config: faster-rcnn
+- config: faster-rcnn-base
   extends:
     - model-base
   params:
@@ -287,10 +292,9 @@
 
 - config: faster-rcnn-resnet-50
   extends:
-    - faster-rcnn
+    - faster-rcnn-base
   params:
     model-config: faster-rcnn-resnet-50.yml
-    train-config: rcnn-train-default.yml
   resources:
     transfer-learn-checkpoint:
       path: checkpoint
@@ -306,10 +310,9 @@
 
 - config: faster-rcnn-resnet-101
   extends:
-    - faster-rcnn
+    - faster-rcnn-base
   params:
     model-config: faster-rcnn-resnet-101.yml
-    train-config: rcnn-train-default.yml
   resources:
     transfer-learn-checkpoint:
       path: checkpoint
@@ -322,3 +325,43 @@
     model-config:
       sources:
         - config/models/faster-rcnn-resnet-101.yml
+
+# ===================================================================
+# SSD base
+# ===================================================================
+
+- config: ssd-base
+  extends:
+    - model-base
+  params:
+    train-config: ssd-train-default.yml
+    transfer-learn-config: ssd-transfer-learn-default.yml
+  resources:
+    train-config:
+      sources:
+        - config/train/ssd-train-default.yml
+    transfer-learn-config:
+      sources:
+        - config/train/ssd-transfer-learn-default.yml
+
+# ===================================================================
+# SSD - MobileNet v2
+# ===================================================================
+
+- config: ssd-mobilenet-v2
+  extends:
+    - ssd-base
+  params:
+    model-config: ssd-mobilenet-v2.yml
+  resources:
+    transfer-learn-checkpoint:
+      path: checkpoint
+      sources:
+        - url: http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz
+          sha256: b9380178b2e35333f1a735e39745928488bdabeb9ed20bc6fa07af8172cb5adc
+          select:
+            - ssd_mobilenet_v2_coco_2018_03_29/model\.ckpt.*
+            - ssd_mobilenet_v2_coco_2018_03_29/checkpoint
+    model-config:
+      sources:
+        - config/models/ssd-mobilenet-v2.yml

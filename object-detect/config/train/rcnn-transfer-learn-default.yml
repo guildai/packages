@@ -14,6 +14,6 @@ optimizer:
     momentum_optimizer_value: 0.9
   use_moving_average: false
 gradient_clipping_by_norm: 10.0
-fine_tune_checkpoint: "checkpoint/model.ckpt"
-from_detection_checkpoint: true
+fine_tune_checkpoint_type: detection
+fine_tune_checkpoint: checkpoint/model.ckpt
 load_all_detection_checkpoint_vars: true

@@ -14,4 +14,3 @@ optimizer:
     momentum_optimizer_value: 0.9
   use_moving_average: false
 gradient_clipping_by_norm: 10.0
-load_all_detection_checkpoint_vars: true
