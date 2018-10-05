@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.slim.models
-  version: 0.5.0.dev1
+  version: 0.5.0.dev2
   description: TF-Slim models
   url: https://github.com/guildai/packages/tree/master/slim/models
   author: Guild AI
@@ -26,6 +26,7 @@
   tags: [slim]
   requires:
     - gpkg.slim
+    - gpkg.tflite
 
 # ===================================================================
 # Generic images
@@ -43,8 +44,11 @@
 - config: classifier-base
   extends:
     - gpkg.slim/examples-support
+    - gpkg.tflite/tflite-support
   params:
     prepare-op: images:prepare
+    tflite-input-layers: '{{input-layers}}'
+    tflite-output-layers: '{{output-layers}}'
 
 # ===================================================================
 # Image classifiers
@@ -206,3 +210,6 @@
             expect:
               - file: graph.pb
               - file: frozen_graph.pb
+          - run-op: tflite
+            expect:
+              - file: model.tflite

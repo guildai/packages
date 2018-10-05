@@ -293,17 +293,6 @@
             Checkpoint step to use for the frozen graph
           arg-name: checkpoint_step
           null-label: latest checkpoint
-    tflite:
-      description: Generate a TFLite file from a frozen graph
-      main:
-        tensorflow/contrib/lite/python/tflite_convert
-          --graph_def_file frozen_graph.pb
-          --output_file model.tflite
-          --input_arrays {{input-layers}}
-          --output_arrays {{output-layers}}
-      requires:
-        - frozen-graph
-      label-template: graph=${frozen-graph}
     label:
       description: Classify an image using a trained model
       main:
