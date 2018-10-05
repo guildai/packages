@@ -155,7 +155,7 @@ def _apply_ordered_filenames(root, label, acc):
         acc.append((label, path))
 
 def _label_map(labels):
-    return {name: (i + 1) for i, name in enumerate(sorted(labels))}
+    return {name: i for i, name in enumerate(sorted(labels))}
 
 def _split_examples(examples, args):
     val = int(len(examples) * args.val_split / 100)
