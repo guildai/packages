@@ -150,7 +150,8 @@ def _init_examples(args):
     if not train_ann or not val_ann:
         _error(
             "not enough examples to generate train "
-            "and validation datasets")
+            "and validation datasets - is val-split too "
+            "low or too high?")
     train_labels, train = _load_examples(train_ann)
     val_labels, val = _load_examples(val_ann)
     label_ids = _label_map(train_labels.union(val_labels))
