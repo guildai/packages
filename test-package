@@ -11,4 +11,4 @@ test -e $env_dir || PYTHONPATH=$root guild init -y -p $root $env_dir
 set +u
 
 QUIET=1 source guild-env $env_dir
-guild test -y
+guild test --no-gpus -y
