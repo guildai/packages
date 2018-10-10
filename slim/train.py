@@ -44,6 +44,41 @@ def main(argv):
     _patch_tensorflow(cmd_args)
     _train(cmd_args, rest_args)
 
+def _init_args(argv):
+    p = argparse.ArgumentParser()
+    p.add_argument(
+        "--dataset_dir", required=True,
+        help="Directory containing prepared tfrecords.")
+    p.add_argument(
+        "--no-class-weights",
+        action="store_true",
+        help="Don't balance classes in loss calculation.")
+    p.add_argument(
+        "--auto-scale",
+        default="yes",
+        help="Whether or not to adjust flags on multi-GPU systems (yes)")
+    p.add_argument(
+        "--num_clones",
+        type=int,
+        default=1,
+        help="Number of clones to deploy model to.")
+    p.add_argument(
+        "--learning_rate",
+        type=float,
+        default=0.01,
+        help="Learning rate.")
+    p.add_argument(
+        "--num_readers",
+        type=int,
+        default=4,
+        help="Number of data readers.")
+    p.add_argument(
+        "--num_preprocessing_threads",
+        type=int,
+        default=4,
+        help="Number of preprocessing threads.")
+    return p.parse_known_args(argv)
+
 def _patch_tensorflow(cmd_args):
     if not cmd_args.no_class_weights:
         _patch_cross_entropy_weights(cmd_args)
@@ -90,41 +125,6 @@ def _patched_softmax_cross_entropy(f0, class_weights):
 def _weights_for_batch(logits, class_weights):
     indices = tf.argmax(logits, axis=1)
     return tf.gather(tf.constant(class_weights), indices)
-
-def _init_args(argv):
-    p = argparse.ArgumentParser()
-    p.add_argument(
-        "--dataset_dir", required=True,
-        help="Directory containing prepared tfrecords.")
-    p.add_argument(
-        "--no-class-weights",
-        action="store_true",
-        help="Don't balance classes in loss calculation.")
-    p.add_argument(
-        "--auto-scale",
-        default="yes",
-        help="Whether or not to adjust flags on multi-GPU systems (yes)")
-    p.add_argument(
-        "--num_clones",
-        type=int,
-        default=1,
-        help="Number of clones to deploy model to.")
-    p.add_argument(
-        "--learning_rate",
-        type=float,
-        default=0.01,
-        help="Learning rate.")
-    p.add_argument(
-        "--num_readers",
-        type=int,
-        default=4,
-        help="Number of data readers.")
-    p.add_argument(
-        "--num_preprocessing_threads",
-        type=int,
-        default=4,
-        help="Number of preprocessing threads.")
-    return p.parse_known_args(argv)
 
 def _train(cmd_args, rest_args):
     # train_image_classifier ignores args to main so we need to hack

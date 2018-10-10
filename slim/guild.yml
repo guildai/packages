@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.slim
-  version: 0.5.0.dev4
+  version: 0.5.0.dev5
   description: TF-Slim models library
   url: https://github.com/guildai/packages/tree/master/slim
   author: Guild AI
@@ -177,7 +177,7 @@
   # models.
   params:
     prepare-examples-op: DEFINE-prepare-examples-op
-    data-path: DEFINE-data-path
+    examples-path: DEFINE-examples-path
     model-name: DEFINE-model-name
     image-size: DEFINE-image-size
     dataset-path: DEFINE-dataset-path
@@ -191,12 +191,13 @@
       main:
         train
           --model_name {{model-name}}
-          --dataset_dir {{data-path}}
+          --dataset_dir {{examples-path}}
           --train_dir train
           --train_image_size {{image-size}}
       requires:
         - models-lib
         - examples
+        - labels
       label-template: examples=${examples}
       flags:
         $include:
@@ -207,7 +208,7 @@
       main:
         train
           --model_name {{model-name}}
-          --dataset_dir {{data-path}}
+          --dataset_dir {{examples-path}}
           --train_dir train
           --train_image_size {{image-size}}
           --checkpoint_path {{transfer-learn-checkpoint-path}}
@@ -216,6 +217,7 @@
       requires:
         - models-lib
         - examples
+        - labels
         - transfer-learn-checkpoint
       label-template: examples=${examples}
       flags:
@@ -227,7 +229,7 @@
       main:
         train
           --model_name {{model-name}}
-          --dataset_dir {{data-path}}
+          --dataset_dir {{examples-path}}
           --train_dir train
           --train_image_size {{image-size}}
           --checkpoint_path model
@@ -249,13 +251,14 @@
           --alsologtostderr
           --model_name {{model-name}}
           --checkpoint_path model
-          --dataset_dir {{data-path}}
+          --dataset_dir {{examples-path}}
           --dataset_split_name validation
           --eval_image_size {{image-size}}
           --eval_dir .
       requires:
         - models-lib
         - examples
+        - labels
         - trained-model
       label-template: model=${trained-model} examples=${examples}
       flags:
@@ -279,12 +282,13 @@
           --input_checkpoint model
           --model_name {{model-name}}
           --image_size {{image-size}}
-          --dataset_dir {{data-path}}
+          --dataset_dir {{examples-path}}
           --output_dir .
           --output_node_names {{output-layers}}
       requires:
         - models-lib
         - examples
+        - labels
         - trained-model
       label-template: model=${trained-model}
       flags:
@@ -341,11 +345,11 @@
   extends:
     - models-lib-support
   params:
-    data-path: data
+    output-path: .
   operations:
     prepare:
       description: Prepare images for training
-      main: images_prepare -o {{data-path}}
+      main: images_prepare -o {{output-path}}
       requires:
         - models-lib
       flags:
@@ -365,24 +369,28 @@
 - config: examples-support
   params:
     prepare-op: prepare
-    data-path: data
-    labels-path: data/labels.txt
+    examples-select: .+\.tfrecord
+    examples-path: data
+    labels-select: labels.txt
+    labels-path: data
   resources:
     examples:
       description: Dataset generated with {{prepare-op}}
+      path: '{{examples-path}}'
       sources:
         - operation: '{{prepare-op}}'
-          select: '{{data-path}}'
+          select: '{{examples-select}}'
     labels:
+      path: '{{labels-path}}'
       sources:
         - operation: '{{prepare-op}}'
-          select: '{{labels-path}}'
+          select: '{{labels-select}}'
 
 # ===================================================================
 # Inception
 # ===================================================================
 
-- config: inception-v1
+- config: inception
   extends:
     - model-base
   params:
@@ -480,7 +488,7 @@
 # ResNet
 # ===================================================================
 
-- config: resnet-v1-50
+- config: resnet-50
   extends:
     - model-base
   params:
@@ -498,7 +506,7 @@
           sha256: 91a0dc25289e7ef648df304b15f06c43ce6f4446d08eb0168479dd2295101c73
           select: .+\.ckpt
 
-- config: resnet-v1-101
+- config: resnet-101
   extends:
     - model-base
   params:
@@ -516,7 +524,7 @@
           sha256: 5d813fcf5e56e7c9c2483d73b46644394cdbb31f9f4bf7140fb2809f7aa11a19
           select: .+\.ckpt
 
-- config: resnet-v1-152
+- config: resnet-152
   extends:
     - model-base
   params:
@@ -632,7 +640,7 @@
 # Mobilenet
 # ===================================================================
 
-- config: mobilenet-v1
+- config: mobilenet
   extends:
     - model-base
   params:

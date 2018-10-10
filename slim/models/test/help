@@ -32,9 +32,9 @@ MODELS
             val-split    Percentage of images reserved for validation (30)
 
 
-    inception-resnet-v2
+    inception
 
-      TF-Slim Inception ResNet v2 classifier
+      TF-Slim Inception v1 classifier
 
       Operations:
 
@@ -336,9 +336,9 @@ MODELS
             weight-decay                Decay on the model weights (4e-05)
 
 
-    inception-v1
+    inception-resnet-v2
 
-      TF-Slim Inception v1 classifier
+      TF-Slim Inception ResNet v2 classifier
 
       Operations:
 
@@ -1552,7 +1552,7 @@ MODELS
             weight-decay                Decay on the model weights (4e-05)
 
 
-    mobilenet-v1
+    mobilenet
 
       TF-Slim Mobilenet v1 classifier
 
@@ -3376,7 +3376,7 @@ MODELS
             weight-decay                Decay on the model weights (4e-05)
 
 
-    resnet-v1-101
+    resnet-101
 
       TF-Slim ResNet v1 101 layer classifier
 
@@ -3680,7 +3680,7 @@ MODELS
             weight-decay                Decay on the model weights (4e-05)
 
 
-    resnet-v1-152
+    resnet-152
 
       TF-Slim ResNet v1 152 layer classifier
 
@@ -3984,7 +3984,7 @@ MODELS
             weight-decay                Decay on the model weights (4e-05)
 
 
-    resnet-v1-50
+    resnet-50
 
       TF-Slim ResNet v1 50 layer classifier
 

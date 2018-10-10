@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.slim.models
-  version: 0.5.0.dev2
+  version: 0.5.0.dev5
   description: TF-Slim models
   url: https://github.com/guildai/packages/tree/master/slim/models
   author: Guild AI
@@ -54,11 +54,11 @@
 # Image classifiers
 # ===================================================================
 
-- model: inception-v1
+- model: inception
   description: TF-Slim Inception v1 classifier
   extends:
     - classifier-base
-    - gpkg.slim/inception-v1
+    - gpkg.slim/inception
 
 - model: inception-v2
   description: TF-Slim Inception v2 classifier
@@ -84,23 +84,23 @@
     - classifier-base
     - gpkg.slim/inception-resnet-v2
 
-- model: resnet-v1-50
+- model: resnet-50
   description: TF-Slim ResNet v1 50 layer classifier
   extends:
     - classifier-base
-    - gpkg.slim/resnet-v1-50
+    - gpkg.slim/resnet-50
 
-- model: resnet-v1-101
+- model: resnet-101
   description: TF-Slim ResNet v1 101 layer classifier
   extends:
     - classifier-base
-    - gpkg.slim/resnet-v1-101
+    - gpkg.slim/resnet-101
 
-- model: resnet-v1-152
+- model: resnet-152
   description: TF-Slim ResNet v1 152 layer classifier
   extends:
     - classifier-base
-    - gpkg.slim/resnet-v1-152
+    - gpkg.slim/resnet-152
 
 - model: resnet-v2-50
   description: TF-Slim ResNet v2 50 layer classifier
@@ -132,11 +132,11 @@
     - classifier-base
     - gpkg.slim/vgg-19
 
-- model: mobilenet-v1
+- model: mobilenet
   description: TF-Slim Mobilenet v1 classifier
   extends:
     - classifier-base
-    - gpkg.slim/mobilenet-v1
+    - gpkg.slim/mobilenet
 
 - model: mobilenet-v2-1.4
   description: TF-Slim Mobilenet v2 classifier
