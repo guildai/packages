@@ -17,10 +17,13 @@ from __future__ import division
 from __future__ import print_function
 
 import argparse
+import io
 import logging
 import os
 import sys
 
+import numpy as np
+import PIL
 import tfserve
 
 DEFAULT_HOST = "0.0.0.0"
@@ -29,13 +32,26 @@ DEFAULT_PORT = 5000
 class Handler(object):
 
     def __init__(self, args):
-        pass
+        self.input_layer = args.input_layer
+        self.image_width = args.image_width
+        self.image_height = args.image_height
 
-    def encode(self, request_data):
-        print(len(request_data))
-        return {}
+    def encode(self, data):
+        try:
+            return self._encode(data)
+        except Exception as e:
+            log.exception("handling data")
 
-    def decode(self, outputs, args):
+    def _encode(self, data):
+        img_orig = PIL.Image.open(io.BytesIO(data))
+        img_sized = img_orig.resize((self.image_width, self.image_height))
+        img_input = np.asarray(img_sized) / 255
+        return {
+            self.input_layer: img_input
+        }
+
+    def decode(self, outputs):
+        # TODO
         return {}
 
 def main(argv):
@@ -68,9 +84,6 @@ def _init_args(argv):
     p.add_argument(
         "--port", default=DEFAULT_PORT, type=int,
         help="port to listen on (%i)" % DEFAULT_PORT)
-    p.add_argument(
-        "--debug", action="store_true",
-        help="enable server debugging")
     return p.parse_args(argv[1:])
 
 def _serve(args):
@@ -80,7 +93,7 @@ def _serve(args):
         [args.input_layer], [args.output_layer],
         handler.encode,
         handler.decode)
-    app.run(args.host, args.port, debug=args.debug)
+    app.run(args.host, args.port)
 
 if __name__ == "__main__":
     main(sys.argv)
