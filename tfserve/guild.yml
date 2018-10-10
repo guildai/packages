@@ -1,0 +1,80 @@
+# Copyright 2018 TensorHub, Inc. and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# ===================================================================
+# Package def
+# ===================================================================
+
+- package: gpkg.tfserve
+  version: 0.5.0.dev1
+  description: TFServe support
+  url: https://github.com/guildai/packages/tree/master/tfserve
+  author: Guild AI
+  author-email: packages@guild.ai
+  license: Apache 2.0
+  requires:
+    # We can't require tfserve until the package stops requiring
+    # tensorflow (see https://github.com/iitzco/tfserve/issues/2).
+    # Until then we include the tfserve source via a resource and
+    # require the non-tensorflow tfserve required packages here.
+    #
+    #- tfserve
+    #
+    # apistar can no longer be installed at current version due to
+    # serve API breakage from 0.5 to 0.6. Rather than rely on pip
+    # project req versions (e.g. apistar==0.5) we just use a resource
+    # pegged at the commit that works with tfserve.
+    #
+    #- apistar
+    #
+    - numpy
+    - nose
+    - whitenoise
+
+# ===================================================================
+# Image classifier
+# ===================================================================
+
+- config: image-classifier
+  params:
+    tfserve-graph: frozen_model.pb
+    tfserve-labels: labels.txt
+    tfserve-image-width: DEFINE-tfserver-image-width
+    tfserve-image-height: DEFINE-tfserver-image-height
+    tfserve-input-layer: DEFINE-tfserve-input-layer
+    tfserve-output-layer: DEFINE-tfserve-output-layer
+  operations:
+    serve:
+      description: Run image classifier server.
+      main: >
+        serve_image_classifier
+          --graph {{tfserve-graph}}
+          --labels {{tfserve-labels}}
+          --image-width {{tfserve-image-width}}
+          --image-height {{tfserve-image-height}}
+          --input-layer {{tfserve-input-layer}}
+          --output-layer {{tfserve-output-layer}}
+      requires:
+        - tfserve-lib
+        - frozen-graph
+        - labels
+  resources:
+    tfserve-lib:
+      sources:
+        - url: https://github.com/iitzco/tfserve/archive/e29c8ecaff8d375fdbba45cfff77c1ddeb1aa498.zip
+          sha256: a8fa378542855dc4ab0835d05c206d4bc8e88adc235504d73d64f923406107bf
+          select: tfserve-e29c8ecaff8d375fdbba45cfff77c1ddeb1aa498/tfserve
+        - url: https://github.com/encode/apistar/archive/1b506cd1397587aa542eef8d8d5e26765d8b09c1.zip
+          sha256: 6e35866648315a765ad35c7928c612e70637326d50dc37c8c7d90f482f9b2162
+          select: apistar-1b506cd1397587aa542eef8d8d5e26765d8b09c1/apistar
