@@ -139,19 +139,19 @@
 
 - test: pet-resnet-50
   steps:
-    - run-op: pet-images:prepare
-    - run-op: faster-rcnn-resnet-50:transfer-learn
+    - run: pet-images:prepare
+    - run: faster-rcnn-resnet-50:transfer-learn
       flags:
         train-steps: 1
         eval-examples: 1
-    - run-op: faster-rcnn-resnet-50:evaluate
+    - run: faster-rcnn-resnet-50:evaluate
       flags:
         eval-examples: 1
-    - run-op: faster-rcnn-resnet-50:export-and-freeze
+    - run: faster-rcnn-resnet-50:export-and-freeze
 
 - test: pet-images
   steps:
-    - run-op: pet-images:prepare
+    - run: pet-images:prepare
       flags:
         random-seed: 1144
         expect:
@@ -161,14 +161,14 @@
             compare: test/pet-labels.pbtxt
           - file: pet_faces_train.record-00009-of-00010
           - file: pet_faces_val.record-00009-of-00010
-    - run-op: faster-rcnn-resnet-50:transfer-learn
+    - run: faster-rcnn-resnet-50:transfer-learn
       flags:
         train-steps: 1
         eval-examples: 1
 
 - test: voc-2008-images
   steps:
-    - run-op: voc-2008-images:prepare
+    - run: voc-2008-images:prepare
       flags:
         random-seed: 1132
       expect:
@@ -182,14 +182,14 @@
         - file: train-2850-3568.tfrecord
         - file: val-0001-0942.tfrecord
         - file: val-0943-1528.tfrecord
-    - run-op: faster-rcnn-resnet-50:transfer-learn
+    - run: faster-rcnn-resnet-50:transfer-learn
       flags:
         train-steps: 1
         eval-examples: 1
 
 - test: voc-annotated-images
   steps:
-    - run-op: voc-annotated-images:prepare
+    - run: voc-annotated-images:prepare
       flags:
         random-seed: 1246
         annotations: test/sample-voc-images/annotations
@@ -199,7 +199,7 @@
         - file: labels.pbtxt
         - file: train-1-6.tfrecord
         - file: val-1-2.tfrecord
-    - run-op: faster-rcnn-resnet-50:transfer-learn
+    - run: faster-rcnn-resnet-50:transfer-learn
       flags:
         train-steps: 1
         eval-examples: 1

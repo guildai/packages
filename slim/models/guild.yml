@@ -180,7 +180,7 @@
 - test: models
   description: Basic test of package models
   steps:
-    - run-op: images:prepare
+    - run: images:prepare
       flags:
         images: test/sample-images
         random-seed: 801
@@ -191,7 +191,7 @@
         except:
           - images
         steps:
-          - run-op: transfer-learn
+          - run: transfer-learn
             flags:
               auto-scale: no
               clone_on_cpu: 'True'
@@ -199,17 +199,17 @@
             expect:
               - file: train/checkpoint
               - file: train/graph.pbtxt
-          - run-op: evaluate
+          - run: evaluate
             flags:
               eval-batches: 1
               batch-size: 5
             expect:
               - output: eval/Accuracy\[.+\]
               - output: eval/Recall_5\[1\]
-          - run-op: export-and-freeze
+          - run: export-and-freeze
             expect:
               - file: graph.pb
               - file: frozen_graph.pb
-          - run-op: tflite
+          - run: tflite
             expect:
               - file: model.tflite

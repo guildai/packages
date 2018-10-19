@@ -97,19 +97,19 @@
 - test: hello
   description: Test the hello model
   steps:
-    - run-op: default
+    - run: default
       expect:
         - output: Hello Guild!
-    - run-op: from-flag
+    - run: from-flag
       flags:
         message: test msg
       expect:
         - output: test msg
-    - run-op: from-file
+    - run: from-file
       expect:
         - file: msg.txt
           compare: msg.txt
-    - run-op: from-file-output
+    - run: from-file-output
       expect:
         - file: output
           compare: msg.txt
