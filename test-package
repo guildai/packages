@@ -11,4 +11,14 @@ test -e $env_dir || PYTHONPATH=$root guild init -y -p $root $env_dir
 set +u
 
 QUIET=1 source guild-env $env_dir
-guild test --no-gpus -y
+
+if [ "$USE_GPUS" == "1" ]; then
+    TEST_OPS=''
+else
+    TEST_OPTS='--no-gpus'
+fi
+if [ "$QUICK" == "1" ]; then
+    TEST_OPTS="$TEST_OPTS --one-model"
+fi
+
+guild test $TEST_OPTS -y
