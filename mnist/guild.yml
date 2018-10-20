@@ -87,7 +87,7 @@
   description: Multinomial logistic regression classifier for MNIST
   params:
     model_desc: logistic regression
-    train_cmd: softmax
+    train_cmd: logreg
 
 - model: cnn
   extends: model-base
@@ -113,3 +113,16 @@
           default: 100
           arg-name: sample-count
       requires: mnist-dataset
+
+# ===================================================================
+# Tests
+# ===================================================================
+
+- test: all
+  steps:
+    - for-each-model:
+        steps:
+          - run: train
+            flags:
+              epochs: 1
+          - run: evaluate

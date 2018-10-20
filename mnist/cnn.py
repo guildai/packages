@@ -10,7 +10,7 @@ def init_flags():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-dir", default="/tmp/MNIST_data",)
     parser.add_argument("--run-dir", default="/tmp/MNIST_train")
-    parser.add_argument("--batch_size", type=int, default=100)
+    parser.add_argument("--batch-size", type=int, default=100)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--prepare", dest='just_data', action="store_true")
     parser.add_argument("--test", action="store_true")
@@ -194,9 +194,12 @@ def init_exported_collections():
     assert latest_checkpoint, "no checkpoints in %s" % FLAGS.run_dir
     saver = tf.train.import_meta_graph(latest_checkpoint + ".meta")
     saver.restore(sess, latest_checkpoint)
-    x = sess.graph.get_tensor_by_name(tf.get_collection("x")[0])
-    y_ = sess.graph.get_tensor_by_name(tf.get_collection("y_")[0])
-    accuracy = sess.graph.get_tensor_by_name(tf.get_collection("accuracy")[0])
+    tensor = lambda name: (
+        sess.graph.get_tensor_by_name(tf.get_collection(name)[0].decode())
+    )
+    x = tensor("x")
+    y_ = tensor("y_")
+    accuracy = tensor("accuracy")
 
 def test():
     data = {x: mnist.test.images, y_: mnist.test.labels}
