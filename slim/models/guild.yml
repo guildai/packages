@@ -35,7 +35,7 @@
 - model: images
   description: Generic images dataset
   extends:
-    - gpkg.slim/images-base
+    - gpkg.slim/dir-images-base
 
 # ===================================================================
 # Image classifier base

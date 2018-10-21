@@ -341,7 +341,7 @@
 # Images support
 # ===================================================================
 
-- config: images-base
+- config: dir-images-base
   extends:
     - models-lib-support
   params:
