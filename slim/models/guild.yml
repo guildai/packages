@@ -47,8 +47,6 @@
     - gpkg.tflite/tflite-support
   params:
     prepare-op: images:prepare
-    tflite-input-layers: '{{input-layers}}'
-    tflite-output-layers: '{{output-layers}}'
 
 # ===================================================================
 # Models
