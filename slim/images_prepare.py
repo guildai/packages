@@ -60,7 +60,7 @@ def main(argv):
 def _init_args(argv):
     p = argparse.ArgumentParser(argv)
     p.add_argument(
-        "--images-dir", metavar="DIR",
+        "-i", "--images-dir", metavar="DIR",
         required=True,
         help="directory containing images to prepare (required)")
     p.add_argument(
