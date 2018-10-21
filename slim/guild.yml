@@ -177,7 +177,7 @@
   # models.
   params:
     prepare-examples-op: DEFINE-prepare-examples-op
-    examples-path: DEFINE-examples-path
+    data-path: DEFINE-data-path
     model-name: DEFINE-model-name
     image-size: DEFINE-image-size
     dataset-path: DEFINE-dataset-path
@@ -191,7 +191,7 @@
       main:
         train
           --model_name {{model-name}}
-          --dataset_dir {{examples-path}}
+          --dataset_dir {{data-path}}
           --train_dir train
           --train_image_size {{image-size}}
       requires:
@@ -208,7 +208,7 @@
       main:
         train
           --model_name {{model-name}}
-          --dataset_dir {{examples-path}}
+          --dataset_dir {{data-path}}
           --train_dir train
           --train_image_size {{image-size}}
           --checkpoint_path {{transfer-learn-checkpoint-path}}
@@ -229,7 +229,7 @@
       main:
         train
           --model_name {{model-name}}
-          --dataset_dir {{examples-path}}
+          --dataset_dir {{data-path}}
           --train_dir train
           --train_image_size {{image-size}}
           --checkpoint_path model
@@ -251,7 +251,7 @@
           --alsologtostderr
           --model_name {{model-name}}
           --checkpoint_path model
-          --dataset_dir {{examples-path}}
+          --dataset_dir {{data-path}}
           --dataset_split_name validation
           --eval_image_size {{image-size}}
           --eval_dir .
@@ -282,7 +282,7 @@
           --input_checkpoint model
           --model_name {{model-name}}
           --image_size {{image-size}}
-          --dataset_dir {{examples-path}}
+          --dataset_dir {{data-path}}
           --output_dir .
           --output_node_names {{output-layer}}
       requires:
@@ -370,13 +370,13 @@
   params:
     prepare-op: prepare
     examples-select: .+\.tfrecord
-    examples-path: data
+    data-path: data
     labels-select: labels.txt
     labels-path: data
   resources:
     examples:
       description: Dataset generated with {{prepare-op}}
-      path: '{{examples-path}}'
+      path: '{{data-path}}'
       sources:
         - operation: '{{prepare-op}}'
           select: '{{examples-select}}'
