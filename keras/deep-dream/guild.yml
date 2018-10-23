@@ -1,0 +1,73 @@
+# Copyright 2018 TensorHub, Inc. and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# ===================================================================
+# Package def
+# ===================================================================
+
+- package: keras.deep-dream
+  version: 0.5.0.dev1
+  description: Deep dream generator in Keras
+  url: https://github.com/guildai/index/tree/master/keras/deep-dream
+  author: Guild AI
+  author-email: packages@guild.ai
+  license: Apache 2.0
+  requires:
+    - keras
+    - Pillow
+
+# ===================================================================
+# Deep dream
+# ===================================================================
+
+- model: deep-dream
+  params:
+    git-commit: 96c3c195ca805758e094780b59077bea9db99f41
+  operations:
+    generate:
+      description: Generate a Deep Dream image
+      main:
+        guild.plugins.keras_op_main run deep_dream.py
+          --const:settings='{"features":{"mixed2":${m2},"mixed3":${m3},"mixed4":${m4},"mixed5":${m5}}}'
+          ${image}
+          generated
+      flags:
+        image:
+          description: Input image used by Deep Dream
+          required: yes
+          arg-skip: yes
+        m2:
+          description: Weight for 'mixed2' layer
+          default: 1.0
+          arg-skip: yes
+        m3:
+          description: Weight for 'mixed3' layer
+          default: 1.0
+          arg-skip: yes
+        m4:
+          description: Weight for 'mixed5' layer
+          default: 1.0
+          arg-skip: yes
+        m5:
+          description: Weight for 'mixed5' layer
+          default: 1.0
+          arg-skip: yes
+      requires:
+        - script
+  resources:
+    script:
+      private: yes
+      sources:
+        - url: https://raw.githubusercontent.com/keras-team/keras/{{git-commit}}/examples/deep_dream.py
+          sha256: 229a95fc5e4e48e4eda311afa05c45c0b36a7c848276825d64ac8a53ee8dea3e
