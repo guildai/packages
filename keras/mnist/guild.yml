@@ -1,0 +1,256 @@
+# Copyright 2018 TensorHub, Inc. and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# ===================================================================
+# Package def
+# ===================================================================
+
+- package: gpkg.keras.mnist
+  version: 0.5.0.dev1
+  description: MNIST related models in Keras
+  url: https://github.com/guildai/index/tree/master/keras/mnist
+  author: Guild AI
+  author-email: packages@guild.ai
+  requires:
+    - keras
+    - matplotlib
+    - Pillow
+  license: Apache 2.0
+  tags: [mnist, keras, images, model]
+
+# ===================================================================
+# Model base
+# ===================================================================
+
+- config: model-base
+  params:
+    github-commit: f2b261bc2555773bd88cbbeda976f98e244d02c1
+  operations:
+    train:
+      description: Train the model
+      main: guild.plugins.keras_op_main train {{script}}
+      flags:
+        epochs:
+          description: Number of epochs to train
+          default: '{{default_epochs}}'
+        batch-size:
+          description: Training batch size
+          default: '{{default_batch_size}}'
+      requires:
+        - script
+  resources:
+    script:
+      private: yes
+      sources:
+        - url: https://raw.githubusercontent.com/keras-team/keras/{{github-commit}}/examples/{{script}}
+          sha256: '{{script_hash}}'
+
+# ===================================================================
+# MLP
+# ===================================================================
+
+- model: mlp
+  description:
+    Multilayer perceptron (MLP) classifier for MNIST in Keras
+  extends: model-base
+  params:
+    default_epochs: 20
+    default_batch_size: 128
+    script: mnist_mlp.py
+    script_hash: 96120c3681b330eae8e82ab25379cd71f5b5704d0fb64666b2c3f52872ef8b0b
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py
+
+# ===================================================================
+# ACGAN
+# ===================================================================
+
+- model: acgan
+  description:
+    Auxiliary Classifier Generative Adversarial Network (ACGAN) for MNIST in Keras
+  extends: model-base
+  params:
+    default_epochs: 100
+    default_batch_size: 100
+    script: mnist_acgan.py
+    script_hash: 2f756643ddf4095c9d92f49bcadc3e01090ebbe2aad93b1580e05b6bed3fb01b
+  operations:
+    train:
+      flags:
+        epochs:
+          arg-name: const:epochs
+        learning-rate:
+          description: Learning rate
+          default: 0.0002
+          arg-name: const:adam_lr
+        beta-1:
+          description: Beta 1
+          default: 0.5
+          arg-name: const:adam_beta_1
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_acgan.py
+    - https://arxiv.org/abs/1511.06434
+
+# ===================================================================
+#  CNN
+# ===================================================================
+
+- model: cnn
+  description:
+    Convolutional neural network (CNN) classifier for MNIST in Keras
+  extends: model-base
+  params:
+    default_epochs: 12
+    default_batch_size: 128
+    script: mnist_cnn.py
+    script_hash: 201c27edd9547f921703507f1b1899dab7a3d3f1c1d4344d59126889519f6875
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py
+
+# ===================================================================
+#  Denoising autoencoder
+# ===================================================================
+
+- model: denoising-autoencoder
+  description:
+    Denoising autoencoder for MNIST in Keras
+  extends: model-base
+  params:
+    default_epochs: 30
+    default_batch_size: 128
+    script: mnist_denoising_autoencoder.py
+    script_hash: 583afc6b489b9e51c81c2ad8a49bd4a1be53426b3c6d43d4f8a0e10fed0eae0b
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_denoising_autoencoder.py
+
+# ===================================================================
+# Hierarchical RNN
+# ===================================================================
+
+- model: hierarchical-rnn
+  description:
+    Hierarchical RNN (HRNN) classifier for MNIST in Keras
+  extends: model-base
+  params:
+    default_epochs: 5
+    default_batch_size: 32
+    script: mnist_hierarchical_rnn.py
+    script_hash: c375a34986db74e88752862fdd87a5222dd9ab79a9ebe8447dd5cd9e8823b8bf
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_hierarchical_rnn.py
+    - https://arxiv.org/abs/1506.01057
+    - http://ieeexplore.ieee.org/document/7298714/
+
+# ===================================================================
+# IRNN
+# ===================================================================
+
+- model: irnn
+  description:
+    Implementation of 'A Simple Way to Initialize Recurrent Networks
+    of Rectified Linear Units' with MNIST in Keras
+  extends: model-base
+  params:
+    default_epochs: 200
+    default_batch_size: 32
+    script: mnist_irnn.py
+    script_hash: e349f36aff0a2a394e193c65d71366fa3aae3283b98f872256af7b1000ac73e0
+  operations:
+    train:
+      flags:
+        learning-rate:
+          description: Learning rate
+          arg-name: const:learning_rate
+          default: 0.000001
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_irnn.py
+    - http://arxiv.org/pdf/1504.00941v2.pdf
+
+# ===================================================================
+# Net2Net
+# ===================================================================
+
+- model: net2net
+  description: >
+    Implementation of 'Net2Net: Accelerating Learning via Knowledge Transfer'
+    with MNIST in Keras
+  extends: model-base
+  params:
+    default_epochs: 3
+    default_batch_size: 32
+    script: mnist_net2net.py
+    script_hash: 03c8d5572c81e65361d377bf6443e695e0c322de51289c8d3ae8d0104da57459
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_net2net.py
+    - http://arxiv.org/abs/1511.05641
+
+# ===================================================================
+# Siamese
+# ===================================================================
+
+- model: siamese
+  description:
+    Siamese MLP classifier for MNIST in Keras
+  extends: model-base
+  params:
+    default_epochs: 20
+    default_batch_size: 128
+    script: mnist_siamese.py
+    script_hash: b1d3179fbbb720718e1f6613039da71cc7b5aa961a2487a627733d3fa2e91079
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_siamese.py
+    - http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+
+# ===================================================================
+#  SWWAE
+# ===================================================================
+
+# NOTE: This model doesn't train on TensorFlow (only Theano backend is
+# supported) but is retained here for completeness.
+
+- model: swwae
+  description:
+    Stacked what-where autoencoder for MNIST in Keras
+  extends: model-base
+  params:
+    default_epochs: 5
+    default_batch_size: 128
+    script: mnist_swwae.py
+    script_hash: 4407b79cb8745ecd0933cfff298c1dbfc55888814fe97a2195d6392c20326b96
+  operations:
+    train:
+      flags:
+        pool-size:
+          description: kernel size used for the MaxPooling2D
+          arg-name: const:pool_size
+          default: 2
+          choices: [2, 3]
+  references:
+    - https://github.com/keras-team/keras/blob/master/examples/mnist_swwae.py
+    - https://arxiv.org/abs/1311.2901v3
+    - https://arxiv.org/abs/1506.02351v8
+
+# ===================================================================
+#  Tests
+# ===================================================================
+
+- test: all
+  steps:
+    - for-each-model:
+        steps:
+          - run: train
+            flags:
+              epochs: 1
+            expect:
+              - output: Epoch 1/1
