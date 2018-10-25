@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.magenta.image
-  version: 0.5.0.dev1
+  version: 0.5.0.dev2
   description: Image generators from the Magenta project
   url: https://github.com/guildai/index/tree/master/magenta/image
   author: Guild AI
@@ -49,7 +49,7 @@
   operations:
     generate:
       description:
-        Generate a stylized image using a pretrained models
+        Generate stylized image using a pretrained model
       main:
         magenta.models.image_stylization.image_stylization_transform
           --output_dir .
@@ -109,7 +109,7 @@
   operations:
     generate:
       description:
-        Generate a stylized using model pretrained on PNB and DRD images
+        Generate stylized images using one or more style images
       main:
         magenta.models.arbitrary_image_stylization.arbitrary_image_stylization_with_weights
           --checkpoint=arbitrary_style_transfer/model.ckpt
