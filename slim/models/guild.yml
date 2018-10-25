@@ -17,8 +17,10 @@
 # ===================================================================
 
 - package: gpkg.slim.models
-  version: 0.5.0.dev5
-  description: TF-Slim models
+  version: 0.5.0.dev6
+  description:
+    TF-Slim models including support for Inception, ResNet, VGG,
+    MobileNet, NASNet, and PNASNet.
   url: https://github.com/guildai/packages/tree/master/slim/models
   author: Guild AI
   author-email: packages@guild.ai
