@@ -16,7 +16,7 @@
 # Package def
 # ===================================================================
 
-- package: magenta.image
+- package: gpkg.magenta.image
   version: 0.5.0.dev1
   description: Image generators from the Magenta project
   url: https://github.com/guildai/index/tree/master/magenta/image
