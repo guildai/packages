@@ -1,2 +1,2 @@
-root := ../../
+root := ../../../
 include $(root)/package.mk
