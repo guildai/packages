@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.tfserve
-  version: 0.5.0.dev1
+  version: 0.5.0
   description: TFServe support
   url: https://github.com/guildai/packages/tree/master/tfserve
   author: Guild AI

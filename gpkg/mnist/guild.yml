@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.mnist
-  version: 0.5.0.dev2
+  version: 0.5.0
   description: CNN and multinomial logistic regression classifiers for MNIST digits
   url: https://github.com/guildai/index/tree/master/mnist
   author: Guild AI
