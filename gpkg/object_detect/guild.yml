@@ -25,7 +25,7 @@
 # ===================================================================
 
 - package: gpkg.object-detect
-  version: 0.5.0
+  version: 0.5.1.dev1
   description: Object detection library
   url: https://github.com/guildai/packages/tree/master/object-detect
   author: Guild AI
