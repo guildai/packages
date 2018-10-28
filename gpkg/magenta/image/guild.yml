@@ -147,18 +147,11 @@
       requires:
         - magenta
         - pretrained-model
-        - arbitrary-stylize-lib
   resources:
     pretrained-model:
-      private: yes
       sources:
         - url: https://storage.googleapis.com/download.magenta.tensorflow.org/models/arbitrary_style_transfer.tar.gz
           sha256: 523b600b508e9e1e31d77860d7ff650125b2f41e15dc9d612e15e3600fa65a60
-    arbitrary-stylize-lib:
-      private: yes
-      sources:
-        - url: http://pub.guild.ai.s3.amazonaws.com/magenta/arbitrary_image_stylization-0.3.2.zip
-          sha256: 6528e2d4ccc1139729b0b9b66d7ce68a4cf0638ee55aa7e22b1720754feea408
   references:
     - https://github.com/tensorflow/magenta/tree/master/magenta/models/arbitrary_image_stylization
     - https://arxiv.org/abs/1705.06830
