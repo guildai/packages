@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.tflite
-  version: 0.5.0
+  version: 0.5.0.post1
   description: TensorFlow Lite utilities
   url: https://github.com/guildai/packages/tree/master/tflite
   author: Guild AI

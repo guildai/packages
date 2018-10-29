@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.slim.models
-  version: 0.5.0
+  version: 0.5.0.post1
   description:
     TF-Slim models including support for Inception, ResNet, VGG,
     MobileNet, NASNet, and PNASNet
@@ -25,7 +25,6 @@
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
-  tags: [slim]
   requires:
     - gpkg.slim
     - gpkg.tflite

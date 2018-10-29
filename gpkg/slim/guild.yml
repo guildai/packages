@@ -17,8 +17,13 @@
 # ===================================================================
 
 - package: gpkg.slim
-  version: 0.5.0
-  description: TF-Slim models library
+  version: 0.5.0.post1
+  description:
+    TF-Slim models core support
+
+    This package contains reusable config for implementing custom
+    TF-Slim models. It does not contain model definitions. If you want
+    to use TF-Slim models directly, see `gpkg.slim.models`.
   url: https://github.com/guildai/packages/tree/master/slim
   author: Guild AI
   author-email: packages@guild.ai

@@ -17,30 +17,19 @@
 # ===================================================================
 
 - package: gpkg.tfserve
-  version: 0.5.0
-  description: TFServe support
+  version: 0.5.0.post1
+  description:
+    TFServe support
+
+    TFServe is a light weight Python server that can be used to serve
+    models over HTTP.
+
   url: https://github.com/guildai/packages/tree/master/tfserve
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
   requires:
-    # We can't require tfserve until the package stops requiring
-    # tensorflow (see https://github.com/iitzco/tfserve/issues/2).
-    # Until then we include the tfserve source via a resource and
-    # require the non-tensorflow tfserve required packages here.
-    #
-    #- tfserve
-    #
-    # apistar can no longer be installed at current version due to
-    # serve API breakage from 0.5 to 0.6. Rather than rely on pip
-    # project req versions (e.g. apistar==0.5) we just use a resource
-    # pegged at the commit that works with tfserve.
-    #
-    #- apistar
-    #
-    - numpy
-    - nose
-    - whitenoise
+    - tfserve
 
 # ===================================================================
 # Image classifier

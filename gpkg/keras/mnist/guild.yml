@@ -17,17 +17,16 @@
 # ===================================================================
 
 - package: gpkg.keras.mnist
-  version: 0.5.0
+  version: 0.5.0.post1
   description: MNIST related models in Keras
   url: https://github.com/guildai/index/tree/master/keras/mnist
   author: Guild AI
   author-email: packages@guild.ai
+  license: Apache 2.0
   requires:
     - keras
     - matplotlib
     - Pillow
-  license: Apache 2.0
-  tags: [mnist, keras, images, model]
 
 # ===================================================================
 # Model base
