@@ -47,10 +47,10 @@ def main():
 def _parse_args():
     p = argparse.ArgumentParser()
     p.add_argument(
-        "--model-dir", metavar="PATH", default="model",
+        "--model-dir", metavar="PATH", default=".",
         help="directory to write logs")
     p.add_argument(
-        "--checkpoint-dir", metavar="PATH", default="checkpoint",
+        "--checkpoint-dir", metavar="PATH", default="model",
         help="directory containing checkpoint to evaluate")
     p.add_argument(
         "--eval-examples", metavar="N", type=int,

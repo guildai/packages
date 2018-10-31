@@ -32,22 +32,7 @@
 
 - model: voc-annotated-images
   extends:
-    - gpkg.object-detect/voc-annotated-images-base
-  operations:
-    prepare:
-      main: gpkg.object-detect/voc_images_prepare
-      requires:
-        - models-lib
-      flags:
-        annotations:
-          description: Directory containing image annotations
-          required: yes
-          arg-name: annotations-dir
-        images:
-          description: Directory containing images to prepare
-          required: yes
-          arg-name: images-dir
-      label-template: images=${images|basename}
+    - gpkg.object-detect/voc-annotated-images-directory-support
 
 # ===================================================================
 # VOC 2008 images
@@ -112,25 +97,35 @@
           rename: pet_label_map\.pbtxt labels.pbtxt
 
 # ===================================================================
+# Prepared dataset support
+# ===================================================================
+
+- config: prepared-dataset-support
+  extends:
+    - gpkg.object-detect/prepared-dataset-support
+  params:
+    prepare-op: .*:prepare
+
+# ===================================================================
 # Models
 # ===================================================================
 
 - model: faster-rcnn-resnet-50
   description: Faster RCNN with ResNet 50
   extends:
-    - gpkg.object-detect/examples-support
+    - prepared-dataset-support
     - gpkg.object-detect/faster-rcnn-resnet-50
 
 - model: faster-rcnn-resnet-101
   description: Faster RCNN with ResNet 101
   extends:
-    - gpkg.object-detect/examples-support
+    - prepared-dataset-support
     - gpkg.object-detect/faster-rcnn-resnet-101
 
 - model: ssd-mobilenet-v2
   description: SSD with MobileNet v2
   extends:
-    - gpkg.object-detect/examples-support
+    - prepared-dataset-support
     - gpkg.object-detect/ssd-mobilenet-v2
 
 # ===================================================================

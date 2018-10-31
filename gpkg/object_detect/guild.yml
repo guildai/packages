@@ -69,7 +69,7 @@
         - value: no
           description: Use default training (doesn\'t support multiple GPUs)
       default: no
-      arg-value: yes
+      arg-switch: yes
     batch-size:
       description: Number of examples in each training batch
     clones:
@@ -103,6 +103,31 @@
             && protoc object_detection/protos/*.proto --python_out .
 
 # ===================================================================
+# Prepared dataset support
+# ===================================================================
+
+- config: prepared-dataset-support
+  params:
+    dataset-config: dataset.yml
+    labels: labels.pbtxt
+    prepare-op: prepare
+  resources:
+    prepared-data:
+      description: Prepared data used for train and validate
+      path: data
+      sources:
+        - operation: '{{prepare-op}}'
+          select: .*record.*
+    dataset-config:
+      sources:
+        - operation: '{{prepare-op}}'
+          select: dataset\.yml
+    labels:
+      sources:
+        - operation: '{{prepare-op}}'
+          select: labels\.pbtxt
+
+# ===================================================================
 # Pascal VOC format annotated images support
 # ===================================================================
 
@@ -110,20 +135,21 @@
   description: Images annotated using Pascal VOC format
   extends:
     - models-lib-support
+    - prepared-dataset-support
   params:
     annotations-dir: DEFINE-annotations-dir
     images-dir: DEFINE-images-dir
-    examples-desc: images annotated using Pascal VOC format
+    data-desc: images annotated using Pascal VOC format
   operations:
     prepare:
-      description: Prepare {{examples-desc}} for training
+      description: Prepare {{data-desc}} for training
       main: >
         voc_images_prepare
           --annotations-dir {{annotations-dir}}
           --images-dir {{images-dir}}
       requires:
         - models-lib
-        - voc-annotated-examples
+        - voc-annotated-images
       flags:
         val-split:
           description: Percentage of images reserved for validation
@@ -133,29 +159,24 @@
           default: null
           null-label: randomly generated
 
-# ===================================================================
-# Examples support
-# ===================================================================
-
-- config: examples-support
-  params:
-    dataset-config: dataset.yml
-    labels: labels.pbtxt
-  resources:
-    examples:
-      description: Prepared dataset
-      path: data
-      sources:
-        - operation: .*:prepare
-          select: .*record.*
-    dataset-config:
-      sources:
-        - operation: .*:prepare
-          select: dataset\.yml
-    labels:
-      sources:
-        - operation: .*:prepare
-          select: labels\.pbtxt
+- config: voc-annotated-images-directory-support
+  extends:
+    - voc-annotated-images-base
+  operations:
+    prepare:
+      main: gpkg.object-detect/voc_images_prepare
+      requires:
+        - models-lib
+      flags:
+        annotations:
+          description: Directory containing image annotations
+          required: yes
+          arg-name: annotations-dir
+        images:
+          description: Directory containing images to prepare
+          required: yes
+          arg-name: images-dir
+      label-template: images=${images|basename}
 
 # ===================================================================
 # Model base
@@ -167,7 +188,7 @@
   params:
     train-pipeline-config-proto: ''
     transfer-learn-pipeline-config-proto: ''
-    eval-learn-pipeline-config-proto: ''
+    eval-pipeline-config-proto: ''
     dataset-config: ''
     model-config: ''
     train-config: ''
@@ -189,11 +210,11 @@
         - dataset-config
         - model-config
         - train-config
-        - examples
+        - prepared-data
         - labels
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
-      label-template: examples=${examples}
+      label-template: data=${prepared-data}
       flags:
         $include: train-flags
     transfer-learn:
@@ -210,19 +231,18 @@
         - dataset-config
         - model-config
         - transfer-learn-config
-        - examples
+        - prepared-data
         - labels
         - transfer-learn-checkpoint
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
-      label-template: examples=${examples}
+      label-template: data=${prepared-data}
       flags:
         $include: train-flags
     evaluate:
       description: Evaluate a trained detector
       main:
         eval
-          --checkpoint-dir checkpoint
           --pipeline-config-proto '{{eval-pipeline-config-proto}}'
           --dataset-config '{{dataset-config}}'
           --model-config '{{model-config}}'
@@ -239,12 +259,12 @@
         # generate the eval fn. Any valid train config will work so we
         # use the train-config resource.
         - train-config
-        - examples
+        - prepared-data
         - labels
         - trained-model
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
-      label-template: model=${trained-model} examples=${examples}
+      label-template: model=${trained-model} data=${prepared-data}
       flags:
         eval-examples:
           description: Number of examples to evaluate
