@@ -176,7 +176,6 @@
           description: Directory containing images to prepare
           required: yes
           arg-name: images-dir
-      label-template: images=${images|basename}
 
 # ===================================================================
 # Model base
@@ -301,7 +300,7 @@
         - models-lib
         - frozen-graph
         - labels
-      label-template: images=${images|basename}
+      label-template: ${images|basename}
       flags:
         images:
           description: Directory containing images to detect
