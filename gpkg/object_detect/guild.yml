@@ -25,7 +25,7 @@
 # ===================================================================
 
 - package: gpkg.object-detect
-  version: 0.5.1.dev1
+  version: 0.5.1.dev2
   description: Object detection library
   url: https://github.com/guildai/packages/tree/master/object-detect
   author: Guild AI
@@ -113,7 +113,7 @@
     prepare-op: prepare
   resources:
     prepared-data:
-      description: Prepared data used for train and validate
+      description: Prepared data for train and validate
       path: data
       sources:
         - operation: '{{prepare-op}}'
@@ -142,7 +142,7 @@
     data-desc: images annotated using Pascal VOC format
   operations:
     prepare:
-      description: Prepare {{data-desc}} for training
+      description: Prepare {{data-desc}}
       main: >
         voc_images_prepare
           --annotations-dir {{annotations-dir}}
@@ -343,6 +343,8 @@
 # ===================================================================
 
 - config: faster-rcnn-resnet-50
+  description: Faster RCNN detector with ResNet-50 backbone
+  tags: [model-config]
   extends:
     - faster-rcnn-base
   params:
@@ -361,6 +363,8 @@
         - config/models/faster-rcnn-resnet-50.yml
 
 - config: faster-rcnn-resnet-101
+  description: Faster RCNN detector with ResNet-101 backbone
+  tags: [model-config]
   extends:
     - faster-rcnn-base
   params:
@@ -401,6 +405,8 @@
 # ===================================================================
 
 - config: ssd-mobilenet-v2
+  description: SSD detector with MobileNet v2 backbone
+  tags: [model-config]
   extends:
     - ssd-base
   params:
