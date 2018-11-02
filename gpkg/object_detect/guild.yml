@@ -31,6 +31,8 @@
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
+  data-files:
+    - config/*/*.yml
   requires:
     - gpkg.slim
     - contextlib2
