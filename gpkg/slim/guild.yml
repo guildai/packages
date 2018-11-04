@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.slim
-  version: 0.5.0.post1
+  version: 0.5.1.dev1
   description:
     TF-Slim models core support
 
@@ -288,7 +288,6 @@
           --model_name {{model-name}}
           --image_size {{image-size}}
           --dataset_dir {{data-path}}
-          --output_dir .
           --output_node_names {{output-layer}}
       requires:
         - models-lib
@@ -306,13 +305,13 @@
       description: Classify an image using a trained model
       main:
         label_image
-          --graph frozen_graph.pb
+          --graph frozen_inference_graph.pb
           --image ${image}
           --input_width {{image-size}}
           --input_height {{image-size}}
           --input_layer {{input-layer}}
           --output_layer {{output-layer}}
-          --labels labels.txt
+          --labels data/labels.txt
       requires:
         - label-image-script
         - frozen-graph
@@ -324,7 +323,6 @@
           required: yes
   resources:
     label-image-script:
-      description: TensorFlow label_image script
       sources:
         - url: https://raw.githubusercontent.com/tensorflow/tensorflow/b9018073ec1afc7dfc302ab171db8bf5b177c2dd/tensorflow/examples/label_image/label_image.py
           sha256: 58ce0de9fe2d0a75dc3c59d10a1d4e2fd6aa4b8b2192ff4499593542f4847eb8
@@ -340,7 +338,7 @@
       description: Frozen inference graph
       sources:
         - operation: export-and-freeze
-          select: frozen_graph\.pb
+          select: graph/frozen_inference_graph\.pb
 
 # ===================================================================
 # Images support

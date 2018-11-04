@@ -36,6 +36,7 @@ def main(argv):
         _util.error("--model_name is required")
     _custom_dataset.patch_dataset_factory()
     args, rest_args = _init_args()
+    tf.gfile.MakeDirs(args.output_dir)
     _export_graph(args, rest_args)
     _freeze_graph(args)
 
@@ -54,8 +55,7 @@ def _init_args():
             "step of checkpoint used for frozen graph; defaults to "
             "latest"))
     p.add_argument(
-        "--output_dir", metavar="DIR",
-        default=".",
+        "--output_dir", metavar="DIR", default="graph",
         help="directory to write exported graph files")
     p.add_argument(
         "--output_node_names", metavar="VAL",
@@ -103,7 +103,7 @@ def _freeze_graph(cmd_args):
         sys.argv = argv_save
 
 def _frozen_graph_pb(args):
-    return os.path.join(args.output_dir, "frozen_graph.pb")
+    return os.path.join(args.output_dir, "frozen_inference_graph.pb")
 
 def _input_checkpoint(args):
     return _util.input_checkpoint(args.input_checkpoint, args.checkpoint_step)

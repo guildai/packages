@@ -30,7 +30,7 @@
 
 - config: tflite-support
   params:
-    frozen-graph-path: frozen_graph.pb
+    frozen-graph-path: frozen_inference_graph.pb
     tflite-output-path: model.tflite
     tflite-input-layers: '{{input-layer}}'
     tflite-output-layers: '{{output-layer}}'

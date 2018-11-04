@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.slim.models
-  version: 0.5.0.post1
+  version: 0.5.1.dev1
   description:
     TF-Slim models including support for Inception, ResNet, VGG,
     MobileNet, NASNet, and PNASNet
@@ -207,8 +207,11 @@
               - output: eval/Recall_5\[1\]
           - run: export-and-freeze
             expect:
-              - file: graph.pb
-              - file: frozen_graph.pb
+              - file: graph/graph.pb
+              - file: graph/frozen_inference_graph.pb
+          - run: label
+            flags:
+              image: test/sample-images/roses/410421672_563550467c.jpg
           - run: tflite
             expect:
               - file: model.tflite
