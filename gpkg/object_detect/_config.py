@@ -28,12 +28,15 @@ from guild import op_util
 
 log = logging.getLogger()
 
-CONFIG_FILENAME = "generated.config"
+DEFAULT_GENERATED = "generated.config"
 
 class ConfigError(Exception):
     pass
 
 def add_config_args(p):
+    p.add_argument(
+        "--generated", default=DEFAULT_GENERATED,
+        help="path of generated proto config file")
     p.add_argument(
         "--pipeline-config-proto", metavar="PATH",
         help=("path to pbtxt formatted detection config - "
@@ -53,6 +56,9 @@ def add_config_args(p):
     p.add_argument(
         "--extra-config", metavar="PATH",
         help="path to YAML formatted extra config")
+    p.add_argument(
+        "--print-config", action="store_true",
+        help="print generated config and exit")
 
 def validate_config_args(args):
     if args.pipeline_config_proto and (
@@ -76,8 +82,14 @@ def init_config(args, args_config=None):
     _apply_extra_config(args, msg)
     _apply_arg_config(args, msg)
     _apply_dict(args_config, msg)
-    _write_config(msg, CONFIG_FILENAME)
-    return CONFIG_FILENAME
+    config_str = text_format.MessageToString(config)
+    if args.print_config:
+        sys.stdout.write(config_str)
+        sys.stdout.write("\n")
+        raise SystemExit(0)
+    with open(args.generated, "wb") as out:
+        out.write(config_str)
+    return generated
 
 def _apply_model_config(args, config):
     if args.model_config:
@@ -212,7 +224,3 @@ def _apply_attr_path(x, attr_path):
     for name in attr_path:
         x = getattr(x, name)
     return x
-
-def _write_config(config, filename):
-    with open(filename, "w") as f:
-        f.write(text_format.MessageToString(config))

@@ -62,6 +62,12 @@ def _init_args():
     p.add_argument(
         "--batch-size", type=int,
         help="batch size")
+    p.add_argument(
+        "--quantize", action="store_true",
+        help="quantize trained model")
+    p.add_argument(
+        "--quantize-delay", type=int, default=2000,
+        help="number of steps before starting quantization")
     _config.add_config_args(p)
     return p.parse_args()
 
@@ -77,9 +83,23 @@ def _init_config(args):
 
 def _args_config(args):
     config = {}
+    _apply_batch_size_config(args, config)
+    _apply_quantize_config(args, config)
+    return config
+
+def _apply_batch_size_config(args, config):
     if args.batch_size is not None:
         config["train_config"] = {"batch_size": args.batch_size}
-    return config
+
+def _apply_qualize_config(args, config):
+    if args.quantize:
+        config["graph_rewriter"] = {
+            "quantization": {
+                "delay": args.quantize_delay,
+                "activation_bits": 8,
+                "weight_bits": 8,
+            }
+        }
 
 def _legacy_train(config_path, args):
     from object_detection.legacy import train as legacy_train
