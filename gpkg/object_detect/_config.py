@@ -17,6 +17,7 @@ from __future__ import division
 from __future__ import print_function
 
 import logging
+import sys
 
 import yaml
 
@@ -82,14 +83,15 @@ def init_config(args, args_config=None):
     _apply_extra_config(args, msg)
     _apply_arg_config(args, msg)
     _apply_dict(args_config, msg)
-    config_str = text_format.MessageToString(config)
+    msg_str = text_format.MessageToString(msg)
     if args.print_config:
-        sys.stdout.write(config_str)
+        sys.stdout.write(msg_str)
         sys.stdout.write("\n")
+        sys.stdout.flush()
         raise SystemExit(0)
     with open(args.generated, "wb") as out:
-        out.write(config_str)
-    return generated
+        out.write(msg_str)
+    return args.generated
 
 def _apply_model_config(args, config):
     if args.model_config:
@@ -200,8 +202,7 @@ def _assert_real_val(msg, name, expected):
     if actual != expected:
         raise AssertionError(
             "bad protobuf value for '%s': expected %s but got %s\n"
-            "Try setting env PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python "
-            "fix this"
+            "Try setting env PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python"
             % (name, expected, actual))
 
 def _apply_config_arg(args, arg_name, msg, msg_attr_path):

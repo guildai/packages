@@ -84,6 +84,12 @@
         Set this value to the number of available GPUs for multi-GPU
         training.
       default: 1
+    quantize:
+      description: Whether or not to quantize model weights
+      arg-switch: yes
+      default: no
+    quantize-delay:
+      description: Number of steps to train before quantizing
 
 # ===================================================================
 # Shared resources

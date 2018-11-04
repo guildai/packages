@@ -91,7 +91,7 @@ def _apply_batch_size_config(args, config):
     if args.batch_size is not None:
         config["train_config"] = {"batch_size": args.batch_size}
 
-def _apply_qualize_config(args, config):
+def _apply_quantize_config(args, config):
     if args.quantize:
         config["graph_rewriter"] = {
             "quantization": {
