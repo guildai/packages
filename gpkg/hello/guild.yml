@@ -17,8 +17,8 @@
 # ===================================================================
 
 - package: gpkg.hello
-  version: 0.5.0.post1
-  description: Example "hello world" model
+  version: 0.5.1.dev1
+  description: Sample "hello world" model (Guild AI)
   url: https://github.com/guildai/packages/tree/master/hello
   author: Guild AI
   author-email: packages@guild.ai

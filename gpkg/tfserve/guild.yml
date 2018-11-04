@@ -19,7 +19,7 @@
 - package: gpkg.tfserve
   version: 0.5.1.dev1
   description:
-    TFServe support
+    TFServe support (Guild AI)
 
     TFServe is a light weight Python server that can be used to serve
     models over HTTP.

@@ -17,8 +17,8 @@
 # ===================================================================
 
 - package: gpkg.tflite
-  version: 0.5.0.post1
-  description: TensorFlow Lite utilities
+  version: 0.5.1.dev1
+  description: TensorFlow Lite support (Guild AI)
   url: https://github.com/guildai/packages/tree/master/tflite
   author: Guild AI
   author-email: packages@guild.ai
@@ -33,6 +33,7 @@
     frozen-graph-path: frozen_inference_graph.pb
     tflite-output-path: model.tflite
     tflite-input-layers: '{{input-layer}}'
+    tflite-input-shapes: ''
     tflite-output-layers: '{{output-layer}}'
   operations:
     tflite:
@@ -42,7 +43,58 @@
           --graph_def_file {{frozen-graph-path}}
           --output_file {{tflite-output-path}}
           --input_arrays {{tflite-input-layers}}
+          --input_shapes '{{tflite-input-shapes}}'
           --output_arrays {{tflite-output-layers}}
+          --allow_custom_ops
       requires:
         - frozen-graph
       label-template: graph=${frozen-graph}
+      flags:
+        quantized:
+          description: Whether or not output arrays are quantized
+          choices:
+            - value: yes
+              args:
+                inference_type: quantized_uint8
+            - value: no
+              args:
+                inference_type: float
+          default: no
+          arg-skip: yes
+        quantized-inputs:
+          description: Whether or not input arrays are quantized
+          choices:
+            - value: yes
+              args:
+                inference_input_type: quantized_uint8
+            - value: no
+              args:
+                inference_input_type: float
+          default: no
+          arg-skip: yes
+        output-format:
+          description: TF Lite output format
+          choices:
+            - tflite
+            - graphviz_dot
+          default: tflite
+
+
+
+#[--input_arrays INPUT_ARRAYS]
+#[--input_shapes INPUT_SHAPES]
+#[--output_arrays OUTPUT_ARRAYS]
+
+#[--saved_model_tag_set SAVED_MODEL_TAG_SET]
+#[--saved_model_signature_key SAVED_MODEL_SIGNATURE_KEY]
+#[--std_dev_values STD_DEV_VALUES]
+#[--mean_values MEAN_VALUES]
+#[--default_ranges_min DEFAULT_RANGES_MIN]
+#[--default_ranges_max DEFAULT_RANGES_MAX]
+#[--post_training_quantize]
+#[--drop_control_dependency]
+#[--reorder_across_fake_quant]
+#[--change_concat_input_ranges {TRUE,FALSE}]
+#[--allow_custom_ops]
+#[--dump_graphviz_dir DUMP_GRAPHVIZ_DIR]
+#[--dump_graphviz_video]

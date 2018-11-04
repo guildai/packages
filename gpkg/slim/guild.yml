@@ -19,7 +19,7 @@
 - package: gpkg.slim
   version: 0.5.1.dev1
   description:
-    TF-Slim models core support
+    TF-Slim support (Guild AI)
 
     This package contains reusable config for implementing custom
     TF-Slim models. It does not contain model definitions. If you want

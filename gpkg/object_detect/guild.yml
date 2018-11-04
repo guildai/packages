@@ -26,7 +26,7 @@
 
 - package: gpkg.object-detect
   version: 0.5.1.dev4
-  description: Object detection library
+  description: Object detection support (Guild AI)
   url: https://github.com/guildai/packages/tree/master/object-detect
   author: Guild AI
   author-email: packages@guild.ai
@@ -401,6 +401,23 @@
   params:
     train-config: ssd-train-default.yml
     transfer-learn-config: ssd-transfer-learn-default.yml
+  operations:
+    export-and-freeze:
+      flags:
+        tflite:
+          description:
+            Whether or not to export graph with support for TensorFlow Lite
+          default: no
+          choices:
+            - value: yes
+              description: Export graph with support for TensorFlow Lite
+              args:
+                export-type: tflite-ssd
+            - value: no
+              description: Export graph normally
+              args:
+                export-type: default
+          arg-skip: yes
   resources:
     train-config:
       sources:
@@ -420,6 +437,9 @@
     - ssd-base
   params:
     model-config: ssd-mobilenet-v2.yml
+    tflite-input-layers: normalized_input_image_tensor
+    tflite-input-shapes: 1,300,300,3
+    tflite-output-layers: TFLite_Detection_PostProcess,TFLite_Detection_PostProcess:1,TFLite_Detection_PostProcess:2,TFLite_Detection_PostProcess:3
   resources:
     transfer-learn-checkpoint:
       path: checkpoint
