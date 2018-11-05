@@ -19,7 +19,7 @@
 - package: gpkg.keras.deep-dream
   version: 0.5.1.dev1
   description: Deep Dream generator in Keras (Guild AI)
-  url: https://github.com/guildai/index/tree/master/keras/deep-dream
+  url: https://github.com/guildai/index/tree/master/gpkg/keras/deep-dream
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0

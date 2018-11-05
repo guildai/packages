@@ -19,7 +19,7 @@
 - package: gpkg.magenta.music
   version: 0.5.1.dev1
   description: Music generators from the Magenta project (Guild AI)
-  url: https://github.com/guildai/index/tree/master/magenta/music
+  url: https://github.com/guildai/index/tree/master/gpkg/magenta/music
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0

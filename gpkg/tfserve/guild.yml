@@ -23,8 +23,7 @@
 
     TFServe is a light weight Python server that can be used to serve
     models over HTTP.
-
-  url: https://github.com/guildai/packages/tree/master/tfserve
+  url: https://github.com/guildai/packages/tree/master/gpkg/tfserve
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0

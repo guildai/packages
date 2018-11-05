@@ -24,7 +24,7 @@
     This package contains reusable config for implementing custom
     TF-Slim models. It does not contain model definitions. If you want
     to use TF-Slim models directly, see `gpkg.slim.models`.
-  url: https://github.com/guildai/packages/tree/master/slim
+  url: https://github.com/guildai/packages/tree/master/gpkg/slim
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0

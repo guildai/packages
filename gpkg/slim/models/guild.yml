@@ -19,7 +19,7 @@
 - package: gpkg.slim.models
   version: 0.5.1.dev2
   description: TF-Slim models (Guild AI)
-  url: https://github.com/guildai/packages/tree/master/slim/models
+  url: https://github.com/guildai/packages/tree/master/gpkg/slim/models
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
