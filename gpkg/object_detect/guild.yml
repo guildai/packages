@@ -191,6 +191,8 @@
 # ===================================================================
 
 - config: model-base
+  description: Base configuration for all object detect models
+  tags: [model-config]
   extends:
     - models-lib-support
   params:
@@ -334,6 +336,8 @@
 # ===================================================================
 
 - config: faster-rcnn-base
+  description: Base configuration for Faster RCNN models
+  tags: [model-config]
   extends:
     - model-base
   params:
@@ -396,6 +400,8 @@
 # ===================================================================
 
 - config: ssd-base
+  description: Base configuration for all SSD models
+  tags: [model-config]
   extends:
     - model-base
   params:
