@@ -132,6 +132,10 @@
 # Tests
 # ===================================================================
 
+- test: help
+  steps:
+    - compare-help: test/help
+
 - test: pet-resnet-50
   steps:
     - run: pet-images:prepare
