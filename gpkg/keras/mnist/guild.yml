@@ -247,6 +247,7 @@
 - test: all
   steps:
     - for-each-model:
+        first: mlp
         steps:
           - run: train
             flags:
