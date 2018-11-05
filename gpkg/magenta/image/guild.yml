@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.magenta.image
-  version: 0.5.1.dev1
+  version: 0.5.1
   description: Image generators from the Magenta project (Guild AI)
   url: https://github.com/guildai/index/tree/master/gpkg/magenta/image
   author: Guild AI

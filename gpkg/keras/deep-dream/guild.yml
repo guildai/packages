@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.keras.deep-dream
-  version: 0.5.1.dev1
+  version: 0.5.1
   description: Deep Dream generator in Keras (Guild AI)
   url: https://github.com/guildai/index/tree/master/gpkg/keras/deep-dream
   author: Guild AI

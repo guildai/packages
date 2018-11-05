@@ -17,8 +17,8 @@
 # ===================================================================
 
 - package: gpkg.keras.mnist
-  version: 0.5.1.dev1
-  description: MNIST models in Keras for Guild AI (Guild AI)
+  version: 0.5.1
+  description: MNIST models in Keras (Guild AI)
   url: https://github.com/guildai/index/tree/master/gpkg/keras/mnist
   author: Guild AI
   author-email: packages@guild.ai

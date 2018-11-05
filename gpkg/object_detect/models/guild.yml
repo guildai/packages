@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.object-detect.models
-  version: 0.5.1.dev1
+  version: 0.5.1
   description: Object detection models (Guild AI)
   url: https://github.com/guildai/packages/tree/master/gpkg/object_detect/models
   author: Guild AI
