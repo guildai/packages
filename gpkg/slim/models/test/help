@@ -157,6 +157,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -460,6 +481,27 @@ MODELS
         tflite
 
           Generate a TFLite file from a frozen graph
+
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
 
         train
 
@@ -765,6 +807,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -1068,6 +1131,27 @@ MODELS
         tflite
 
           Generate a TFLite file from a frozen graph
+
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
 
         train
 
@@ -1373,6 +1457,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -1676,6 +1781,27 @@ MODELS
         tflite
 
           Generate a TFLite file from a frozen graph
+
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
 
         train
 
@@ -1981,6 +2107,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -2284,6 +2431,27 @@ MODELS
         tflite
 
           Generate a TFLite file from a frozen graph
+
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
 
         train
 
@@ -2589,6 +2757,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -2892,6 +3081,27 @@ MODELS
         tflite
 
           Generate a TFLite file from a frozen graph
+
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
 
         train
 
@@ -3197,6 +3407,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -3500,6 +3731,27 @@ MODELS
         tflite
 
           Generate a TFLite file from a frozen graph
+
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
 
         train
 
@@ -3805,6 +4057,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -4108,6 +4381,27 @@ MODELS
         tflite
 
           Generate a TFLite file from a frozen graph
+
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
 
         train
 
@@ -4413,6 +4707,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -4716,6 +5031,27 @@ MODELS
         tflite
 
           Generate a TFLite file from a frozen graph
+
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
 
         train
 
@@ -5021,6 +5357,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -5325,6 +5682,27 @@ MODELS
 
           Generate a TFLite file from a frozen graph
 
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+
         train
 
           Train model from scratch
@@ -5628,6 +6006,27 @@ MODELS
         tflite
 
           Generate a TFLite file from a frozen graph
+
+          Flags:
+
+            output-format     TF Lite output format (tflite)
+                              
+                              Choices:
+                                tflite
+                                graphviz_dot
+                              
+            quantized         Whether or not output arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
+            quantized-inputs  Whether or not input arrays are quantized (no)
+                              
+                              Choices:
+                                yes
+                                no
+                              
 
         train
 
