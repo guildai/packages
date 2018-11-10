@@ -25,7 +25,7 @@
 # ===================================================================
 
 - package: gpkg.object-detect
-  version: 0.5.1
+  version: 0.5.2
   description: Object detection support (Guild AI)
   url: https://github.com/guildai/packages/tree/master/gpkg/object_detect
   author: Guild AI
@@ -224,7 +224,7 @@
         - labels
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
-      label-template: data=${prepared-data}
+      label: data=${prepared-data}
       flags:
         $include: train-flags
     transfer-learn:
@@ -246,7 +246,7 @@
         - transfer-learn-checkpoint
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
-      label-template: data=${prepared-data}
+      label: data=${prepared-data}
       flags:
         $include: train-flags
     evaluate:
@@ -274,7 +274,7 @@
         - trained-model
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
-      label-template: model=${trained-model} data=${prepared-data}
+      label: model=${trained-model} data=${prepared-data}
       flags:
         eval-examples:
           description: Number of examples to evaluate
@@ -293,7 +293,7 @@
         - trained-model
       env:
         PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION: python
-      label-template: model=${trained-model}
+      label: model=${trained-model}
       flags:
         step:
           description:
@@ -311,7 +311,7 @@
         - models-lib
         - frozen-graph
         - labels
-      label-template: ${images|basename}
+      label: ${images|basename}
       flags:
         images:
           description: Directory containing images to detect

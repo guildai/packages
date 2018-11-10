@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.slim
-  version: 0.5.1
+  version: 0.5.2
   description:
     TF-Slim support (Guild AI)
 
@@ -203,7 +203,7 @@
         - models-lib
         - examples
         - labels
-      label-template: examples=${examples}
+      label: examples=${examples}
       flags:
         $include:
           - train-flags
@@ -224,7 +224,7 @@
         - examples
         - labels
         - transfer-learn-checkpoint
-      label-template: examples=${examples}
+      label: examples=${examples}
       flags:
         $include:
           - train-flags
@@ -242,7 +242,7 @@
         - models-lib
         - examples
         - trained-model
-      label-template: model=${trained-model} examples=${examples}
+      label: model=${trained-model} examples=${examples}
       flags:
         $include:
           - train-flags
@@ -265,7 +265,7 @@
         - examples
         - labels
         - trained-model
-      label-template: model=${trained-model} examples=${examples}
+      label: model=${trained-model} examples=${examples}
       flags:
         step:
           description: Checkpoint step to evaluate
@@ -294,7 +294,7 @@
         - examples
         - labels
         - trained-model
-      label-template: model=${trained-model}
+      label: model=${trained-model}
       flags:
         step:
           description:
@@ -316,7 +316,7 @@
         - label-image-script
         - frozen-graph
         - labels
-      label-template: image=${image|basename}
+      label: image=${image|basename}
       flags:
         image:
           description: Path to image to classify
@@ -367,7 +367,7 @@
           description: Seed used for train/validation split
           default: null
           null-label: randomly generated
-      label-template: images=${images|basename}
+      label: images=${images|basename}
 
 - config: url-images-base
   extends:
