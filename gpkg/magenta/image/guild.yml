@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.magenta.image
-  version: 0.5.1
+  version: 0.5.3.dev1
   description: Image generators from the Magenta project (Guild AI)
   url: https://github.com/guildai/index/tree/master/gpkg/magenta/image
   author: Guild AI
@@ -76,6 +76,7 @@
                    18,19,20,21,22,23,24,25,26,27,28,29,30,31]
         image:
           description: Image to stylize
+          type: path
           required: yes
           arg-name: input_image
       requires:
@@ -119,11 +120,21 @@
           --logtostderr
       flags:
         content-images:
-          description: Path to content images (include glob pattern matching images)
+          description:
+            Path (glob pattern) to content images
+
+            This value may be a full path or a glob pattern
+            (e.g. 'content/*.jpg')
+          type: path
           required: yes
           arg-name: content_images_paths
         style-images:
-          description: Path to style images (include glob pattern matching images)
+          description:
+            Path (glob pattern) to style images
+
+            This value may be a full path or a glob pattern
+            (e.g. 'styles/*.jpg')
+          type: path
           required: yes
           arg-name: style_images_paths
         image-size:
