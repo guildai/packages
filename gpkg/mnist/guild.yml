@@ -1,4 +1,4 @@
-# Copyright 2018 TensorHub, Inc. and contributors
+# Copyright 2018-2019 TensorHub, Inc. and contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.mnist
-  version: 0.5.1
+  version: 0.6.0.dev2
   description:
     CNN and multinomial logistic regression classifiers for
     MNIST digits (Guild AI)
@@ -56,6 +56,11 @@
     train:
       description: 'Train the {{model_desc}}'
       main: '{{train_cmd}} --data-dir mnist-idx-data --run-dir .'
+      requires: mnist-dataset
+      compare:
+        - loss step as step
+        - loss
+        - val_acc as accuracy
       flags:
         batch-size:
           description: Number of images to include in a training batch
@@ -63,7 +68,6 @@
         epochs:
           description: Number of epochs to train
           default: 10
-      requires: mnist-dataset
     evaluate:
       description: 'Evaluate a trained {{model_desc}}'
       main: '{{train_cmd}} --test --data-dir mnist-idx-data --run-dir .'
