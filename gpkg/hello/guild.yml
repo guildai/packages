@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.hello
-  version: 0.5.1
+  version: 0.6.0.dev1
   description: Sample "hello world" model (Guild AI)
   url: https://github.com/guildai/packages/tree/master/gpkg/hello
   author: Guild AI
@@ -40,6 +40,7 @@
     The message provided, either by default, by a flag, or a file (see
     each operation for the applicable interface) is printed to standard
     output and written to a file named `output` in the run directory.
+  default: yes
   operations:
     default:
       description: >
@@ -96,19 +97,32 @@
 
 - model: _check
   operations:
-    all:
+    default:
       steps:
-        - run: default
+        - run: hello:default
           expect:
             - output: Hello Guild!
-        - run: from-flag message='test msg'
+    from-flag:
+      steps:
+        - run: hello:from-flag message='test msg'
           expect:
             - output: test msg
-        - run: from-file
+    from-file:
+      steps:
+        - run: hello:from-file
           expect:
             - file: msg.txt
-              compare: msg.txt
-        - run: from-file-output
+              compare-to: ${MODEL_DIR}/msg.txt
+
+    from-file-output:
+      steps:
+        - run: hello:from-file-output
           expect:
             - file: output
-              compare: msg.txt
+              contains: Hello Guild, from a required file!
+    all:
+      steps:
+        - default
+        - from-flag
+        - from-file
+        - from-file-output
