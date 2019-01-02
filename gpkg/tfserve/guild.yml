@@ -38,6 +38,7 @@
   operations:
     serve:
       description: Serve model using JSON interface
+      # TODO: actually implement!!!
       main: tfserve.main --help
 
 # ===================================================================
