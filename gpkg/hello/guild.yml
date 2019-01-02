@@ -45,8 +45,8 @@
       description: >
         Print a default message
 
-        This operation doesn't support a user-defined message. Use the
-        from-flag operation with the 'message' flag to print an
+        This operation doesn not support a user-defined message. Use
+        the from-flag operation with the 'message' flag to print an
         alternative message.
       main: say
     from-flag:
@@ -91,25 +91,24 @@
           select: output
 
 # ===================================================================
-# Tests
+# Checks
 # ===================================================================
 
-- test: hello
-  description: Test the hello model
-  steps:
-    - run: default
-      expect:
-        - output: Hello Guild!
-    - run: from-flag
-      flags:
-        message: test msg
-      expect:
-        - output: test msg
-    - run: from-file
-      expect:
-        - file: msg.txt
-          compare: msg.txt
-    - run: from-file-output
-      expect:
-        - file: output
-          compare: msg.txt
+- model: _check
+  operations:
+    all:
+      steps:
+        - run: default
+          expect:
+            - output: Hello Guild!
+        - run: from-flag message='test msg'
+          expect:
+            - output: test msg
+        - run: from-file
+          expect:
+            - file: msg.txt
+              compare: msg.txt
+        - run: from-file-output
+          expect:
+            - file: output
+              compare: msg.txt
