@@ -151,6 +151,7 @@ def log_accuracy(step, last_training_batch):
 def evaluate(step, data, writer, name):
     accuracy_val, summary = sess.run([accuracy, summaries], data)
     writer.add_summary(summary, step)
+    writer.flush()
     print("Step %i: %s=%f" % (step, name, accuracy_val))
 
 def maybe_checkpoint(step):
@@ -187,6 +188,7 @@ def export_saved_model():
 def init_test():
     init_session()
     init_exported_collections()
+    init_test_writer()
 
 def init_exported_collections():
     global x, y_, accuracy
@@ -201,9 +203,16 @@ def init_exported_collections():
     y_ = tensor("y_")
     accuracy = tensor("accuracy")
 
+def init_test_writer():
+    global summaries, writer
+    summaries = tf.summary.merge_all()
+    writer = tf.summary.FileWriter(FLAGS.run_dir)
+
 def test():
     data = {x: mnist.test.images, y_: mnist.test.labels}
-    test_accuracy = sess.run(accuracy, data)
+    test_accuracy, summary = sess.run([accuracy, summaries], data)
+    writer.add_summary(summary)
+    writer.flush()
     print("Test accuracy=%f" % test_accuracy)
 
 if __name__ == "__main__":

@@ -25,6 +25,7 @@
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
+  requires: tensorflow-any
 
 # ===================================================================
 # Shared resources
@@ -58,9 +59,9 @@
       main: '{{train_cmd}} --data-dir mnist-idx-data --run-dir .'
       requires: mnist-dataset
       compare:
-        - loss step as step
-        - loss
-        - val_acc as accuracy
+        - train#loss step as step
+        - train#loss as loss
+        - validate#accuracy as accuracy
       flags:
         batch-size:
           description: Number of images to include in a training batch
@@ -74,6 +75,10 @@
       requires:
         - trained-model
         - mnist-dataset
+      compare:
+        - loss step as step
+        - loss
+        - accuracy
   resources:
     trained-model:
       private: yes
@@ -84,7 +89,7 @@
             - checkpoint
 
 # ===================================================================
-# Architecture specific models
+# Models
 # ===================================================================
 
 - model: logreg
@@ -120,18 +125,20 @@
       requires: mnist-dataset
 
 # ===================================================================
-# Tests
+# Checks
 # ===================================================================
 
-- test: all
-  steps:
-    - run: samples:prepare
-    - for-each-model:
-        models:
-          - logreg
-          - cnn
-        steps:
-          - run: train
-            flags:
-              epochs: 1
-          - run: evaluate
+- model: _check
+  operations:
+    logreg:
+      steps:
+        - logreg:train epochs=1 -l check
+        - logreg:evaluate -l check --no-gpus
+    cnn:
+      steps:
+        - cnn:train epochs=1 -l check
+        - cnn:evaluate -l check --no-gpus
+    all:
+      steps:
+        - logreg
+        - cnn
