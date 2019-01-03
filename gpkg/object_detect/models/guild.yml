@@ -17,12 +17,14 @@
 # ===================================================================
 
 - package: gpkg.object-detect.models
-  version: 0.5.1
+  version: 0.6.0.dev1
   description: Object detection models (Guild AI)
   url: https://github.com/guildai/packages/tree/master/gpkg/object_detect/models
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
+  data-files:
+    - config/datasets/pet.yml
   requires:
     - gpkg.object-detect
 
