@@ -113,7 +113,6 @@
           expect:
             - file: msg.txt
               compare-to: ${MODEL_DIR}/msg.txt
-
     from-file-output:
       steps:
         - run: hello:from-file-output
