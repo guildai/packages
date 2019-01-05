@@ -103,23 +103,23 @@ def init_inputs_summary():
 
 def init_op_summaries():
     tf.summary.scalar("loss", loss)
-    tf.summary.scalar("accuracy", accuracy)
+    tf.summary.scalar("acc", accuracy)
 
 def init_summary_writers():
     global summaries, train_writer, validate_writer
     summaries = tf.summary.merge_all()
     train_writer = tf.summary.FileWriter(
-        FLAGS.run_dir + "/train",
+        FLAGS.run_dir,
         tf.get_default_graph())
     validate_writer = tf.summary.FileWriter(
-        FLAGS.run_dir + "/validate")
+        FLAGS.run_dir + "/val")
 
 def init_collections():
     tf.add_to_collection("inputs", json.dumps({"image": x.name}))
     tf.add_to_collection("outputs", json.dumps({"prediction": y.name}))
     tf.add_to_collection("x", x.name)
     tf.add_to_collection("y_", y_.name)
-    tf.add_to_collection("accuracy", accuracy.name)
+    tf.add_to_collection("acc", accuracy.name)
 
 def init_session():
     global sess
@@ -201,7 +201,7 @@ def init_exported_collections():
     )
     x = tensor("x")
     y_ = tensor("y_")
-    accuracy = tensor("accuracy")
+    accuracy = tensor("acc")
 
 def init_test_writer():
     global summaries, writer

@@ -59,9 +59,11 @@
       main: '{{train_cmd}} --data-dir mnist-idx-data --run-dir .'
       requires: mnist-dataset
       compare:
-        - train#loss step as step
-        - train#loss as loss
-        - validate#accuracy as accuracy
+        - loss step as step
+        - loss
+        - acc
+        - val#loss as val_loss
+        - val#acc as val_acc
       flags:
         batch-size:
           description: Number of images to include in a training batch
@@ -77,8 +79,9 @@
         - mnist-dataset
       compare:
         - loss step as step
-        - loss
-        - accuracy
+        - loss as test_loss
+        - acc as test_acc
+      label: ${trained-model}
   resources:
     trained-model:
       private: yes
