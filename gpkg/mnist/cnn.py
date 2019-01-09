@@ -23,6 +23,7 @@ def init_data():
 
 def init_train():
     init_model()
+    init_global_step()
     init_train_op()
     init_eval_op()
     init_prediction_op()
@@ -77,14 +78,18 @@ def max_pool_2x2(x):
     return tf.nn.max_pool(
         x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
 
+def init_global_step():
+    global global_step
+    global_step = tf.Variable(0, name="global_step", trainable=False)
+
 def init_train_op():
     global y_, loss, train_op
     y_ = tf.placeholder(tf.float32, [None, 10])
     loss = tf.reduce_mean(
-             tf.nn.softmax_cross_entropy_with_logits(
-               logits=y, labels=y_))
+        tf.nn.softmax_cross_entropy_with_logits(
+            logits=y, labels=y_))
     optimizer = tf.train.AdamOptimizer(FLAGS.learning_rate)
-    train_op = optimizer.minimize(loss)
+    train_op = optimizer.minimize(loss, global_step)
 
 def init_eval_op():
     global accuracy
@@ -140,18 +145,19 @@ def train():
 def maybe_log_accuracy(step, last_training_batch):
     epoch_step = mnist.train.num_examples / FLAGS.batch_size
     if step % 20 == 0 or step % epoch_step == 0:
-        log_accuracy(step, last_training_batch)
+        log_accuracy(last_training_batch)
 
-def log_accuracy(step, last_training_batch):
-    evaluate(step, last_training_batch, train_writer, "training")
+def log_accuracy(last_training_batch):
+    evaluate(last_training_batch, train_writer, "training")
     validate_data = {
         x: mnist.validation.images,
         y_: mnist.validation.labels
     }
-    evaluate(step, validate_data, validate_writer, "validate")
+    evaluate(validate_data, validate_writer, "validate")
 
-def evaluate(step, data, writer, name):
-    accuracy_val, summary = sess.run([accuracy, summaries], data)
+def evaluate(data, writer, name):
+    accuracy_val, summary, step = sess.run(
+        [accuracy, summaries, global_step], data)
     writer.add_summary(summary, step)
     writer.flush()
     print("Step %i: %s=%f" % (step, name, accuracy_val))
@@ -159,11 +165,11 @@ def evaluate(step, data, writer, name):
 def maybe_checkpoint(step):
     epoch_step = mnist.train.num_examples / FLAGS.batch_size
     if step % epoch_step == 0:
-        checkpoint(step)
+        checkpoint()
 
-def checkpoint(step):
+def checkpoint():
     print("Saving checkpoint")
-    tf.train.Saver().save(sess, FLAGS.run_dir + "/model.ckpt", step)
+    tf.train.Saver().save(sess, FLAGS.run_dir + "/model.ckpt", global_step)
 
 def export_saved_model():
     print("Exporting saved model")
@@ -188,34 +194,33 @@ def export_saved_model():
     builder.save()
 
 def init_test():
+    init_model()
+    init_global_step()
+    init_train_op()
+    init_eval_op()
+    init_summaries()
     init_session()
-    init_exported_collections()
+    restore_latest_checkpoint()
     init_test_writer()
 
-def init_exported_collections():
-    global x, y_, accuracy
+def restore_latest_checkpoint():
     latest_checkpoint = tf.train.latest_checkpoint(FLAGS.run_dir)
     assert latest_checkpoint, "no checkpoints in %s" % FLAGS.run_dir
-    saver = tf.train.import_meta_graph(latest_checkpoint + ".meta")
+    saver = tf.train.Saver()
     saver.restore(sess, latest_checkpoint)
-    tensor = lambda name: (
-        sess.graph.get_tensor_by_name(tf.get_collection(name)[0].decode())
-    )
-    x = tensor("x")
-    y_ = tensor("y_")
-    accuracy = tensor("acc")
 
 def init_test_writer():
-    global summaries, writer
-    summaries = tf.summary.merge_all()
+    global writer
     writer = tf.summary.FileWriter(FLAGS.run_dir)
 
 def test():
     data = {x: mnist.test.images, y_: mnist.test.labels}
-    test_accuracy, summary = sess.run([accuracy, summaries], data)
-    writer.add_summary(summary)
+    test_accuracy, summary, step = sess.run(
+        [accuracy, summaries, global_step],
+        data)
+    writer.add_summary(summary, step)
     writer.flush()
-    print("Test accuracy=%f" % test_accuracy)
+    print("Step %i: test=%f" % (step, test_accuracy))
 
 if __name__ == "__main__":
     init_flags()
