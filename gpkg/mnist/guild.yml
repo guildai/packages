@@ -59,6 +59,9 @@
       main: '{{train_cmd}} --data-dir mnist-idx-data --run-dir .'
       requires: mnist-dataset
       compare:
+        - flag:epochs
+        - flag:batch-size
+        - flag:learning-rate
         - loss step as step
         - loss as train_loss
         - acc as train_acc
