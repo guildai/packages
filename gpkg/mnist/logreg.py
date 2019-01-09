@@ -10,8 +10,9 @@ def init_flags():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data-dir", default="/tmp/MNIST_data",)
     parser.add_argument("--run-dir", default="/tmp/MNIST_train")
+    parser.add_argument("--learning-rate", type=float, default=0.5)
     parser.add_argument("--batch-size", type=int, default=100)
-    parser.add_argument("--epochs", type=int, default=10)
+    parser.add_argument("--epochs", type=int, default=5)
     parser.add_argument("--prepare", dest='just_data', action="store_true")
     parser.add_argument("--test", action="store_true")
     FLAGS, _ = parser.parse_known_args()
@@ -43,7 +44,8 @@ def init_train_op():
              -tf.reduce_sum(
                y_ * tf.log(y),
                reduction_indices=[1]))
-    train_op = tf.train.GradientDescentOptimizer(0.5).minimize(loss)
+    optimizer = tf.train.GradientDescentOptimizer(FLAGS.learning_rate)
+    train_op = optimizer.minimize(loss)
 
 def init_eval_op():
     global accuracy
