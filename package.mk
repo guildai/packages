@@ -1,4 +1,5 @@
 test_env_dir := test-env
+test_op := _check:all
 
 pkg: clean
 	guild package
@@ -14,7 +15,7 @@ upload: clean
 .PHONY: test
 
 test:
-	$(root)/test-package "$(root)" "$(test_env_dir)"
+	$(root)/test-package "$(root)" "$(test_env_dir)" "$(test_op)"
 
 clean-test:
 	rm -rf $(test_env_dir)

@@ -5,21 +5,18 @@ set -u
 
 root=$1
 env_dir=$2
+test_op=$3
 
-test -e $env_dir || PYTHONPATH=$root guild init -y -p $root $env_dir
+test -e $env_dir || PYTHONPATH=$root guild init -y -P $root $env_dir
 
 set +u
 
 QUIET=1 source guild-env $env_dir
 
-if [ "$USE_GPUS" == "1" ]; then
-    TEST_OPS=''
+if [ "$NO_GPUS" == "1" ]; then
+    RUN_OPTS='--no-gpus'
 else
-    TEST_OPTS='--no-gpus'
+    RUN_OPTS=''
 fi
-if [ "$TEST_ONE" == "1" ]; then
-    TEST_OPTS="$TEST_OPTS --one-model"
-fi
-TEST_OPTS="$TEST_OPTS --stop-on-fail"
 
-guild test $TEST_OPTS -y
+guild run $RUN_OPTS -y $test_op
