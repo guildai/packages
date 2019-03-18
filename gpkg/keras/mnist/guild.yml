@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.keras.mnist
-  version: 0.5.1
+  version: 0.6.0.dev2
   description: MNIST models in Keras (Guild AI)
   url: https://github.com/guildai/index/tree/master/gpkg/keras/mnist
   author: Guild AI
@@ -38,12 +38,13 @@
   operations:
     train:
       description: Train the model
-      main: guild.plugins.keras_op_main train {{script}}
+      main: '{{main}}'
       flags:
+        $dest: globals
         epochs:
           description: Number of epochs to train
           default: '{{default_epochs}}'
-        batch-size:
+        batch_size:
           description: Training batch size
           default: '{{default_batch_size}}'
       requires:
@@ -52,7 +53,7 @@
     script:
       private: yes
       sources:
-        - url: https://raw.githubusercontent.com/keras-team/keras/{{github-commit}}/examples/{{script}}
+        - url: https://raw.githubusercontent.com/keras-team/keras/{{github-commit}}/examples/{{main}}.py
           sha256: '{{script_hash}}'
 
 # ===================================================================
@@ -66,7 +67,7 @@
   params:
     default_epochs: 20
     default_batch_size: 128
-    script: mnist_mlp.py
+    main: mnist_mlp
     script_hash: 96120c3681b330eae8e82ab25379cd71f5b5704d0fb64666b2c3f52872ef8b0b
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py
@@ -82,21 +83,19 @@
   params:
     default_epochs: 100
     default_batch_size: 100
-    script: mnist_acgan.py
+    main: mnist_acgan
     script_hash: 2f756643ddf4095c9d92f49bcadc3e01090ebbe2aad93b1580e05b6bed3fb01b
   operations:
     train:
       flags:
-        epochs:
-          arg-name: const:epochs
-        learning-rate:
+        lr:
           description: Learning rate
           default: 0.0002
-          arg-name: const:adam_lr
-        beta-1:
+          arg-name: adam_lr
+        beta_1:
           description: Beta 1
           default: 0.5
-          arg-name: const:adam_beta_1
+          arg-name: adam_beta_1
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_acgan.py
     - https://arxiv.org/abs/1511.06434
@@ -112,7 +111,7 @@
   params:
     default_epochs: 12
     default_batch_size: 128
-    script: mnist_cnn.py
+    main: mnist_cnn
     script_hash: 201c27edd9547f921703507f1b1899dab7a3d3f1c1d4344d59126889519f6875
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_cnn.py
@@ -128,7 +127,7 @@
   params:
     default_epochs: 30
     default_batch_size: 128
-    script: mnist_denoising_autoencoder.py
+    main: mnist_denoising_autoencoder
     script_hash: 583afc6b489b9e51c81c2ad8a49bd4a1be53426b3c6d43d4f8a0e10fed0eae0b
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_denoising_autoencoder.py
@@ -144,7 +143,7 @@
   params:
     default_epochs: 5
     default_batch_size: 32
-    script: mnist_hierarchical_rnn.py
+    main: mnist_hierarchical_rnn
     script_hash: c375a34986db74e88752862fdd87a5222dd9ab79a9ebe8447dd5cd9e8823b8bf
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_hierarchical_rnn.py
@@ -163,14 +162,14 @@
   params:
     default_epochs: 200
     default_batch_size: 32
-    script: mnist_irnn.py
+    main: mnist_irnn
     script_hash: e349f36aff0a2a394e193c65d71366fa3aae3283b98f872256af7b1000ac73e0
   operations:
     train:
       flags:
-        learning-rate:
+        lr:
           description: Learning rate
-          arg-name: const:learning_rate
+          arg-name: learning_rate
           default: 0.000001
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_irnn.py
@@ -188,7 +187,7 @@
   params:
     default_epochs: 3
     default_batch_size: 32
-    script: mnist_net2net.py
+    main: mnist_net2net
     script_hash: 03c8d5572c81e65361d377bf6443e695e0c322de51289c8d3ae8d0104da57459
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_net2net.py
@@ -205,7 +204,7 @@
   params:
     default_epochs: 20
     default_batch_size: 128
-    script: mnist_siamese.py
+    main: mnist_siamese
     script_hash: b1d3179fbbb720718e1f6613039da71cc7b5aa961a2487a627733d3fa2e91079
   references:
     - https://github.com/keras-team/keras/blob/master/examples/mnist_siamese.py
@@ -225,14 +224,13 @@
   params:
     default_epochs: 5
     default_batch_size: 128
-    script: mnist_swwae.py
+    main: mnist_swwae
     script_hash: 4407b79cb8745ecd0933cfff298c1dbfc55888814fe97a2195d6392c20326b96
   operations:
     train:
       flags:
-        pool-size:
+        pool_size:
           description: kernel size used for the MaxPooling2D
-          arg-name: const:pool_size
           default: 2
           choices: [2, 3]
   references:
@@ -241,16 +239,64 @@
     - https://arxiv.org/abs/1506.02351v8
 
 # ===================================================================
-#  Tests
+#  Checks
 # ===================================================================
 
-- test: all
-  steps:
-    - for-each-model:
-        first: mlp
-        steps:
-          - run: train
-            flags:
-              epochs: 1
-            expect:
-              - output: Epoch 1/1
+- model: _check
+  operations:
+    mlp:
+      steps:
+        - run: mlp:train epochs=1
+          expect:
+            output: Epoch 1/1
+    acgan:
+      steps:
+        - run: acgan:train epochs=1
+          expect:
+            output: Epoch 1/1
+    cnn:
+      steps:
+        - run: cnn:train epochs=1
+          expect:
+            output: Epoch 1/1
+    denoising-autoencoder:
+      steps:
+        - run: denoising-autoencoder:train epochs=1
+          expect:
+            output: Epoch 1/1
+    hierarchical-rnn:
+      steps:
+        - run: hierarchical-rnn:train epochs=1
+          expect:
+            output: Epoch 1/1
+    irnn:
+      steps:
+        - run: irnn:train epochs=1
+          expect:
+            output: Epoch 1/1
+    net2net:
+      steps:
+        - run: net2net:train epochs=1
+          expect:
+            output: Epoch 1/1
+    siamese:
+      steps:
+        - run: siamese:train epochs=1
+          expect:
+            output: Epoch 1/1
+    swwae:
+      steps:
+        - run: swwae:train epochs=1
+          expect:
+            output: Epoch 1/1
+    all:
+      steps:
+        - mlp
+        - acgan
+        - cnn
+        - denoising-autoencoder
+        - hierarchical-rnn
+        - irnn
+        - net2net
+        - siamese
+        - swwae
