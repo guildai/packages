@@ -17,14 +17,14 @@
 # ===================================================================
 
 - package: gpkg.keras.deep-dream
-  version: 0.5.1
+  version: 0.6.0.dev1
   description: Deep Dream generator in Keras (Guild AI)
   url: https://github.com/guildai/index/tree/master/gpkg/keras/deep-dream
   author: Guild AI
   author-email: packages@guild.ai
   license: Apache 2.0
   requires:
-    - keras
+    - keras>=2.0
     - Pillow
 
 # ===================================================================
@@ -32,42 +32,27 @@
 # ===================================================================
 
 - model: deep-dream
-  params:
-    git-commit: 96c3c195ca805758e094780b59077bea9db99f41
   operations:
     generate:
       description: Generate a Deep Dream image
-      main:
-        guild.plugins.keras_op_main run deep_dream.py
-          --const:settings='{"features":{"mixed2":${m2},"mixed3":${m3},"mixed4":${m4},"mixed5":${m5}}}'
-          ${image}
-          generated
+      main: deep_dream ${image} generated
       flags:
+        $dest: global:settings.features
         image:
           description: Input image used by Deep Dream
           required: yes
           arg-skip: yes
-        m2:
+        mixed2:
           description: Weight for 'mixed2' layer
           default: 1.0
-          arg-skip: yes
-        m3:
+        mixed3:
           description: Weight for 'mixed3' layer
           default: 1.0
-          arg-skip: yes
-        m4:
+        mixed4:
           description: Weight for 'mixed5' layer
           default: 1.0
-          arg-skip: yes
-        m5:
+        mixed5:
           description: Weight for 'mixed5' layer
           default: 1.0
-          arg-skip: yes
       requires:
-        - script
-  resources:
-    script:
-      private: yes
-      sources:
-        - url: https://raw.githubusercontent.com/keras-team/keras/{{git-commit}}/examples/deep_dream.py
-          sha256: 229a95fc5e4e48e4eda311afa05c45c0b36a7c848276825d64ac8a53ee8dea3e
+        - url: https://raw.githubusercontent.com/keras-team/keras/e74d79997905a3ba7b247f60a93353b6a874ab5f/examples/deep_dream.py
