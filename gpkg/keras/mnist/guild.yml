@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.keras.mnist
-  version: 0.6.0.dev2
+  version: 0.6.0.dev3
   description: MNIST models in Keras (Guild AI)
   url: https://github.com/guildai/index/tree/master/gpkg/keras/mnist
   author: Guild AI
@@ -41,6 +41,7 @@
       main: '{{main}}'
       flags:
         $dest: globals
+        $import: []
         epochs:
           description: Number of epochs to train
           default: '{{default_epochs}}'
