@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.keras.mnist
-  version: 0.6.0.dev3
+  version: 0.6.0.dev4
   description: MNIST models in Keras (Guild AI)
   url: https://github.com/guildai/index/tree/master/gpkg/keras/mnist
   author: Guild AI
@@ -39,9 +39,9 @@
     train:
       description: Train the model
       main: '{{main}}'
+      flags-import: []
+      flags-dest: globals
       flags:
-        $dest: globals
-        $import: []
         epochs:
           description: Number of epochs to train
           default: '{{default_epochs}}'
@@ -212,34 +212,6 @@
     - http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
 
 # ===================================================================
-#  SWWAE
-# ===================================================================
-
-# NOTE: This model doesn't train on TensorFlow (only Theano backend is
-# supported) but is retained here for completeness.
-
-- model: swwae
-  description:
-    Stacked what-where autoencoder for MNIST in Keras
-  extends: model-base
-  params:
-    default_epochs: 5
-    default_batch_size: 128
-    main: mnist_swwae
-    script_hash: 4407b79cb8745ecd0933cfff298c1dbfc55888814fe97a2195d6392c20326b96
-  operations:
-    train:
-      flags:
-        pool_size:
-          description: kernel size used for the MaxPooling2D
-          default: 2
-          choices: [2, 3]
-  references:
-    - https://github.com/keras-team/keras/blob/master/examples/mnist_swwae.py
-    - https://arxiv.org/abs/1311.2901v3
-    - https://arxiv.org/abs/1506.02351v8
-
-# ===================================================================
 #  Checks
 # ===================================================================
 
@@ -283,11 +255,6 @@
     siamese:
       steps:
         - run: siamese:train epochs=1
-          expect:
-            output: Epoch 1/1
-    swwae:
-      steps:
-        - run: swwae:train epochs=1
           expect:
             output: Epoch 1/1
     all:
