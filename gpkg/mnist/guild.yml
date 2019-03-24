@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.mnist
-  version: 0.6.0.dev2
+  version: 0.6.0.dev3
   description:
     CNN and multinomial logistic regression classifiers for
     MNIST digits (Guild AI)
@@ -66,6 +66,7 @@
         - acc as train_acc
         - val#loss as val_loss
         - val#acc as val_acc
+      flags-import: no
       flags:
         learning-rate:
           description: Learning rate
@@ -79,6 +80,7 @@
     evaluate:
       description: 'Evaluate a trained {{model_desc}}'
       main: '{{train_cmd}} --test --data-dir mnist-idx-data --run-dir .'
+      flags-import: no
       requires:
         - trained-model
         - mnist-dataset
@@ -128,6 +130,7 @@
     prepare:
       description: Generate a set of sample MNIST images
       main: samples --data-dir mnist-idx-data --sample-dir .
+      flags-import: no
       flags:
         count:
           description: Number of images to generate
