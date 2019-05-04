@@ -166,50 +166,45 @@
     - gpkg.slim/pnasnet-large
 
 # ===================================================================
-# Tests
+# Checks
 # ===================================================================
 
-- test: package-help
-  description: Check package help
-  steps:
-    - compare-help: test/help
-
-- test: models
+- model: _check
   description: Basic test of package models
-  steps:
-    - run: images:prepare
-      flags:
-        images: test/sample-images
-        random-seed: 801
-      expected:
-        - file: data/train-weights.txt
-          compare: test/sample-images/train-weights.txt
-    - for-each-model:
-        except:
-          - images
-        steps:
-          - run: transfer-learn
-            flags:
-              auto-scale: no
-              clone_on_cpu: 'True'
-              train-steps: 1
-            expect:
-              - file: train/checkpoint
-              - file: train/graph.pbtxt
-          - run: evaluate
-            flags:
-              eval-batches: 1
-              batch-size: 5
-            expect:
-              - output: eval/Accuracy\[.+\]
-              - output: eval/Recall_5\[1\]
-          - run: export-and-freeze
-            expect:
-              - file: graph/graph.pb
-              - file: graph/frozen_inference_graph.pb
-          - run: label
-            flags:
-              image: test/sample-images/roses/410421672_563550467c.jpg
-          - run: tflite
-            expect:
-              - file: model.tflite
+  operations:
+    prepare-images:
+      steps:
+        - run: images:prepare images=test/sample-images random-seed=801
+          expect:
+            - file: data/train-weights.txt
+              compare-to: test/sample-images/train-weights.txt
+
+    #- for-each-model:
+    #    except:
+    #      - images
+    #    steps:
+    #      - run: transfer-learn
+    #        flags:
+    #          auto-scale: no
+    #          clone_on_cpu: 'True'
+    #          train-steps: 1
+    #        expect:
+    #          - file: train/checkpoint
+    #          - file: train/graph.pbtxt
+    #      - run: evaluate
+    #        flags:
+    #          eval-batches: 1
+    #          batch-size: 5
+    #        expect:
+    #          - output: eval/Accuracy\[.+\]
+    #          - output: eval/Recall_5\[1\]
+    #      - run: export-and-freeze
+    #        expect:
+    #          - file: graph/graph.pb
+    #          - file: graph/frozen_inference_graph.pb
+    #      - run: label
+    #        flags:
+    #          image: test/sample-images/roses/410421672_563550467c.jpg
+    #      - run: tflite
+    #        expect:
+    #          - file: model.tflite

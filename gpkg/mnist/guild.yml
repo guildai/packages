@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.mnist
-  version: 0.6.0.dev3
+  version: 0.6.0.dev4
   description:
     CNN and multinomial logistic regression classifiers for
     MNIST digits (Guild AI)
