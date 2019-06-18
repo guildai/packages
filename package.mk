@@ -8,9 +8,7 @@ clean:
 	rm -rf dist build *.egg-info
 
 upload: clean
-	export TWINE_USERNAME=guildai; \
-	export TWINE_PASSWORD=`gpg --quiet --batch -d $(root)/.pypi-creds.gpg`; \
-	guild package --upload --skip-existing
+	bash -c 'source <( gpg -d $(root)/.pypi-creds.gpg ); guild package --upload --skip-existing'
 
 .PHONY: test
 
