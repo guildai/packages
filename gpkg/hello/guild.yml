@@ -50,12 +50,14 @@
         the from-flag operation with the 'message' flag to print an
         alternative message.
       main: say
+      flags-import: no
     from-flag:
       description: >
         Print a message
 
         Use the 'message' flag to specify the message to print.
       main: say
+      flags-import: no
       flags:
         message:
           description: Message to print
@@ -67,6 +69,7 @@
         Use the 'file' flag to specify the file to print.
       main: say
       requires: msg-file
+      flags-import: no
       flags:
         file:
           description: File containing the message to print
@@ -78,6 +81,7 @@
         This operation requires a completed file-output run.
       main: say --file-output
       requires: file-output
+      flags-import: no
   resources:
     msg-file:
       description: Default file used in from-file operation
