@@ -15,10 +15,10 @@ def say(msg):
 
 if args.file_output:
     say("Latest from-file output:")
-    say(open("from-file/output", "r").read())
+    say(open("from-file/output", "r").read().strip())
 elif args.file:
     try:
-        out = open(args.file, "r").read()
+        out = open(args.file, "r").read().strip()
     except IOError as e:
         sys.stderr.write("Error reading %s: %s\n" % (args.file, e))
         sys.exit(1)
