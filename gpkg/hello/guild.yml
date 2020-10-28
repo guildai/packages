@@ -17,7 +17,7 @@
 # ===================================================================
 
 - package: gpkg.hello
-  version: 0.7.0.dev1
+  version: 0.7.0
   description: Sample "hello world" model (Guild AI)
   url: https://github.com/guildai/packages/tree/master/gpkg/hello
   author: Guild AI
@@ -118,9 +118,10 @@
         - run: hello:from-file
           expect:
             - file: msg.txt
-              compare-to: ${MODEL_DIR}/msg.txt
+              compare-to: ${PROJECT_DIR}/msg.txt
     from-file-output:
       steps:
+        - run: hello:from-file
         - run: hello:from-file-output
           expect:
             - file: output
